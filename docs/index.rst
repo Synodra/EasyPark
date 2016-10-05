@@ -8,15 +8,21 @@ Welcome to EasyPark's documentation!
 
 Contents:
 
-.. toctree::
-   :maxdepth: 2
-
-
 
 Indices and tables
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+* :ref:`Waspmote`
+* :ref:`Android`
+* :ref:`back-office`
 
+.. _back-office:
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Architecture Réseau
+
+    mqtt
+    mosquitto
+    nginx
+    mysql
