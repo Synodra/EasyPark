@@ -6,14 +6,23 @@
 Welcome to EasyPark's documentation!
 ====================================
 
-Documentation de l'ensemble du projet EasyPark
+Documentation de l'ensemble du projet EasyPark.
 
 
 Indices and tables
 ==================
 
-* :ref:`systeme`
+* :ref:`system`
 * :ref:`back-office`
+
+.. _system:
+
+.. toctree::
+    :maxdepth: 2
+    :caption : Autre information
+
+    android
+    waspmote
 
 .. _back-office:
 
@@ -25,12 +34,3 @@ Indices and tables
     mosquitto
     nginx
     mysql
-
-.. _systeme:
-
-.. toctree::
-    :maxdepth: 2
-    :caption : Autre information
-
-    android
-    waspmote
