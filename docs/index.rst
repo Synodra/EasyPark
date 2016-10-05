@@ -12,8 +12,7 @@ Documentation de l'ensemble du projet EasyPark
 Indices and tables
 ==================
 
-* :ref:`waspmote`
-* :ref:`android`
+* :ref:`systeme`
 * :ref:`back-office`
 
 .. _back-office:
@@ -27,4 +26,11 @@ Indices and tables
     nginx
     mysql
 
-.. _wapsmote:
+.. _systeme:
+
+.. toctree::
+    :maxdepth: 2
+    :caption : Autre information
+
+    android
+    waspmote
