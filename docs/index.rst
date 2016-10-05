@@ -27,4 +27,4 @@ Indices and tables
     nginx
     mysql
 
-.. _wapsmtoe:
+.. _wapsmote:
