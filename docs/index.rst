@@ -6,14 +6,14 @@
 Welcome to EasyPark's documentation!
 ====================================
 
-Contents:
+Documentation de l'ensemble du projet EasyPark
 
 
 Indices and tables
 ==================
 
-* :ref:`Waspmote`
-* :ref:`Android`
+* :ref:`waspmote`
+* :ref:`android`
 * :ref:`back-office`
 
 .. _back-office:
@@ -26,3 +26,5 @@ Indices and tables
     mosquitto
     nginx
     mysql
+
+.. _wapsmtoe:
