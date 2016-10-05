@@ -19,7 +19,7 @@ Indices and tables
 
 .. toctree::
     :maxdepth: 2
-    :caption : Autre information
+    :caption: Autres informations
 
     android
     waspmote
