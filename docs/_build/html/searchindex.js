@@ -1,0 +1,1 @@
+Search.setIndex({envversion:50,filenames:["index"],objects:{},objnames:{},objtypes:{},terms:{content:0,index:0,modul:0,pag:0,recherch:0},titles:["Welcome to EasyPark&#8217;s documentation!"],titleterms:{and:0,document:0,easypark:0,indic:0,tabl:0,welcom:0}})
