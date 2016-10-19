@@ -28,14 +28,15 @@
 #include <WaspFrame.h>
 #include <WaspSensorParking.h>
 
+// Different sleeping time for different modes
+#define EMPT_SLEEPTIME		"00:00:01:00"
+#define OCCU_SLEEPTIME		"00:00:00:30"
+
 // Destination MAC address
 char MAC_ADDRESS[]="0013A2004125EAFC";
 
 // Node identifier
 char NODE_ID[]="N01";
-
-// Sleeping time DD:hh:mm:ss
-char sleepTime[] = "00:00:01:00";    
 
 // Sensor variables
 int temperature;
@@ -152,12 +153,12 @@ void loop()
   // 5.2 Add frame fields
   frame.addSensor(SENSOR_PS, status);
   frame.addSensor(SENSOR_MF, SensorParking.valueX, SensorParking.valueY, SensorParking.valueZ);
-  frame.addSensor(SENSOR_TIME, RTC.hour, RTC.minute, RTC.second );  
+  frame.addSensor(SENSOR_IN_TEMP, temperature);
   frame.addSensor(SENSOR_BAT, PWR.getBatteryLevel() );
   
   // 5.3 Print frame
-  // Example: <=>#35689722#N01#3#PS:1#MF:969;300;282#TIME:13-53-37#BAT:63#
   frame.showFrame();
+  
 
 
   ////////////////////////////////////////////////
@@ -190,7 +191,14 @@ void loop()
   ////////////////////////////////////////////////
   USB.println(F("Going to sleep..."));
   USB.println();
-  PWR.deepSleep(sleepTime, RTC_OFFSET, RTC_ALM1_MODE1, ALL_OFF);
+  if(status == PARKING_EMPTY)
+  {
+    PWR.deepSleep(EMPT_SLEEPTIME, RTC_OFFSET, RTC_ALM1_MODE1, ALL_OFF);
+  }
+  else
+  {
+    PWR.deepSleep(OCCU_SLEEPTIME, RTC_OFFSET, RTC_ALM1_MODE1, ALL_OFF);
+  }
 }
 
 
