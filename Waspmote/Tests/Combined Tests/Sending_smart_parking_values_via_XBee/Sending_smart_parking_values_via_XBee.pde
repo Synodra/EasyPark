@@ -28,14 +28,15 @@
 #include <WaspFrame.h>
 #include <WaspSensorParking.h>
 
+// Different sleeping time for different modes
+#define EMPT_SLEEPTIME		"00:00:01:00"
+#define OCCU_SLEEPTIME		"00:00:00:30"
+
 // Destination MAC address
 char MAC_ADDRESS[]="0013A2004125EAFC";
 
 // Node identifier
 char NODE_ID[]="N01";
-
-// Sleeping time DD:hh:mm:ss
-char sleepTime[] = "00:00:01:00";    
 
 // Sensor variables
 int temperature;
@@ -58,8 +59,8 @@ void setup()
   frame.setID(NODE_ID);	
   
   // 1.2 Set frame maximum size (Link encryp disabled, AES encryp disabled)
-  frame.setFrameSize(XBEE_868, DISABLED, DISABLED);
-  USB.print(F("\nframe size (xbee802, UNICAST_64B, XBee encryp Disabled, AES encryp Disabled):"));
+  frame.setFrameSize(XBEE_802_15_4, UNICAST_16B, DISABLED, DISABLED);
+  USB.print(F("\nframe size (802_15_4, UNICAST_16B, XBee encryp Disabled, AES encryp Disabled):"));
   USB.println(frame.getFrameSize(),DEC);   
   
   // 1.3 Create new frame
@@ -152,12 +153,12 @@ void loop()
   // 5.2 Add frame fields
   frame.addSensor(SENSOR_PS, status);
   frame.addSensor(SENSOR_MF, SensorParking.valueX, SensorParking.valueY, SensorParking.valueZ);
-  frame.addSensor(SENSOR_TIME, RTC.hour, RTC.minute, RTC.second );  
+  frame.addSensor(SENSOR_IN_TEMP, temperature);
   frame.addSensor(SENSOR_BAT, PWR.getBatteryLevel() );
   
   // 5.3 Print frame
-  // Example: <=>#35689722#N01#3#PS:1#MF:969;300;282#TIME:13-53-37#BAT:63#
   frame.showFrame();
+  
 
 
   ////////////////////////////////////////////////
@@ -190,7 +191,14 @@ void loop()
   ////////////////////////////////////////////////
   USB.println(F("Going to sleep..."));
   USB.println();
-  PWR.deepSleep(sleepTime, RTC_OFFSET, RTC_ALM1_MODE1, ALL_OFF);
+  if(status == PARKING_EMPTY)
+  {
+    PWR.deepSleep(EMPT_SLEEPTIME, RTC_OFFSET, RTC_ALM1_MODE1, ALL_OFF);
+  }
+  else
+  {
+    PWR.deepSleep(OCCU_SLEEPTIME, RTC_OFFSET, RTC_ALM1_MODE1, ALL_OFF);
+  }
 }
 
 
