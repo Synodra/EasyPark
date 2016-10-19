@@ -58,8 +58,8 @@ void setup()
   frame.setID(NODE_ID);	
   
   // 1.2 Set frame maximum size (Link encryp disabled, AES encryp disabled)
-  frame.setFrameSize(XBEE_868, DISABLED, DISABLED);
-  USB.print(F("\nframe size (xbee802, UNICAST_64B, XBee encryp Disabled, AES encryp Disabled):"));
+  frame.setFrameSize(XBEE_802_15_4, UNICAST_16B, DISABLED, DISABLED);
+  USB.print(F("\nframe size (802_15_4, UNICAST_16B, XBee encryp Disabled, AES encryp Disabled):"));
   USB.println(frame.getFrameSize(),DEC);   
   
   // 1.3 Create new frame
