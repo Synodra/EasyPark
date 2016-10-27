@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,7 +34,7 @@ public class EasyPark extends AppCompatActivity {
         setContentView(R.layout.activity_easy_park);
         user = (EditText) findViewById(R.id.editText);
         password = (EditText) findViewById(R.id.editText2);
-        password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        password.setTransformationMethod(new PasswordTransformationMethod());
 
         logo = (ImageView) findViewById(R.id.imageView);
         logo.setImageResource(R.drawable.logo);
