@@ -2,7 +2,7 @@
  "nodes": {
   "node-red": {
    "name": "node-red",
-   "version": "0.15.1",
+   "version": "0.15.2",
    "local": false,
    "nodes": {
     "sentiment": {
@@ -396,7 +396,7 @@
   },
   "node-red-node-serialport": {
    "name": "node-red-node-serialport",
-   "version": "0.3.0",
+   "version": "0.4.0",
    "local": false,
    "nodes": {
     "serialport": {
@@ -714,6 +714,24 @@
     }
    }
   },
+  "node-red-contrib-mongodb2": {
+   "name": "node-red-contrib-mongodb2",
+   "version": "0.5.5",
+   "local": true,
+   "nodes": {
+    "mongodb2": {
+     "name": "mongodb2",
+     "types": [
+      "mongodb2",
+      "mongodb2 in"
+     ],
+     "enabled": true,
+     "local": true,
+     "module": "node-red-contrib-mongodb2",
+     "file": "/home/pi/.node-red/node_modules/node-red-contrib-mongodb2/mongodb2/mongodb2.js"
+    }
+   }
+  },
   "node-red-node-mongodb": {
    "name": "node-red-node-mongodb",
    "version": "0.0.7",
@@ -730,24 +748,6 @@
      "local": true,
      "module": "node-red-node-mongodb",
      "file": "/home/pi/.node-red/node_modules/node-red-node-mongodb/66-mongodb.js"
-    }
-   }
-  },
-  "node-red-contrib-mongodb2": {
-   "name": "node-red-contrib-mongodb2",
-   "version": "0.5.5",
-   "local": true,
-   "nodes": {
-    "mongodb2": {
-     "name": "mongodb2",
-     "types": [
-      "mongodb2",
-      "mongodb2 in"
-     ],
-     "enabled": true,
-     "local": true,
-     "module": "node-red-contrib-mongodb2",
-     "file": "/home/pi/.node-red/node_modules/node-red-contrib-mongodb2/mongodb2/mongodb2.js"
     }
    }
   }
