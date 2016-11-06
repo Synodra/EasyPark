@@ -3,12 +3,12 @@
 ESIGELEC - PING 14 - 2016/2017
 Authors :
 
-	- Antoine MAYSLICH
-	- Guillaume SANCHEZ
-	- Seynabou BA
-	- Adbirahim ABDOURAHMAN
-	- Nicolas CAILLEUX
-	- Dingjie MA
+- [Antoine MAYSLICH](https://github.com/Synodra)
+- Guillaume SANCHEZ
+- [Seynabou BA](https://github.com/SeynabouBa)
+- [Adbirahim ABDOURAHMAN](https://github.com/abdi94)
+- Nicolas CAILLEUX
+- [Dingjie MA](https://github.com/mdj2812)
 
 
 Description :
