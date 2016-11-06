@@ -14,4 +14,4 @@ Fichiers de configuration de la raspberry. Les éléments requise pour la raspbe
 2. Mosquitto le MQTT serveur local
 3. Influxdb la base de donnée locale
 4. Grafana la visualisation de base de donnée:
-![alt tag](https://raw.githubusercontent.com/mdj2812/EasyPark/tree/master/Raspberry/Grafana_capture.png)
+![alt tag](https://github.com/mdj2812/EasyPark/blob/master/Raspberry/Grafana_capture.png)
