@@ -2,14 +2,16 @@
 ESIGELEC - PING 14 - 2016/2017
 authors :
 
-	- Dingjie MA
+- Dingjie MA
 
 Description:
 Fichiers de configuration de la raspberry. Les éléments requise pour la raspberry:
 
 1. node-red avec:
-	* node-red-contrib-mongodb2 module
+	* node-red-contrib-influxdb module
 	* node-red-admin module pour hasher les mots de passe
 
 2. Mosquitto le MQTT serveur local
-3. Mongodb la base de donnée locale
+3. Influxdb la base de donnée locale
+4. Grafana la visualisation de base de donnée:
+![alt tag](https://github.com/mdj2812/EasyPark/blob/master/Raspberry/Grafana_capture.png)
