@@ -9,7 +9,7 @@ Authors :
 - Guillaume SANCHEZ
 - [Seynabou BA](https://github.com/SeynabouBa)
 - [Adbirahim ABDOURAHMAN](https://github.com/abdi94)
-- Nicolas CAILLEUX
+- [Nicolas CAILLEUX](https://github.com/ncailleux)
 - [Dingjie MA](https://github.com/mdj2812)
 
 
