@@ -32,6 +32,10 @@
 #define EMPT_SLEEPTIME		"00:00:01:00"
 #define OCCU_SLEEPTIME		"00:00:00:30"
 
+// Different mode of the message
+#define NORMAL_MODE   "normal"
+#define DEBUG_MODE    "debug"
+
 // Destination MAC address
 char MAC_ADDRESS[]="0013A2004125EAFC";
 
@@ -40,34 +44,26 @@ char NODE_ID[]="N01";
 
 // Sensor variables
 int temperature;
-boolean status;
+boolean status, pre_status;
+char *mode = NORMAL_MODE;
 
 // define variable
 uint8_t error;
+uint8_t counter = 0;
 
 void setup()
-{
-  // 0. Init USB port for debugging
-  USB.ON();
-  USB.println(F("C_08 Example"));
-
-  ////////////////////////////////////////////////
-  // 1. Initial message composition
-  ////////////////////////////////////////////////
-  
+{  
   // 1.1 Set mote Identifier (16-Byte max)
   frame.setID(NODE_ID);	
   
   // 1.2 Set frame maximum size (Link encryp disabled, AES encryp disabled)
   frame.setFrameSize(XBEE_802_15_4, UNICAST_16B, DISABLED, DISABLED);
-  USB.print(F("\nframe size (802_15_4, UNICAST_16B, XBee encryp Disabled, AES encryp Disabled):"));
-  USB.println(frame.getFrameSize(),DEC);   
-  
+
   // 1.3 Create new frame
   frame.createFrame(ASCII);  
 
   // 1.4 Set frame fields (String - char*)
-  frame.addSensor(SENSOR_STR, (char*) "C_08 Example");
+  frame.addSensor(SENSOR_STR, (char*) "EasyPark Sensor Started");
 
   // 1.5 Print frame
   frame.showFrame();
@@ -118,7 +114,8 @@ void loop()
   ////////////////////////////////////////////////
   // 4. Measure corresponding values
   ////////////////////////////////////////////////
-  USB.println(F("Measuring sensors..."));
+
+  pre_status = status;
 
   // 4.1 Turn on the sensor board
   SensorParking.setBoardMode(SENS_ON);
@@ -151,6 +148,7 @@ void loop()
   frame.createFrame(ASCII);  
 
   // 5.2 Add frame fields
+  frame.addSensor(SENSOR_STR, mode);
   frame.addSensor(SENSOR_PS, status);
   frame.addSensor(SENSOR_MF, SensorParking.valueX, SensorParking.valueY, SensorParking.valueZ);
   frame.addSensor(SENSOR_IN_TEMP, temperature);
@@ -158,33 +156,34 @@ void loop()
   
   // 5.3 Print frame
   frame.showFrame();
+
+  if((status^pre_status) == 1 || counter >= 120)
+  {
+    ////////////////////////////////////////////////
+    // 6. Send message
+    ////////////////////////////////////////////////
+    // 6.1 Power XBee
+    xbee802.ON();
   
+    // 6.2 Set destination XBee parameters to packet
+    error = xbee802.send( MAC_ADDRESS, frame.buffer, frame.length );
+  
+    // 6.3 Check TX flag
+    if( xbee802.error_TX == 0 ) 
+    {
+      USB.println(F("ok"));
+    }
+    else 
+    {
+      USB.println(F("error"));
+    }
+  
+    // 6.4 Communication module to OFF
+    xbee802.OFF();
 
-
-  ////////////////////////////////////////////////
-  // 6. Send message
-  ////////////////////////////////////////////////
-
-  // 6.1 Power XBee
-  xbee802.ON();
-
-  // 6.2 Set destination XBee parameters to packet
-  error = xbee802.send( MAC_ADDRESS, frame.buffer, frame.length );
-
-  // 6.3 Check TX flag
-  if( xbee802.error_TX == 0 ) 
-  {
-    USB.println(F("ok"));
+    counter = 0;
+    delay(100);
   }
-  else 
-  {
-    USB.println(F("error"));
-  }
-
-  // 6.4 Communication module to OFF
-  xbee802.OFF();
-  delay(100);
-
 
   ////////////////////////////////////////////////
   // 7. Entering Deep Sleep mode
@@ -194,11 +193,11 @@ void loop()
   if(status == PARKING_EMPTY)
   {
     PWR.deepSleep(EMPT_SLEEPTIME, RTC_OFFSET, RTC_ALM1_MODE1, ALL_OFF);
+    counter += 2;
   }
   else
   {
     PWR.deepSleep(OCCU_SLEEPTIME, RTC_OFFSET, RTC_ALM1_MODE1, ALL_OFF);
+    counter += 1;
   }
 }
-
-
