@@ -18,4 +18,4 @@ Fichiers de configuration de la raspberry. Les éléments requise pour la raspbe
 ![alt tag](https://github.com/mdj2812/EasyPark/blob/master/Raspberry/Grafana_node1.png)
 5. Mongodb la base de donnée static. Il enregistre les informations de chaque Sensor Node (_id, latitud, longitude, status, battery). Et il va renouveller son état et la batterie dès qu'une nouvelle message arrive.
 La base de donnée Mongodb (visualisé par Robomongo):
-![alt tag](https://github.com/mdj2812/EasyPark/blob/master/Raspberry/Mongodb.png)
+![alt tag](https://github.com/mdj2812/EasyPark/blob/master/Raspberry/Mongodb.PNG)
