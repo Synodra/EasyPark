@@ -44,7 +44,7 @@ char NODE_ID[]="N01";
 
 // Sensor variables
 int temperature;
-boolean status, pre_status;
+boolean status = 0, pre_status = 0;
 char *mode = NORMAL_MODE;
 
 // define variable
@@ -64,7 +64,7 @@ void setup()
 
   // 1.4 Set frame fields (String - char*)
   frame.addSensor(SENSOR_STR, (char*) "EasyPark Sensor Started");
-
+  
   // 1.5 Print frame
   frame.showFrame();
 
