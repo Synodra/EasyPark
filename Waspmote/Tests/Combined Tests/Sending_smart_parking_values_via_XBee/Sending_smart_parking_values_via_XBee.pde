@@ -32,6 +32,12 @@
 #define EMPT_SLEEPTIME		"00:00:01:00"
 #define OCCU_SLEEPTIME		"00:00:00:30"
 
+#define DEMIMINUTE_NUMBER (120)
+
+#define VALUEX_THRESHOLD  (430)
+#define VALUEY_THRESHOLD  (750)
+#define VALUEZ_THRESHOLD  (480)
+
 // Different mode of the message
 #define NORMAL_MODE   "normal"
 #define DEBUG_MODE    "debug"
@@ -44,7 +50,7 @@ char NODE_ID[]="N01";
 
 // Sensor variables
 int temperature;
-boolean status = 0, pre_status = 0;
+boolean status = 0, pre_status = 0, first_time = 1;
 char *mode = NORMAL_MODE;
 
 // define variable
@@ -104,8 +110,6 @@ void setup()
   delay(100);
   SensorParking.calibration();  
   SensorParking.OFF();
-
-
 }
 
 void loop()
@@ -131,7 +135,14 @@ void loop()
   SensorParking.calculateReference(temperature);
   
   // 4.5 Estimate parking lot status
-  status = SensorParking.estimateState();
+  if(SensorParking.valueX > VALUEX_THRESHOLD && SensorParking.valueY > VALUEY_THRESHOLD && SensorParking.valueZ > VALUEZ_THRESHOLD)
+  {
+    status = 1;
+  }
+  else
+  {
+    status = 0;
+  }
 
   // 4.6 Turn OFF parking sensor board.
   SensorParking.setBoardMode(SENS_OFF);
@@ -157,7 +168,7 @@ void loop()
   // 5.3 Print frame
   frame.showFrame();
 
-  if((status^pre_status) == 1 || counter >= 120)
+  if((status^pre_status) == 1 || counter >= DEMIMINUTE_NUMBER || first_time == 1)
   {
     ////////////////////////////////////////////////
     // 6. Send message
@@ -181,6 +192,7 @@ void loop()
     // 6.4 Communication module to OFF
     xbee802.OFF();
 
+    first_time = 0;
     counter = 0;
     delay(100);
   }
