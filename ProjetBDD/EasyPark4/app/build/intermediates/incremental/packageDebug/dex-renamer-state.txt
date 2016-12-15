@@ -1,0 +1,7 @@
+#Thu Dec 15 10:14:39 CET 2016
+base.0=D\:\\Esigelec\\ProjetAndroid\\ProjetBDD\\EasyPark4\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_6f7a31a057e970aa8a167f32509f2b3ac981b124
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=D\:\\Esigelec\\ProjetAndroid\\ProjetBDD\\EasyPark4\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_5028834a9d2aebc7639a07b00add388be93a18f0\\classes.dex
+base.1=D\:\\Esigelec\\ProjetAndroid\\ProjetBDD\\EasyPark4\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_5028834a9d2aebc7639a07b00add388be93a18f0
+file.0=D\:\\Esigelec\\ProjetAndroid\\ProjetBDD\\EasyPark4\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_6f7a31a057e970aa8a167f32509f2b3ac981b124\\classes.dex

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="x86"
+    api-level="25"
+    density="xxhdpi"
+    format="8"
+    plugin-version="2.2.2"
+    timestamp="349228215175923"
+    token="-6356490447553803518"
+    verifier="COLD_SWAP_REQUESTED" >
+
+    <task
+        name="javac"
+        duration="0" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="0" />
+    <task
+        name="verifier"
+        duration="0" />
+
+    <build
+        timestamp="335922758951885"
+        verifier="FULL_BUILD_REQUESTED" >
+        <artifact
+            location="D:\Esigelec\ProjetAndroid\ProjetBDD\EasyPark4\app\build\outputs\apk\app-debug.apk"
+            type="MAIN" />
+    </build>
+    <build
+        timestamp="338360810463308"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="D:\Esigelec\ProjetAndroid\ProjetBDD\EasyPark4\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_3\classes.dex"
+            type="DEX" />
+    </build>
+    <build
+        timestamp="349228215175923"
+        verifier="COLD_SWAP_REQUESTED" />
+
+</instant-run>
