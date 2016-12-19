@@ -1,8 +1,10 @@
-package a.easypark4;
-
 /**
- * Created by nico.
+ * Author: Ravi Tamada
+ * URL: www.androidhive.info
+ * twitter: http://twitter.com/ravitamada
  */
+package a.easypark4.activity;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -24,21 +26,18 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import a.easypark4.R;
 import a.easypark4.MainActivity;
-import a.easypark4.AppController;
-import a.easypark4.AppConfig;
-import helper.SQLiteHandler;
-import helper.SessionManager;
-public class RegisterActivity extends Activity {
+import a.easypark4.R;
+import a.easypark4.app.AppConfig;
+import a.easypark4.app.AppController;
+import a.easypark4.helper.SQLiteHandler;
+import a.easypark4.helper.SessionManager;
+
+public class LoginActivity extends Activity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
-    private Button btnRegister;
-    private Button btnLinkToLogin;
-    private EditText inputNom;
-    private EditText inputPrenom;
-    private EditText inputLogin;
+    private Button btnLogin;
+    private Button btnLinkToRegister;
     private EditText inputEmail;
-    //private EditText inputDate;
     private EditText inputPassword;
     private ProgressDialog pDialog;
     private SessionManager session;
@@ -47,62 +46,58 @@ public class RegisterActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_easy_park);
 
-        inputNom = (EditText) findViewById(R.id.nom);
-        inputPrenom = (EditText) findViewById(R.id.prenom);
-        inputLogin = (EditText) findViewById(R.id.login);
         inputEmail = (EditText) findViewById(R.id.email);
-        //inputDate = (EditText) findViewById(R.id.date_naissance);
         inputPassword = (EditText) findViewById(R.id.password);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-        btnLinkToLogin = (Button) findViewById(R.id.btnLinkToLoginScreen);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        // manager de session
-        session = new SessionManager(getApplicationContext());
-
-        // SQLite bdd handler
+        // SQLite database handler
         db = new SQLiteHandler(getApplicationContext());
 
-        // Check si l'user est deja connecté ou non
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+
+        // Check if user is already logged in or not
         if (session.isLoggedIn()) {
-            // Si il est deja connecté on l'amene au menu principal
-            Intent intent = new Intent(RegisterActivity.this,
-                    MainActivity.class);
+            // User is already logged in. Take him to main activity
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
 
-        // Bouton Register
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+        // Login button Click Event
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+
             public void onClick(View view) {
-                String nom = inputNom.getText().toString().trim();
-                String prenom = inputPrenom.getText().toString().trim();
-                String login = inputLogin.getText().toString().trim();
                 String email = inputEmail.getText().toString().trim();
-               // String date_naissance = inputDate.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
 
-                if (!nom.isEmpty() && !prenom.isEmpty() && !login.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                    registerUser(nom, prenom, login, email/*, date_naissance*/,  password);
+                // Check for empty data in the form
+                if (!email.isEmpty() && !password.isEmpty()) {
+                    // login user
+                    checkLogin(email, password);
                 } else {
+                    // Prompt user to enter credentials
                     Toast.makeText(getApplicationContext(),
-                            "Please enter your details!", Toast.LENGTH_LONG)
+                            "Please enter the credentials!", Toast.LENGTH_LONG)
                             .show();
                 }
             }
+
         });
 
-        // Bouton pour la page de login
-        btnLinkToLogin.setOnClickListener(new View.OnClickListener() {
+        // Link to Register Screen
+        btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),
-                        EasyPark.class);
+                        RegisterActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -110,58 +105,61 @@ public class RegisterActivity extends Activity {
 
     }
 
-    /*
-    Fonction pour stocker les info user(nom, prenom...) dans la bdd  MySQL
-    */
-    private void registerUser(final String name, final String prenom, final String login, final String email/*, final String date_naissance*/, final String password) {
+    /**
+     * function to verify login details in mysql db
+     * */
+    private void checkLogin(final String email, final String password) {
         // Tag used to cancel the request
-        String tag_string_req = "req_register";
+        String tag_string_req = "req_login";
 
-        pDialog.setMessage("Registering ...");
+        pDialog.setMessage("Logging in ...");
         showDialog();
 
-        StringRequest strReq = new StringRequest(Method.POST, AppConfig.URL_REGISTER, new Response.Listener<String>() {
+        StringRequest strReq = new StringRequest(Method.POST,
+                AppConfig.URL_LOGIN, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "Register Response: " + response.toString());
+                Log.d(TAG, "Login Response: " + response.toString());
                 hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
+
+                    // Check for error node in json
                     if (!error) {
-                        // User stocké dans la bdd -> stockage dans sqlite
+                        // user successfully logged in
+                        // Create login session
+                        session.setLogin(true);
+
+                        // Now store the user in SQLite
                         String uid = jObj.getString("uid");
 
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
-                        String prenom = user.getString("prenom");
-                        String login = user.getString("login");
                         String email = user.getString("email");
-                        String date_creation = user.getString("date_creation");
-                        String date_naissance = user.getString("date_naissance");
+                        String created_at = user
+                                .getString("created_at");
 
-                        // info user utile
-                        db.addUser(name, prenom, login, email, uid, date_creation, date_naissance);
+                        // Inserting row in users table
+                        db.addUser(name, email, uid, created_at);
 
-                        Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
-
-                        // lancer login activity pour se connecter
-                        Intent intent = new Intent(
-                                RegisterActivity.this,
-                                EasyPark.class);
+                        // Launch main activity
+                        Intent intent = new Intent(LoginActivity.this,
+                                MainActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
-
-                        // Une erreur lors de l'enregistrement de l'user, on recupere l'erreur
+                        // Error in login. Get the error message
                         String errorMsg = jObj.getString("error_msg");
                         Toast.makeText(getApplicationContext(),
                                 errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
+                    // JSON error
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -169,7 +167,7 @@ public class RegisterActivity extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Registration Error: " + error.getMessage());
+                Log.e(TAG, "Login Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
@@ -178,11 +176,8 @@ public class RegisterActivity extends Activity {
 
             @Override
             protected Map<String, String> getParams() {
-                // Posting params to register url
+                // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("name", name);
-                //params.put("prenom", prenom);
-                //params.put("login", login);
                 params.put("email", email);
                 params.put("password", password);
 
@@ -191,7 +186,7 @@ public class RegisterActivity extends Activity {
 
         };
 
-        // Ajout requete a la file d'attente de requete
+        // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 

@@ -6,12 +6,12 @@ $db = new DB_Functions();
 // json response array
 $response = array("error" => FALSE);
 
-if (isset($_GET['name']) && isset($_GET['email']) && isset($_GET['password'])) {
+if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password'])) {
 
     // receiving the post params
-    $name = $_GET['name'];
-    $email = $_GET['email'];
-    $password = $_GET['password'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
     // check if user is already existed with the same email
     if ($db->isUserExisted($email)) {

@@ -16,36 +16,12 @@
         android:paddingRight="20dp" >
 
         <EditText
-            android:id="@+id/nom"
+            android:id="@+id/name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="#eef7ff"
-            android:hint="nom"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:inputType="textCapWords"
-            android:textColor="#456"
-            android:textColorHint="#93a0ac" />
-        <EditText
-            android:id="@+id/prenom"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#eef7ff"
-            android:hint="prenom"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:inputType="textCapWords"
-            android:textColor="#456"
-            android:textColorHint="#93a0ac" />
-        <EditText
-            android:id="@+id/login"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#eef7ff"
-            android:hint="login"
+            android:hint="name"
             android:padding="10dp"
             android:singleLine="true"
             android:inputType="textCapWords"

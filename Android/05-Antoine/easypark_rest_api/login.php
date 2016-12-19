@@ -5,11 +5,11 @@ $db = new DB_Functions();
 // json response array
 $response = array("error" => FALSE);
 
-if (isset($_GET['email']) && isset($_GET['password'])) {
+if (isset($_POST['email']) && isset($_POST['password'])) {
 
     // receiving the post params
-    $email = $_GET['email'];
-    $password = $_GET['password'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
     // get the user by email and password
     $user = $db->getUserByEmailAndPassword($email, $password);
