@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/welcome"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/name"
@@ -31,13 +31,13 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:textColor="#456"
-            android:textSize="24dp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13dp" />
+            android:textSize="13sp" />
 
         <Button
             android:id="@+id/btnLogout"
@@ -48,6 +48,6 @@
             android:text="@string/btn_logout"
             android:textAllCaps="false"
             android:textColor="#456"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
     </LinearLayout>
 </RelativeLayout>

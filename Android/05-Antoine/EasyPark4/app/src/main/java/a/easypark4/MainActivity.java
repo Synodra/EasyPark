@@ -15,10 +15,6 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
-    private TextView txtName;
-    private TextView txtEmail;
-    private Button btnLogout;
-
     private SQLiteHandler db;
     private SessionManager session;
 
@@ -27,9 +23,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtName = (TextView) findViewById(R.id.name);
-        txtEmail = (TextView) findViewById(R.id.email);
-        btnLogout = (Button) findViewById(R.id.btnLogout);
+        TextView txtName = (TextView) findViewById(R.id.name);
+        TextView txtEmail = (TextView) findViewById(R.id.email);
+        Button btnLogout = (Button) findViewById(R.id.btnLogout);
 
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());

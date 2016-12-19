@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="a.easypark4.EasyPark"
+    tools:context="a.easypark4.activity.LoginActivity"
     android:background="#fff">
 
     <LinearLayout
@@ -19,15 +19,14 @@
         android:paddingRight="20dp" >
 
         <EditText
-            android:id="@+id/login"
+            android:id="@+id/email"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="#eef7ff"
-            android:hint="login"
+            android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:padding="10dp"
-            android:singleLine="true"
             android:textColor="#456"
             android:textColorHint="#93a0ac" />
 
@@ -40,7 +39,6 @@
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:singleLine="true"
             android:textColor="#456"
             android:textColorHint="#93a0ac" />
 
@@ -65,6 +63,6 @@
             android:background="@null"
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
     </LinearLayout>
 </LinearLayout>
