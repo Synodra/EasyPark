@@ -10,7 +10,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,13 +46,15 @@ import a.easypark4.app.AppController;
 import a.easypark4.helper.SQLiteHandler;
 import a.easypark4.helper.SessionManager;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private EditText inputEmail;
     private EditText inputPassword;
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
+    private Button btnLogin;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -56,10 +66,24 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        Button btnLogin = (Button) findViewById(R.id.btnLogin);
-        Button btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);
+        // création de la toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.loginToolbar);
+        setSupportActionBar(toolbar);
+
+        // Création de la bar de navigation
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+        inputEmail = (EditText) findViewById(R.id.txtLoginEmail);
+        inputPassword = (EditText) findViewById(R.id.txtLoginPassword);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
@@ -82,6 +106,7 @@ public class LoginActivity extends Activity {
         // Login button Click Event
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
+            @Override
             public void onClick(View view) {
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
@@ -96,18 +121,6 @@ public class LoginActivity extends Activity {
                             "Please enter the credentials!", Toast.LENGTH_LONG)
                             .show();
                 }
-            }
-
-        });
-
-        // Link to Register Screen
-        btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        RegisterActivity.class);
-                startActivity(i);
-                finish();
             }
         });
 
@@ -245,5 +258,24 @@ public class LoginActivity extends Activity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle Navigation view item click here.
+        int id = item.getItemId();
+
+        if (id == R.id.btnMenuLogin) {
+
+        } else if (id == R.id.btnMenuRegister) {
+            Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(i);
+            finish();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

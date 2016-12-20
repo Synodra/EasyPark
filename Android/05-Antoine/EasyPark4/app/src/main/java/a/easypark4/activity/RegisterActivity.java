@@ -9,7 +9,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,24 +40,41 @@ import a.easypark4.helper.SQLiteHandler;
 import a.easypark4.helper.SessionManager;
 import a.easypark4.app.AppConfig;
 
-public class RegisterActivity extends Activity {
+public class RegisterActivity  extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private EditText inputFullName;
     private EditText inputEmail;
     private EditText inputPassword;
     private ProgressDialog pDialog;
     private SQLiteHandler db;
+    private Button btnRegister;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        inputFullName = (EditText) findViewById(R.id.name);
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
-        Button btnRegister = (Button) findViewById(R.id.btnRegister);
-        Button btnLinkToLogin = (Button) findViewById(R.id.btnLinkToLoginScreen);
+        // création de la toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.registerToolbar);
+        setSupportActionBar(toolbar);
+
+        // Création de la bar de navigation
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+        inputFullName = (EditText) findViewById(R.id.txtRegisterNom);
+        inputEmail = (EditText) findViewById(R.id.txtRegisterEmail);
+        inputPassword = (EditText) findViewById(R.id.txtRegisterPassword);
+        btnRegister = (Button) findViewById(R.id.btnRegister);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
@@ -73,7 +97,9 @@ public class RegisterActivity extends Activity {
 
         // Register Button Click event
         btnRegister.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
+
+            @Override
+            public void onClick(View v) {
                 String name = inputFullName.getText().toString().trim();
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
@@ -85,17 +111,9 @@ public class RegisterActivity extends Activity {
                             "Please enter your details!", Toast.LENGTH_LONG)
                             .show();
                 }
-            }
-        });
-
-        // Link to Login Screen
-        btnLinkToLogin.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        LoginActivity.class);
-                startActivity(i);
-                finish();
+                Toast.makeText(getApplicationContext(),
+                        "Please enter your details!", Toast.LENGTH_LONG)
+                        .show();
             }
         });
 
@@ -195,5 +213,21 @@ public class RegisterActivity extends Activity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle Navigation view item click here.
+        int id = item.getItemId();
+
+        if (id == R.id.btnMenuLogin) {
+            Intent i = new Intent(getApplicationContext(),
+                    LoginActivity.class);
+            startActivity(i);
+            finish();
+        } else if (id == R.id.btnMenuRegister) {
+
+        }
+        return true;
     }
 }
