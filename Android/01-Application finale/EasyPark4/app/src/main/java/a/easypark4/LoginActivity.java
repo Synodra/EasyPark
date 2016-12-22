@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnSwitchRegister;
 
     /**
-     * Main pour la créatino de l'activity login
+     * Main pour la création de l'activity login
      * @param savedInstanceState
      */
     @Override

@@ -30,7 +30,7 @@
         </activity>
 
         <!-- Register Activity -->
-
+        <activity android:name=".RegisterActivity" />
 
         <!-- MainScreen Activity -->
         <activity
@@ -47,7 +47,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".RegisterActivity" />
+
         <activity android:name=".Activity.SettingsActivity"></activity>
     </application>
 
