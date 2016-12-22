@@ -1,10 +1,7 @@
-package a.easypark4;
+package a.easypark4.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,14 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
-import a.easypark4.activity.LoginActivity;
-import a.easypark4.activity.RegisterActivity;
+import a.easypark4.LoginActivity;
+import a.easypark4.R;
 import a.easypark4.helper.SQLiteHandler;
 import a.easypark4.helper.SessionManager;
 
@@ -32,6 +28,10 @@ public class MainActivity extends AppCompatActivity
     private SessionManager session;
     private TextView txtName;
     private TextView txtEmail;
+    private TextView txtName2;
+    private String name;
+    private String email;
+    private View navHeaderView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +46,15 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        // Permet l'activation des boutons du menu de navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        // section gestion de la connexion de l'utilisateur
-        txtName = (TextView) findViewById(R.id.headerName);
-        txtEmail = (TextView) findViewById(R.id.headerEmail);
+        // Gestion des éléments du layout nav bar header
+        navHeaderView = navigationView.getHeaderView(0);
 
         //SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -71,12 +70,16 @@ public class MainActivity extends AppCompatActivity
         // Fetching user details from sqlite
         HashMap<String, String> user = db.getUserDetails();
 
-        String name = user.get("name");
-        String email = user.get("email");
+        // section gestion de la connexion de l'utilisateur
+        txtName = (TextView) navHeaderView.findViewById(R.id.headerName);
+        txtEmail = (TextView) navHeaderView.findViewById(R.id.headerEmail);
+
+        name = user.get("name");
+        email = user.get("email");
 
         // Displaying the user details on the screen
-        //txtName.setText("User");
-        //txtEmail.setText("google@gmail.com");
+        txtName.setText(name);
+        txtEmail.setText(email);
 
 
     }
@@ -107,7 +110,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            // Launching the login activity
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -119,9 +124,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.map) {
+        if (id == R.id.btnMenuMap) {
 
-        } else if (id == R.id.btnLogout){
+        }
+        else if (id == R.id.btnMenuAccountSetting) {
+
+        }
+        else if (id == R.id.btnMenuLogout){
             logoutUser();
         }
 

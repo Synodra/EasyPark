@@ -1,28 +1,16 @@
-/**
- * Author: Ravi Tamada
- * URL: www.androidhive.info
- * twitter: http://twitter.com/ravitamada
- */
-package a.easypark4.activity;
+package a.easypark4;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request.Method;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -33,16 +21,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import a.easypark4.MainActivity;
-import a.easypark4.R;
+import a.easypark4.Activity.MainActivity;
+import a.easypark4.app.AppConfig;
 import a.easypark4.app.AppController;
 import a.easypark4.helper.SQLiteHandler;
 import a.easypark4.helper.SessionManager;
-import a.easypark4.app.AppConfig;
 
-public class RegisterActivity  extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class RegisterActivity extends AppCompatActivity {
 
+    // Déclaration des variables
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private EditText inputFullName;
     private EditText inputEmail;
@@ -50,31 +37,23 @@ public class RegisterActivity  extends AppCompatActivity
     private ProgressDialog pDialog;
     private SQLiteHandler db;
     private Button btnRegister;
+    private Button btnSwitchLogin;
 
+    /**
+     * Main pour l'activity enrégistrement de l'utilisateur dans la base de données
+     * @param savedInstanceState
+     */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // création de la toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.registerToolbar);
-        setSupportActionBar(toolbar);
-
-        // Création de la bar de navigation
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-
+        // initialisation des éléments pour enregistrer un utilisateur
         inputFullName = (EditText) findViewById(R.id.txtRegisterNom);
         inputEmail = (EditText) findViewById(R.id.txtRegisterEmail);
         inputPassword = (EditText) findViewById(R.id.txtRegisterPassword);
         btnRegister = (Button) findViewById(R.id.btnRegister);
+        btnSwitchLogin = (Button) findViewById(R.id.btnSwitchLogin);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
@@ -89,7 +68,7 @@ public class RegisterActivity  extends AppCompatActivity
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
-            Intent intent = new Intent(RegisterActivity.this,
+            Intent intent = new Intent(getApplicationContext(),
                     MainActivity.class);
             startActivity(intent);
             finish();
@@ -117,6 +96,18 @@ public class RegisterActivity  extends AppCompatActivity
             }
         });
 
+        // Login switch button Click event
+        btnSwitchLogin.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),
+                        LoginActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
     }
 
     /**
@@ -131,7 +122,7 @@ public class RegisterActivity  extends AppCompatActivity
         pDialog.setMessage("Registering ...");
         showDialog();
 
-        StringRequest strReq = new StringRequest(Method.POST,
+        StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppConfig.URL_REGISTER, new Response.Listener<String>() {
 
             @Override
@@ -160,7 +151,7 @@ public class RegisterActivity  extends AppCompatActivity
 
                         // Launch login activity
                         Intent intent = new Intent(
-                                RegisterActivity.this,
+                                getApplicationContext(),
                                 LoginActivity.class);
                         startActivity(intent);
                         finish();
@@ -213,21 +204,5 @@ public class RegisterActivity  extends AppCompatActivity
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle Navigation view item click here.
-        int id = item.getItemId();
-
-        if (id == R.id.btnMenuLogin) {
-            Intent i = new Intent(getApplicationContext(),
-                    LoginActivity.class);
-            startActivity(i);
-            finish();
-        } else if (id == R.id.btnMenuRegister) {
-
-        }
-        return true;
     }
 }

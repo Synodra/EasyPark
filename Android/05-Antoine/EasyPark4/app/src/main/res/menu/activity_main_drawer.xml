@@ -3,15 +3,18 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/map"
-            android:title="Map" />
+            android:id="@+id/btnMenuMap"
+            android:title="@string/menu_map" />
     </group>
 
-    <item android:title="Account">
+    <item android:title="@string/menu_account">
         <menu>
             <item
-                android:id="@+id/btnLogout"
-                android:title="LogOut" />
+                android:id="@+id/btnMenuAccountSetting"
+                android:title="@string/menu_account_settings" />
+            <item
+                android:id="@+id/btnMenuLogout"
+                android:title="@string/menu_logout" />
         </menu>
     </item>
 
