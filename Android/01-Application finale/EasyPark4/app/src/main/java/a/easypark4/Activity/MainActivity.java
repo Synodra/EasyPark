@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         email = user.get("email");
 
         // Displaying the user details on the screen
-        txtName.setText(firstname + name);
+        txtName.setText(firstname + " " + name);
         txtEmail.setText(email);
 
         // Provide access to the system location services
@@ -232,7 +232,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
@@ -344,7 +343,7 @@ public class MainActivity extends AppCompatActivity
         mMap = googleMap;
         marker = new Marker(googleMap, location);
         marker.setLocation(location);
-        marker.afficherMarker();
+        //marker.afficherMarker(); //ERROR mGoogleMap.clear(); invoke method on a null object reference
     }
 
 

@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputPassword;
     private ProgressDialog pDialog;
     private SessionManager session;
-    private SQLiteHandler db;
+    public SQLiteHandler db;
     private Button btnLogin;
     private Button btnSwitchRegister;
 
@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // SQLite database handler
         db = new SQLiteHandler(getApplicationContext());
+        db.updateDB();
 
         // Session manager
         session = new SessionManager(getApplicationContext());
@@ -138,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
-                        String firstname = user.getString("firstname");
+                        String firstname = "antoine";//user.getString("firstname");
                         String email = user.getString("email");
                         String created_at = user.getString("created_at");
 

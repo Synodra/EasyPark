@@ -40,7 +40,7 @@ class Marker  {
 
 
     public void afficherMarker(){
-        mGoogleMap.clear();
+        mGoogleMap.clear(); //ERROR mGoogleMap.clear(); invoke method on a null object reference
         LatLng pointMarker = new LatLng(longitude,  latitude);
         mGoogleMap.addMarker(new MarkerOptions().position(pointMarker).title("Ma Position"));
         CameraUpdate updateFactory = CameraUpdateFactory.newLatLngZoom(pointMarker, 13);
