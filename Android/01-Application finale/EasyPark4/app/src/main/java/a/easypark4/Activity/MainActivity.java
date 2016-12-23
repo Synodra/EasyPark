@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity
     private SessionManager session;
     private TextView txtName;
     private TextView txtEmail;
-    private TextView txtName2;
     private String name;
+    private String firstname;
     private String email;
     private View navHeaderView;
 
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Créatino de la bar de navigation
+        // Création de la bar de navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -75,10 +75,11 @@ public class MainActivity extends AppCompatActivity
         txtEmail = (TextView) navHeaderView.findViewById(R.id.headerEmail);
 
         name = user.get("name");
+        firstname = user.get("firstname");
         email = user.get("email");
 
         // Displaying the user details on the screen
-        txtName.setText(name);
+        txtName.setText(firstname + name);
         txtEmail.setText(email);
 
 

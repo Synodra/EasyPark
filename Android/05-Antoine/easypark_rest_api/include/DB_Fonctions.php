@@ -34,7 +34,7 @@ class DB_Functions {
         $salt = $hash["salt"]; // salt
 
         $stmt = $this->conn->prepare("INSERT INTO ep_users(unique_id, name, firstname, email, encrypted_password, salt, created_at) VALUES(?, ?, ?, ?, ?, ?, NOW())");
-        $stmt->bind_param("sssss", $uuid, $name, $firstname, $email, $encrypted_password, $salt);
+        $stmt->bind_param("ssssss", $uuid, $name, $firstname, $email, $encrypted_password, $salt);
         $result = $stmt->execute();
         $stmt->close();
 
@@ -57,7 +57,7 @@ class DB_Functions {
      */
     public function getUserByEmailAndPassword($email, $password) {
 
-        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM ep_users WHERE email = ?");
 
         $stmt->bind_param("s", $email);
 
@@ -83,7 +83,7 @@ class DB_Functions {
      * Check user is existed or not
      */
     public function isUserExisted($email) {
-        $stmt = $this->conn->prepare("SELECT email from users WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT email from ep_users WHERE email = ?");
 
         $stmt->bind_param('s', $email);
 

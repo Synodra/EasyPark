@@ -31,7 +31,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     // Déclaration des variables
     private static final String TAG = RegisterActivity.class.getSimpleName();
-    private EditText inputFullName;
+    private EditText inputName;
+    private EditText inputFirstname;
     private EditText inputEmail;
     private EditText inputPassword;
     private ProgressDialog pDialog;
@@ -49,7 +50,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         // initialisation des éléments pour enregistrer un utilisateur
-        inputFullName = (EditText) findViewById(R.id.txtRegisterNom);
+        inputName = (EditText) findViewById(R.id.txtRegisterName);
+        inputFirstname = (EditText) findViewById(R.id.txtRegisterFirstname);
         inputEmail = (EditText) findViewById(R.id.txtRegisterEmail);
         inputPassword = (EditText) findViewById(R.id.txtRegisterPassword);
         btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -79,20 +81,19 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                String name = inputFullName.getText().toString().trim();
+                String name = inputName.getText().toString().trim();
+                String firstname = inputFirstname.getText().toString().trim();
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
 
-                if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                    registerUser(name, email, password);
-                } else {
+                if (!name.isEmpty() && !firstname.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
+                    registerUser(name, firstname, email, password);
+                }
+                else {
                     Toast.makeText(getApplicationContext(),
                             "Please enter your details!", Toast.LENGTH_LONG)
                             .show();
                 }
-                Toast.makeText(getApplicationContext(),
-                        "Please enter your details!", Toast.LENGTH_LONG)
-                        .show();
             }
         });
 
@@ -114,8 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
      * Function to store user in MySQL database will post params(tag, name,
      * email, password) to register url
      * */
-    private void registerUser(final String name, final String email,
-                              final String password) {
+    private void registerUser(final String name, final String firstname, final String email, final String password) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
@@ -140,12 +140,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
+                        String firstname = user.getString("firstname");
                         String email = user.getString("email");
-                        String created_at = user
-                                .getString("created_at");
+                        String created_at = user.getString("created_at");
 
                         // Inserting row in users table
-                        db.addUser(name, email, uid, created_at);
+                        db.addUser(name, firstname, email, uid, created_at);
 
                         Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 
@@ -184,6 +184,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // Posting params to register url
                 Map<String, String> params = new HashMap<>();
                 params.put("name", name);
+                params.put("firstname", firstname);
                 params.put("email", email);
                 params.put("password", password);
 

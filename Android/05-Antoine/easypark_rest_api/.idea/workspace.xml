@@ -39,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="register.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="register.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/register.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="49" lean-forward="false" selection-start-line="24" selection-start-column="49" selection-end-line="24" selection-end-column="49" />
+            <state relative-caret-position="705">
+              <caret line="47" column="2" lean-forward="true" selection-start-line="47" selection-start-column="2" selection-end-line="47" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -52,30 +52,25 @@
       <file leaf-file-name="login.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/login.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="81" lean-forward="false" selection-start-line="34" selection-start-column="81" selection-end-line="34" selection-end-column="81" />
+            <state relative-caret-position="255">
+              <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DB_Fonctions.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DB_Fonctions.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/DB_Fonctions.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="29" column="69" lean-forward="false" selection-start-line="29" selection-start-column="69" selection-end-line="29" selection-end-column="69" />
+            <state relative-caret-position="1815">
+              <caret line="123" column="0" lean-forward="false" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
               <folding>
                 <element signature="e#7#161#0#PHP" expanded="true" />
                 <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
-                <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
-                <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
-                <element signature="n#isUserExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
-                <element signature="n#hashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-                <element signature="n#checkhashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-                <marker date="1482517917671" expanded="true" signature="823:948" ph="INSERT INTO users... " />
-                <marker date="1482517917671" expanded="true" signature="1214:1252" ph="SELECT * FRO... users" />
-                <marker date="1482517917671" expanded="true" signature="1661:1696" ph="SELECT * FRO... users" />
-                <marker date="1482517917671" expanded="true" signature="2443:2482" ph="SELECT email... users" />
+                <marker date="1482520987897" expanded="true" signature="823:948" ph="INSERT INTO users... " />
+                <marker date="1482520987897" expanded="true" signature="1215:1253" ph="SELECT * FRO... users" />
+                <marker date="1482520987897" expanded="true" signature="1662:1700" ph="SELECT * FRO... users" />
+                <marker date="1482520987897" expanded="true" signature="2447:2489" ph="SELECT email... users" />
               </folding>
             </state>
           </provider>
@@ -90,9 +85,9 @@
         <option value="$PROJECT_DIR$/include/config.php" />
         <option value="$PROJECT_DIR$/include/DB_Connect.php" />
         <option value="$PROJECT_DIR$/test.php" />
+        <option value="$PROJECT_DIR$/register.php" />
         <option value="$PROJECT_DIR$/login.php" />
         <option value="$PROJECT_DIR$/include/DB_Fonctions.php" />
-        <option value="$PROJECT_DIR$/register.php" />
       </list>
     </option>
   </component>
@@ -267,12 +262,12 @@
       <workItem from="1482169331273" duration="3666000" />
       <workItem from="1482378320627" duration="51000" />
       <workItem from="1482378398573" duration="1497000" />
-      <workItem from="1482516479825" duration="1445000" />
+      <workItem from="1482516479825" duration="3942000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17835000" />
+    <option name="totallyTimeSpent" value="20332000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -284,16 +279,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="30" width="1920" height="1050" extended-state="1" />
+    <frame x="0" y="30" width="1920" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18229167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -301,7 +296,7 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16684155" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16684155" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23504722" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -315,7 +310,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -354,15 +349,10 @@
           <folding>
             <element signature="e#7#161#0#PHP" expanded="true" />
             <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#isUserExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#hashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#checkhashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <marker date="1482517917671" expanded="true" signature="823:948" ph="INSERT INTO users... " />
-            <marker date="1482517917671" expanded="true" signature="1214:1252" ph="SELECT * FRO... users" />
-            <marker date="1482517917671" expanded="true" signature="1661:1696" ph="SELECT * FRO... users" />
-            <marker date="1482517917671" expanded="true" signature="2443:2482" ph="SELECT email... users" />
+            <marker date="1482520987897" expanded="true" signature="823:948" ph="INSERT INTO users... " />
+            <marker date="1482520987897" expanded="true" signature="1215:1253" ph="SELECT * FRO... users" />
+            <marker date="1482520987897" expanded="true" signature="1662:1700" ph="SELECT * FRO... users" />
+            <marker date="1482520987897" expanded="true" signature="2447:2489" ph="SELECT email... users" />
           </folding>
         </state>
       </provider>
@@ -401,15 +391,10 @@
           <folding>
             <element signature="e#7#161#0#PHP" expanded="true" />
             <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#isUserExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#hashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#checkhashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <marker date="1482517917671" expanded="true" signature="823:948" ph="INSERT INTO users... " />
-            <marker date="1482517917671" expanded="true" signature="1214:1252" ph="SELECT * FRO... users" />
-            <marker date="1482517917671" expanded="true" signature="1661:1696" ph="SELECT * FRO... users" />
-            <marker date="1482517917671" expanded="true" signature="2443:2482" ph="SELECT email... users" />
+            <marker date="1482520987897" expanded="true" signature="823:948" ph="INSERT INTO users... " />
+            <marker date="1482520987897" expanded="true" signature="1215:1253" ph="SELECT * FRO... users" />
+            <marker date="1482520987897" expanded="true" signature="1662:1700" ph="SELECT * FRO... users" />
+            <marker date="1482520987897" expanded="true" signature="2447:2489" ph="SELECT email... users" />
           </folding>
         </state>
       </provider>
@@ -473,14 +458,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="81" lean-forward="false" selection-start-line="34" selection-start-column="81" selection-end-line="34" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/DB_Connect.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -497,31 +474,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/register.php">
+    <entry file="file://$PROJECT_DIR$/include/DB_Fonctions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="49" lean-forward="false" selection-start-line="24" selection-start-column="49" selection-end-line="24" selection-end-column="49" />
+        <state relative-caret-position="1815">
+          <caret line="123" column="0" lean-forward="false" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+          <folding>
+            <element signature="e#7#161#0#PHP" expanded="true" />
+            <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
+            <marker date="1482520987897" expanded="true" signature="823:948" ph="INSERT INTO users... " />
+            <marker date="1482520987897" expanded="true" signature="1215:1253" ph="SELECT * FRO... users" />
+            <marker date="1482520987897" expanded="true" signature="1662:1700" ph="SELECT * FRO... users" />
+            <marker date="1482520987897" expanded="true" signature="2447:2489" ph="SELECT email... users" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/DB_Fonctions.php">
+    <entry file="file://$PROJECT_DIR$/register.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="29" column="69" lean-forward="false" selection-start-line="29" selection-start-column="69" selection-end-line="29" selection-end-column="69" />
-          <folding>
-            <element signature="e#7#161#0#PHP" expanded="true" />
-            <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#isUserExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#hashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#checkhashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <marker date="1482517917671" expanded="true" signature="823:948" ph="INSERT INTO users... " />
-            <marker date="1482517917671" expanded="true" signature="1214:1252" ph="SELECT * FRO... users" />
-            <marker date="1482517917671" expanded="true" signature="1661:1696" ph="SELECT * FRO... users" />
-            <marker date="1482517917671" expanded="true" signature="2443:2482" ph="SELECT email... users" />
-          </folding>
+        <state relative-caret-position="705">
+          <caret line="47" column="2" lean-forward="true" selection-start-line="47" selection-start-column="2" selection-end-line="47" selection-end-column="2" />
+          <folding />
         </state>
       </provider>
     </entry>

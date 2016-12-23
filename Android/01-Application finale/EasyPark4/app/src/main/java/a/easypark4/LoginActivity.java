@@ -138,12 +138,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
+                        String firstname = user.getString("firstname");
                         String email = user.getString("email");
-                        String created_at = user
-                                .getString("created_at");
+                        String created_at = user.getString("created_at");
 
                         // Inserting row in users table
-                        db.addUser(name, email, uid, created_at);
+                        db.addUser(name, firstname, email, uid, created_at);
 
                         // Launch main activity
                         Intent intent = new Intent(LoginActivity.this,

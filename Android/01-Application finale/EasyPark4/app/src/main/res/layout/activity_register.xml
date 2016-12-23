@@ -23,7 +23,7 @@
         android:layout_alignParentStart="true">
 
         <EditText
-            android:id="@+id/txtRegisterPrenom"
+            android:id="@+id/txtRegisterFirstname"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -35,7 +35,7 @@
             android:textColorHint="#93a0ac" />
 
         <EditText
-            android:id="@+id/txtRegisterNom"
+            android:id="@+id/txtRegisterName"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -46,17 +46,6 @@
             android:textColor="#456"
             android:textColorHint="#93a0ac" />
 
-        <EditText
-            android:id="@+id/txtRegisterLogin"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#eef7ff"
-            android:hint="@string/hint_username"
-            android:padding="10dp"
-            android:inputType="textCapWords"
-            android:textColor="#456"
-            android:textColorHint="#93a0ac" />
         <EditText
             android:id="@+id/txtRegisterEmail"
             android:layout_width="fill_parent"
