@@ -1,5 +1,4 @@
 <?php
-
 require_once 'include/DB_Fonctions.php';
 $db = new DB_Functions();
 

@@ -2,6 +2,7 @@
 
 /**
  * @author Ravi Tamada
+ * @author Antoine MAYSLICH
  * @link http://www.androidhive.info/2012/01/android-login-and-registration-with-php-mysql-and-sqlite/ Complete tutorial
  *
  */
@@ -23,6 +24,7 @@ class DB_Functions {
 
     }
 
+    // --------------- USER MANAGMENT ----------------
     /**
      * Storing new user
      * returns user details
@@ -126,6 +128,56 @@ class DB_Functions {
         $hash = base64_encode(sha1($password . $salt, true) . $salt);
 
         return $hash;
+    }
+
+
+    // --------------- BEACON MANAGMENT ----------------
+    /**
+     * Check Beacon is existed or not
+     *
+     */
+    public function isBeaconExisted($id){
+        $stmt = $this->conn->prepare("SELECT unique_id from ep_beacon WHERE unique_id = ?");
+
+        $stmt->bind_param('s', $id);
+
+        $stmt->execute();
+
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            // user existed
+            $stmt->close();
+            return true;
+        } else {
+            // user not existed
+            $stmt->close();
+            return false;
+        }
+    }
+
+    /**
+     * Storing new Beacon
+     * return beacon details
+     */
+    public function storeBeacon($id, $longitude, $latitude) {
+        $stmt = $this->conn->prepare("INSERT INTO ep_beacon(unique_id, longitude, latitude, created_at) VALUES(?, ?, ?, NOW())");
+        $stmt->bind_param("sdd", $id, $longitude, $latitude);
+        $result = $stmt->execute();
+        $stmt->close();
+
+        // check for successful store
+        if (!($result)) {
+            $stmt = $this->conn->prepare("SELECT * FROM ep_users WHERE id = ?");
+            $stmt->bind_param("s", $id);
+            $stmt->execute();
+            $beacon = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+
+            return $beacon;
+        } else {
+            return false;
+        }
     }
 
 }
