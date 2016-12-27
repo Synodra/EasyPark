@@ -24,14 +24,29 @@ if (isset($_POST['minLat']) && isset($_POST['maxLat']) && isset($_POST['minLng']
     $beacon = $db->getBeaconByLocation($minLat, $maxLat, $minLng, $maxLng);
 
     if ($beacon != false) {
+        // GeoJson entete
         $response["type"] = "MultiPoint";
-        $response["coordinates"] = $beacon;
+        // Creation d'un array pour regrouper tous les balises
+        $list = array();
+        // regroupement de toutes les balises dans un array
+        for ($i=0; $i<sizeof($beacon); $i++) {
+            $device = $beacon[$i];
+            $list[] = array($device[2], $device[1]);
+        }
+        // inclusion de l'array dans le JSON
+        $response["coordinates"] = $list;
+        // création du JSON
         echo json_encode($response);
     } else {
         // user is not found with the credentials
         $response["error"] = TRUE;
-        $response["error_msg"] = "Wrong parameters. Please try again!";
+        $response["error_msg"] = "No beacon found. Please try again!";
         echo json_encode($response);
     }
+} else {
+    // user is not found with the credentials
+    $response["error"] = TRUE;
+    $response["error_msg"] = "Wrong parameters. Please try again!";
+    echo json_encode($response);
 }
 ?>
