@@ -15,6 +15,11 @@ $response = array("error" => FALSE);
 if (isset($_POST['minLat']) && isset($_POST['maxLat']) && isset($_POST['minLng']) && isset($_POST['maxLng']) && isset($_POST['other'])) {
 
     // receiving the post params
+    /*$minLat = doubleval($_POST['minLat']);
+    $maxLat = doubleval($_POST['maxLat']);
+    $minLng = doubleval($_POST['minLng']);
+    $maxLng = doubleval($_POST['maxLng']);*/
+
     $minLat = $_POST['minLat'];
     $maxLat = $_POST['maxLat'];
     $minLng = $_POST['minLng'];

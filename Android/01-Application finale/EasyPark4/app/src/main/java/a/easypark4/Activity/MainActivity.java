@@ -2,6 +2,7 @@ package a.easypark4.Activity;
 
 // Importation des librairies
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,6 +33,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -43,11 +49,22 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.maps.android.geojson.GeoJsonLayer;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import a.easypark4.LoginActivity;
 import a.easypark4.R;
+import a.easypark4.app.AppConfig;
+import a.easypark4.app.AppController;
 import a.easypark4.helper.Marker;
 import a.easypark4.helper.SQLiteHandler;
 import a.easypark4.helper.SessionManager;
@@ -60,6 +77,7 @@ public class MainActivity extends AppCompatActivity
     private TextView txtName;           // Déclaration de la zone de text name dans le header
     private TextView txtEmail;          // Déclaration de la zone de text email dans le header
     private View navHeaderView;         // Déclaration du View pour la NavBar
+    private ProgressDialog pDialog;
 
     // Map variables
     private static int PERMISSION_GPS = 100;
@@ -70,8 +88,8 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient;
     private Marker maPosition;
 
-    private Button btnLocation;
-    private View app_bar_main;
+    private FloatingActionButton balise;
+    private GeoJsonLayer beaconLayer;
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -95,6 +113,10 @@ public class MainActivity extends AppCompatActivity
 
         // Fetching user details from sqlite
         HashMap<String, String> user = db.getUserDetails();
+
+        // Progress dialog
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
 
         //endregion
 
@@ -154,7 +176,7 @@ public class MainActivity extends AppCompatActivity
 
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(60 * 1000)        // 60 seconds, in milliseconds
+                .setInterval(20 * 1000)        // 60 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
         // Check if the given provider is enabled
@@ -174,7 +196,7 @@ public class MainActivity extends AppCompatActivity
 
         //endregion
 
-        FloatingActionButton balise = (FloatingActionButton) findViewById(R.id.btnfloatLocalisation);
+        balise = (FloatingActionButton) findViewById(R.id.btnfloatLocalisation);
         balise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,7 +204,8 @@ public class MainActivity extends AppCompatActivity
                         "Activation des balises", Toast.LENGTH_LONG)
                         .show();
 
-
+                LatLngBounds bounds = mGoogleMap.getProjection().getVisibleRegion().latLngBounds;
+                getBeacon(bounds, mGoogleMap);
 
             }
         });
@@ -418,6 +441,89 @@ public class MainActivity extends AppCompatActivity
 
     //endregion
 
+    //region LIST_BEACON
+
+    /**
+     * Retourne un JSON contenant la position des balise en fonction de la position de la caméra
+     * @param bounds
+     * @return json
+     */
+    public void getBeacon(final LatLngBounds bounds, final GoogleMap gMap) {
+        String tag_string_req = "req_list_beacon";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_LIST_BEACON, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response){
+                Log.d(TAG, "Login Response: " + response);
+                hideDialog();
+
+                try{
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+
+                    // Check for error node in json
+                    if (!error) {
+                        beaconLayer = new GeoJsonLayer(mGoogleMap, jObj);
+                        if(!beaconLayer.isLayerOnMap()) {
+                            beaconLayer.removeLayerFromMap();
+                        }
+                        beaconLayer.addLayerToMap();
+
+                    } else {
+                        // Error in login. Get the error message
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    // JSON error
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Login Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<>();
+                /*params.put("minLat", String.valueOf(bounds.southwest.latitude));
+                params.put("maxLat", String.valueOf(bounds.northeast.latitude));
+                params.put("minLng", String.valueOf(bounds.northeast.longitude));
+                params.put("maxLng", String.valueOf(bounds.southwest.longitude));*/
+                params.put("minLat", String.valueOf(48));
+                params.put("maxLat", String.valueOf(49));
+                params.put("minLng", String.valueOf(2));
+                params.put("maxLng", String.valueOf(3));
+                params.put("other", "test");
+
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
+
+
+    //endregion
 
     @Override
     public void onRequestPermissionsResult(int requestcode, @NonNull String [] permissions, @NonNull int[] grantResults){
