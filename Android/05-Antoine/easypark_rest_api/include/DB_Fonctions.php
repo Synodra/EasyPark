@@ -134,23 +134,25 @@ class DB_Functions {
     // --------------- BEACON MANAGMENT ----------------
     /**
      * Check Beacon is existed or not
-     *
+     * Compare ID, longitude and latitude
+     * @author Antoine MAYSLICH
+     * @return true, false
      */
-    public function isBeaconExisted($id){
-        $stmt = $this->conn->prepare("SELECT unique_id from ep_beacon WHERE unique_id = ?");
+    public function isBeaconExisted($id, $longitude, $latitude){
+        $stmt = $this->conn->prepare("SELECT * FROM ep_beacon WHERE unique_id = ? OR (longitude = ? AND latitude = ?)");
 
-        $stmt->bind_param('s', $id);
+        $stmt->bind_param('sdd', $id, $longitude, $latitude);
 
         $stmt->execute();
 
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            // user existed
+            // beacon existed
             $stmt->close();
             return true;
         } else {
-            // user not existed
+            // beacon not existed
             $stmt->close();
             return false;
         }
@@ -159,6 +161,8 @@ class DB_Functions {
     /**
      * Storing new Beacon
      * return beacon details
+     * @author Antoine MAYSLICH
+     * @@return flase, $beacon parameters
      */
     public function storeBeacon($id, $longitude, $latitude) {
         $stmt = $this->conn->prepare("INSERT INTO ep_beacon(unique_id, longitude, latitude, created_at) VALUES(?, ?, ?, NOW())");
@@ -167,8 +171,8 @@ class DB_Functions {
         $stmt->close();
 
         // check for successful store
-        if (!($result)) {
-            $stmt = $this->conn->prepare("SELECT * FROM ep_users WHERE id = ?");
+        if ($result) {
+            $stmt = $this->conn->prepare("SELECT * FROM ep_beacon WHERE unique_id = ?");
             $stmt->bind_param("s", $id);
             $stmt->execute();
             $beacon = $stmt->get_result()->fetch_assoc();
@@ -178,6 +182,29 @@ class DB_Functions {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Searching for all beacon in the area
+     * return the list of all the beacon
+     */
+    public function getBeaconByLocation($minLat, $maxLat, $minLng, $maxLng) {
+        $stmt = $this->conn->prepare("SELECT unique_id, latitude, longitude FROM ep_beacon WHERE (latitude BETWEEN ? AND ?) AND (longitude BETWEEN  ? AND ?);");
+        $stmt->bind_param("dddd",$minLat, $maxLat, $minLng, $maxLng);
+        $stmt->execute();
+
+        $result = array();
+
+        if($stmt->num_rows > 0) {
+            // outpu data of each row
+            while($row = $stmt->get_result()->fetch_assoc()) {
+                $result = array($row["latitude"], $row["longitude"]);
+            }
+        }
+
+        $stmt->close();
+
+        return $result;
     }
 
 }

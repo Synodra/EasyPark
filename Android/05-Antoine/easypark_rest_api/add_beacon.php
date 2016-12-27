@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author Antoine MAYSLICH
+ */
 require_once 'include/DB_Fonctions.php';
 $db = new DB_Functions();
 
@@ -13,10 +16,10 @@ if (isset($_POST['beacon_id']) && isset($_POST['longitude']) && isset($_POST['la
     $latitude = $_POST['latitude'];
 
     // check if user is already existed with the same email
-    if ($db->isBeaconExisted($id)) {
+    if ($db->isBeaconExisted($id, $longitude, $latitude)) {
         // user already existed
         $response["error"] = TRUE;
-        $response["error_msg"] = "Beacon already existed with " . $id;
+        $response["error_msg"] = "Beacon already existed with " . $id . " or the same GPS coordonate ";
         echo json_encode($response);
     } else {
         // create a new user

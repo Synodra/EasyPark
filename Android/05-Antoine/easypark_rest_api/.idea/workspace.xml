@@ -29,8 +29,8 @@
       <file leaf-file-name="register.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/register.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="26" lean-forward="false" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
+            <state relative-caret-position="60">
+              <caret line="4" column="7" lean-forward="false" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -39,8 +39,8 @@
       <file leaf-file-name="add_beacon.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/add_beacon.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="19" lean-forward="false" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="19" />
+            <state relative-caret-position="180">
+              <caret line="12" column="4" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="15" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -49,33 +49,48 @@
       <file leaf-file-name="login.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/login.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
+            <state relative-caret-position="285">
+              <caret line="19" column="46" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="46" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DB_Fonctions.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="list_beacon.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/list_beacon.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="28" column="36" lean-forward="false" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
+              <folding>
+                <element signature="e#6#90#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DB_Fonctions.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/DB_Fonctions.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="28" lean-forward="true" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+            <state relative-caret-position="616">
+              <caret line="198" column="37" lean-forward="false" selection-start-line="198" selection-start-column="37" selection-end-line="198" selection-end-column="37" />
               <folding>
                 <element signature="e#7#189#0#PHP" expanded="true" />
                 <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
+                <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
                 <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
                 <element signature="n#isUserExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
                 <element signature="n#hashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
                 <element signature="n#checkhashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-                <element signature="n#isBeaconExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
-                <marker date="1482624052942" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
-                <marker date="1482624052942" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
-                <marker date="1482624052942" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
-                <marker date="1482624052942" expanded="true" signature="2530:2572" ph="SELECT email... users" />
-                <marker date="1482624052942" expanded="true" signature="3757:3808" ph="SELECT uniqu... ep_beacon" />
-                <marker date="1482624052942" expanded="true" signature="4317:4405" ph="INSERT INTO ep_beacon... " />
-                <marker date="1482624052942" expanded="true" signature="4638:4673" ph="SELECT * FRO... ep_users" />
+                <marker date="1482843361017" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
+                <marker date="1482843361017" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
+                <marker date="1482843361017" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
+                <marker date="1482843361017" expanded="true" signature="2530:2572" ph="SELECT email... users" />
+                <marker date="1482843361017" expanded="true" signature="3874:3953" ph="SELECT * FRO... ep_beacon" />
+                <marker date="1482843361017" expanded="true" signature="3953:3955" ph="SELECT * FRO... ep_beacon" />
+                <marker date="1482843361017" expanded="true" signature="4324:4464" ph="/** * Storin... " />
+                <marker date="1482843361017" expanded="true" signature="4565:4653" ph="INSERT INTO ep_beacon... " />
+                <marker date="1482843361017" expanded="true" signature="4883:4926" ph="SELECT * FRO... ep_beacon" />
+                <marker date="1482843361017" expanded="true" signature="5393:5511" ph="SELECT uniqu... ep_beacon" />
               </folding>
             </state>
           </provider>
@@ -94,6 +109,7 @@
         <option value="$PROJECT_DIR$/register.php" />
         <option value="$PROJECT_DIR$/add_beacon.php" />
         <option value="$PROJECT_DIR$/include/DB_Fonctions.php" />
+        <option value="$PROJECT_DIR$/list_beacon.php" />
       </list>
     </option>
   </component>
@@ -105,8 +121,9 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
+    <option name="x" value="960" />
     <option name="y" value="30" />
-    <option name="width" value="1920" />
+    <option name="width" value="960" />
     <option name="height" value="1050" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -278,7 +295,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25444000" />
+    <option name="totallyTimeSpent" value="31887000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -290,10 +307,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="30" width="1920" height="1050" extended-state="6" />
+    <frame x="960" y="30" width="960" height="1050" extended-state="4" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09166667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21354167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -321,7 +338,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="5" />
+      <option name="time" value="6" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -357,18 +374,21 @@
           <folding>
             <element signature="e#7#189#0#PHP" expanded="true" />
             <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
+            <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#isUserExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#hashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#checkhashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#isBeaconExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <marker date="1482624052942" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
-            <marker date="1482624052942" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="2530:2572" ph="SELECT email... users" />
-            <marker date="1482624052942" expanded="true" signature="3757:3808" ph="SELECT uniqu... ep_beacon" />
-            <marker date="1482624052942" expanded="true" signature="4317:4405" ph="INSERT INTO ep_beacon... " />
-            <marker date="1482624052942" expanded="true" signature="4638:4673" ph="SELECT * FRO... ep_users" />
+            <marker date="1482843361017" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
+            <marker date="1482843361017" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="2530:2572" ph="SELECT email... users" />
+            <marker date="1482843361017" expanded="true" signature="3874:3953" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="3953:3955" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="4324:4464" ph="/** * Storin... " />
+            <marker date="1482843361017" expanded="true" signature="4565:4653" ph="INSERT INTO ep_beacon... " />
+            <marker date="1482843361017" expanded="true" signature="4883:4926" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="5393:5511" ph="SELECT uniqu... ep_beacon" />
           </folding>
         </state>
       </provider>
@@ -404,18 +424,21 @@
           <folding>
             <element signature="e#7#189#0#PHP" expanded="true" />
             <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
+            <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#isUserExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#hashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#checkhashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#isBeaconExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <marker date="1482624052942" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
-            <marker date="1482624052942" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="2530:2572" ph="SELECT email... users" />
-            <marker date="1482624052942" expanded="true" signature="3757:3808" ph="SELECT uniqu... ep_beacon" />
-            <marker date="1482624052942" expanded="true" signature="4317:4405" ph="INSERT INTO ep_beacon... " />
-            <marker date="1482624052942" expanded="true" signature="4638:4673" ph="SELECT * FRO... ep_users" />
+            <marker date="1482843361017" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
+            <marker date="1482843361017" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="2530:2572" ph="SELECT email... users" />
+            <marker date="1482843361017" expanded="true" signature="3874:3953" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="3953:3955" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="4324:4464" ph="/** * Storin... " />
+            <marker date="1482843361017" expanded="true" signature="4565:4653" ph="INSERT INTO ep_beacon... " />
+            <marker date="1482843361017" expanded="true" signature="4883:4926" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="5393:5511" ph="SELECT uniqu... ep_beacon" />
           </folding>
         </state>
       </provider>
@@ -517,18 +540,21 @@
           <folding>
             <element signature="e#7#189#0#PHP" expanded="true" />
             <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
+            <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#isUserExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#hashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#checkhashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#isBeaconExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <marker date="1482624052942" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
-            <marker date="1482624052942" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="2530:2572" ph="SELECT email... users" />
-            <marker date="1482624052942" expanded="true" signature="3757:3808" ph="SELECT uniqu... ep_beacon" />
-            <marker date="1482624052942" expanded="true" signature="4317:4405" ph="INSERT INTO ep_beacon... " />
-            <marker date="1482624052942" expanded="true" signature="4638:4673" ph="SELECT * FRO... ep_users" />
+            <marker date="1482843361017" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
+            <marker date="1482843361017" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="2530:2572" ph="SELECT email... users" />
+            <marker date="1482843361017" expanded="true" signature="3874:3953" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="3953:3955" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="4324:4464" ph="/** * Storin... " />
+            <marker date="1482843361017" expanded="true" signature="4565:4653" ph="INSERT INTO ep_beacon... " />
+            <marker date="1482843361017" expanded="true" signature="4883:4926" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="5393:5511" ph="SELECT uniqu... ep_beacon" />
           </folding>
         </state>
       </provider>
@@ -557,18 +583,21 @@
           <folding>
             <element signature="e#7#189#0#PHP" expanded="true" />
             <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
+            <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#isUserExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#hashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#checkhashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#isBeaconExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <marker date="1482624052942" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
-            <marker date="1482624052942" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="2530:2572" ph="SELECT email... users" />
-            <marker date="1482624052942" expanded="true" signature="3757:3808" ph="SELECT uniqu... ep_beacon" />
-            <marker date="1482624052942" expanded="true" signature="4317:4405" ph="INSERT INTO ep_beacon... " />
-            <marker date="1482624052942" expanded="true" signature="4638:4673" ph="SELECT * FRO... ep_users" />
+            <marker date="1482843361017" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
+            <marker date="1482843361017" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="2530:2572" ph="SELECT email... users" />
+            <marker date="1482843361017" expanded="true" signature="3874:3953" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="3953:3955" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="4324:4464" ph="/** * Storin... " />
+            <marker date="1482843361017" expanded="true" signature="4565:4653" ph="INSERT INTO ep_beacon... " />
+            <marker date="1482843361017" expanded="true" signature="4883:4926" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="5393:5511" ph="SELECT uniqu... ep_beacon" />
           </folding>
         </state>
       </provider>
@@ -597,18 +626,21 @@
           <folding>
             <element signature="e#7#189#0#PHP" expanded="true" />
             <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
+            <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#isUserExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#hashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#checkhashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#isBeaconExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <marker date="1482624052942" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
-            <marker date="1482624052942" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="2530:2572" ph="SELECT email... users" />
-            <marker date="1482624052942" expanded="true" signature="3757:3808" ph="SELECT uniqu... ep_beacon" />
-            <marker date="1482624052942" expanded="true" signature="4317:4405" ph="INSERT INTO ep_beacon... " />
-            <marker date="1482624052942" expanded="true" signature="4638:4673" ph="SELECT * FRO... ep_users" />
+            <marker date="1482843361017" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
+            <marker date="1482843361017" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="2530:2572" ph="SELECT email... users" />
+            <marker date="1482843361017" expanded="true" signature="3874:3953" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="3953:3955" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="4324:4464" ph="/** * Storin... " />
+            <marker date="1482843361017" expanded="true" signature="4565:4653" ph="INSERT INTO ep_beacon... " />
+            <marker date="1482843361017" expanded="true" signature="4883:4926" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="5393:5511" ph="SELECT uniqu... ep_beacon" />
           </folding>
         </state>
       </provider>
@@ -655,50 +687,63 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="23" lean-forward="true" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.php" />
-    <entry file="file://$PROJECT_DIR$/register.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="26" lean-forward="false" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/add_beacon.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="19" lean-forward="false" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="19" />
+        <state relative-caret-position="180">
+          <caret line="12" column="4" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="15" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/register.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="7" lean-forward="false" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="46" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/DB_Fonctions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="28" lean-forward="true" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+        <state relative-caret-position="616">
+          <caret line="198" column="37" lean-forward="false" selection-start-line="198" selection-start-column="37" selection-end-line="198" selection-end-column="37" />
           <folding>
             <element signature="e#7#189#0#PHP" expanded="true" />
             <element signature="n#__destruct#0;n#DB_Functions#0;n#!!top" expanded="false" />
+            <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#isUserExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#hashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#checkhashSSHA#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <element signature="n#isBeaconExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
-            <marker date="1482624052942" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
-            <marker date="1482624052942" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
-            <marker date="1482624052942" expanded="true" signature="2530:2572" ph="SELECT email... users" />
-            <marker date="1482624052942" expanded="true" signature="3757:3808" ph="SELECT uniqu... ep_beacon" />
-            <marker date="1482624052942" expanded="true" signature="4317:4405" ph="INSERT INTO ep_beacon... " />
-            <marker date="1482624052942" expanded="true" signature="4638:4673" ph="SELECT * FRO... ep_users" />
+            <marker date="1482843361017" expanded="true" signature="906:1031" ph="INSERT INTO users... " />
+            <marker date="1482843361017" expanded="true" signature="1298:1336" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="1745:1783" ph="SELECT * FRO... users" />
+            <marker date="1482843361017" expanded="true" signature="2530:2572" ph="SELECT email... users" />
+            <marker date="1482843361017" expanded="true" signature="3874:3953" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="3953:3955" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="4324:4464" ph="/** * Storin... " />
+            <marker date="1482843361017" expanded="true" signature="4565:4653" ph="INSERT INTO ep_beacon... " />
+            <marker date="1482843361017" expanded="true" signature="4883:4926" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1482843361017" expanded="true" signature="5393:5511" ph="SELECT uniqu... ep_beacon" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/list_beacon.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="36" lean-forward="false" selection-start-line="28" selection-start-column="36" selection-end-line="28" selection-end-column="36" />
+          <folding>
+            <element signature="e#6#90#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

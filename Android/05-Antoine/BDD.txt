@@ -16,8 +16,10 @@ create table ep_users(
 
 CREATE TABLE ep_beacon
 (
-    id INT PRIMARY KEY,
-    unique_id VARCHAR(23) NOT NULL,
+    id int(11) PRIMARY KEY auto_increment,
+    unique_id VARCHAR(23) NOT NULL unique,
     longitude DOUBLE NOT NULL,
-    latitude DOUBLE NOT NULL
+    latitude DOUBLE NOT NULL,
+    created_at datetime,
+    updated_at datetime null
 );
