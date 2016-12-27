@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
-                        String firstname = "antoine";//user.getString("firstname");
+                        String firstname = user.getString("firstname");
                         String email = user.getString("email");
                         String created_at = user.getString("created_at");
 
