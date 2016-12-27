@@ -52,6 +52,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.VisibleRegion;
+import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.geojson.GeoJsonLayer;
 
 import org.json.JSONArray;
@@ -204,11 +206,12 @@ public class MainActivity extends AppCompatActivity
                         "Activation des balises", Toast.LENGTH_LONG)
                         .show();
 
-                LatLngBounds bounds = mGoogleMap.getProjection().getVisibleRegion().latLngBounds;
-                getBeacon(bounds, mGoogleMap);
+                VisibleRegion visibleregion = mGoogleMap.getProjection().getVisibleRegion();
+                getBeacon(visibleregion, mGoogleMap);
 
             }
         });
+
     }
 
     //region EVENT_INTERFACE
@@ -445,10 +448,10 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Retourne un JSON contenant la position des balise en fonction de la position de la caméra
-     * @param bounds
+     * @param visibleregion
      * @return json
      */
-    public void getBeacon(final LatLngBounds bounds, final GoogleMap gMap) {
+    public void getBeacon(final VisibleRegion visibleregion, final GoogleMap gMap) {
         String tag_string_req = "req_list_beacon";
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
@@ -498,14 +501,10 @@ public class MainActivity extends AppCompatActivity
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<>();
-                /*params.put("minLat", String.valueOf(bounds.southwest.latitude));
-                params.put("maxLat", String.valueOf(bounds.northeast.latitude));
-                params.put("minLng", String.valueOf(bounds.northeast.longitude));
-                params.put("maxLng", String.valueOf(bounds.southwest.longitude));*/
-                params.put("minLat", String.valueOf(48));
-                params.put("maxLat", String.valueOf(49));
-                params.put("minLng", String.valueOf(2));
-                params.put("maxLng", String.valueOf(3));
+                params.put("minLat", String.valueOf(visibleregion.nearRight.latitude));
+                params.put("maxLat", String.valueOf(visibleregion.farRight.latitude));
+                params.put("minLng", String.valueOf(visibleregion.nearLeft.longitude));
+                params.put("maxLng", String.valueOf(visibleregion.nearRight.longitude));
                 params.put("other", "test");
 
                 return params;
