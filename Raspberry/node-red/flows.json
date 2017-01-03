@@ -81,6 +81,28 @@
         "name": "NodesLog"
     },
     {
+        "id": "508264cf.3971fc",
+        "type": "MySQLdatabase",
+        "z": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "easypark_nodes",
+        "tz": ""
+    },
+    {
+        "id": "bec7f7c7.c76748",
+        "type": "serial-port",
+        "serialport": "/dev/ttyUSB0",
+        "serialbaud": "57600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "false"
+    },
+    {
         "id": "c2404f55.b7673",
         "type": "debug",
         "z": "a8e31d6.a2045e",
@@ -213,14 +235,42 @@
         "id": "de6889bc.89cee8",
         "type": "function",
         "z": "1007006e.9af9f",
-        "name": "MongoDB_update",
-        "func": "var newMsg = {};\nnewMsg.query = { '_id' : msg.payload[1].wid };\nnewMsg.payload = { $set:\n                    {\n                        'ps' : msg.payload[0].ps,\n                        'bat': msg.payload[0].bat\n                    } \n                 };\nnewMsg.limit = 1;\nnewMsg.skip = 0;\nreturn newMsg;",
+        "name": "MySQL_update",
+        "func": "var newMsg = {};\n\nnewMsg.topic = 'UPDATE ESIGELEC SET node_ps='+msg.payload[0].ps+', node_bat='+msg.payload[0].bat+' WHERE node_id= \"'+msg.payload[1].wid+'\"';\nreturn newMsg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 572.2000274658203,
-        "y": 354.2000274658203,
+        "x": 408.2000274658203,
+        "y": 320.2000274658203,
         "wires": [
-            []
+            [
+                "256c71a4.2e689e"
+            ]
         ]
+    },
+    {
+        "id": "256c71a4.2e689e",
+        "type": "mysql",
+        "z": "1007006e.9af9f",
+        "mydb": "508264cf.3971fc",
+        "name": "",
+        "x": 600.5000762939453,
+        "y": 319.40003967285156,
+        "wires": [
+            [
+                "8ca657ba.3a58e8"
+            ]
+        ]
+    },
+    {
+        "id": "8ca657ba.3a58e8",
+        "type": "debug",
+        "z": "1007006e.9af9f",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 792.5000152587891,
+        "y": 320.59999084472656,
+        "wires": []
     }
 ]
