@@ -1,3 +1,5 @@
+// name: MsgTreat
+// outputs: 1
 //slpit the msg
 var FT, NB, SID, WID, FSeq, S1, S2, S3, S4, S5;
 var MODE, PS, MF, MFX, MFY, MFZ, TEMP, BAT;
