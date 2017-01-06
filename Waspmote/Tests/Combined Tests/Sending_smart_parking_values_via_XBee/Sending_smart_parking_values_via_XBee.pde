@@ -46,7 +46,7 @@
 char MAC_ADDRESS[]="0013A2004125EAFC";
 
 // Node identifier
-char NODE_ID[]="N01";
+char NODE_ID[]="1";
 
 // Sensor variables
 int temperature;
