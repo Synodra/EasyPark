@@ -19,5 +19,5 @@ Fichiers de configuration de la raspberry. Les éléments requise pour la raspbe
 D'ailleur, il sert à la base de donnée pour le site web d'administration.
 6. phpMyAdmin l'application Web de gestion pour MySQL:
 ![alt tag](https://github.com/mdj2812/EasyPark/blob/master/Raspberry/phpMyAdmin_MySQL_easypark_nodes.png)
-7. Apache2, PHP5 et WordPress. Ils sont nécessaires pour le site web. Le site contient les informations de chaque node et une lien vers le dashboard de Grafana du node log respective.
-![alt tag](https://github.com/mdj2812/EasyPark/blob/master/Raspberry/WP_page_nodes.png)
+7. Apache2, PHP5. Ils sont nécessaires pour le site web. Le site contient les informations de chaque node et une lien vers le dashboard de Grafana du node log respective.
+![alt tag](https://github.com/mdj2812/EasyPark/blob/master/Raspberry/Admin_Site.png)
