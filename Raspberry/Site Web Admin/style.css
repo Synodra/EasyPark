@@ -1,0 +1,21 @@
+table {
+	border-collapse:collapse;
+}
+th {
+	background-color:silver;
+}
+th, td {
+	border:1px solid black;
+}
+td {
+	text-align:center;
+}
+caption {
+	font-weight:bold
+}
+#delete {
+	width:100%;
+}
+.deleteRowButton {
+	border-style:none;
+}
