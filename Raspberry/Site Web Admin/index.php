@@ -19,11 +19,13 @@
 			<table id="table">
 			</table>
 		</p>
-	
+
 		<script>
 		// show all contents in MySQL database
 		selectRequest();
-		
+		document.getElementById('editForm').style.display = 'none';
+	
+		/********* Button functions **********/
 		function addButton(){
 			var node_id = document.getElementById('id').value;
 			var node_latitude = document.getElementById('latitude').value;
@@ -51,12 +53,71 @@
 			if(result){
 				deleteRequest(node_id);
 			}
+
+			selectRequest();
 		}
-		
+				
+		function editButton(currentRow){
+			var tbl= document.getElementById("table");
+			var tr=tbl.rows[currentRow];
+			var cellsEditable = document.getElementsByClassName("cellsEditable");
+			var Buttons = document.getElementsByClassName("buttonCells");
+			var i;
+
+			for(i=2*currentRow-2;i<2*currentRow;i++)
+			{
+				cellsEditable[i].readOnly=false;
+				cellsEditable[i].style.backgroundColor = "#cc0";
+			}
+
+			for(i=1;i<tbl.rows.length;i++)
+			{
+				tbl.rows[i].deleteCell(7);
+				tbl.rows[i].deleteCell(6);
+			}
+			
+			var change = document.createElement("INPUT");
+			change.setAttribute("type", "submit");
+			change.addEventListener('click',function(){
+				changeButton(currentRow);
+			});
+			change.value="Update";
+			change.class="buttons";
+
+			var cancel = document.createElement("INPUT");
+			cancel.setAttribute("type", "reset");
+			cancel.onclick=cancelButton;
+			cancel.value="Cancel";
+			cancel.class="buttons";
+			
+			var changeCell = tr.insertCell(6);
+			changeCell.style.border = "none";
+			changeCell.appendChild(change);
+
+			var cancelCell = tr.insertCell(7);
+			cancelCell.style.border = "none";
+			cancelCell.appendChild(cancel);
+			
+		}
+
+		function changeButton(currentRow){
+			var node_id = document.getElementById('table').rows[currentRow].cells[0].innerHTML;
+			var node_latitude = document.getElementById('table').rows[currentRow].cells[1].childNodes[1].value;
+			var node_longitude = document.getElementById('table').rows[currentRow].cells[2].childNodes[1].value;
+
+			updateRequest(node_id, node_latitude, node_longitude);
+			selectRequest();
+		}
+
+		function cancelButton(){
+			selectRequest();
+		}
+
 		function refreshButton(){
 			selectRequest();
 		}
-		
+
+		/********* Request functions **********/
 		function insertRequest(node_id, node_latitude, node_longitude){
 			var ajaxurl = 'nodes.php';
 			var params = 'action=insert&node_id='+node_id+'&node_latitude='+node_latitude+'&node_longitude='+node_longitude;
@@ -86,7 +147,22 @@
 			}
 			xhr.send(params);
 		}
-		
+
+		function updateRequest(node_id, node_latitude, node_longitude){
+			var ajaxurl = 'nodes.php';
+			var params = 'action=update&node_id='+node_id+'&node_latitude='+node_latitude+'&node_longitude='+node_longitude;
+
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', ajaxurl, true);
+			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			xhr.openreadystatechange = function(){
+				if(this.readyState == 4 && this.status == 200){
+					alert(http.responseText);
+				}
+			}
+			xhr.send(params);
+		}
+
 		function selectRequest(node_id){
 			var ajaxurl = 'nodes.php';
 			var xhr = new XMLHttpRequest();

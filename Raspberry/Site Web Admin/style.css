@@ -8,14 +8,24 @@ th, td {
 	border:1px solid black;
 }
 td {
+	font-size: 100%;
 	text-align:center;
+	font-weight:normal;
 }
 caption {
 	font-weight:bold
 }
-#delete {
+.buttons {
 	width:100%;
 }
-.deleteRowButton {
+
+.buttonCells {
 	border-style:none;
+}
+.cellsEditable {
+	border: none;
+	box-sizing: border-box;
+	font-size: 100%;
+	text-align:center;
+	font-weight:normal;
 }

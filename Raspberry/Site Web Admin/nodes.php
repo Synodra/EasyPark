@@ -14,6 +14,9 @@ switch($method){
 			case 'delete':
 				deleteRow($_POST['node_id']);
 				break;
+			case 'update':
+				updateRow($_POST['node_id'],$_POST['node_latitude'],$_POST['node_longitude']);
+				break;
 			default:
 				break;
 		}
@@ -38,7 +41,8 @@ function add($id,$latitude,$longitude){
 
 	$insertsql = "INSERT INTO ESIGELEC (node_id, node_latitude, node_longitude) VALUES($id, $latitude, $longitude);";
 	$result = $conn->query($insertsql);
-
+	echo $result;
+		
 	$conn->close();
 }
 
@@ -54,6 +58,23 @@ function deleteRow($id){
 
 	$deletesql = "DELETE FROM ESIGELEC WHERE node_id=$id;";
 	$result = $conn->query($deletesql);
+
+	$conn->close();
+}
+
+function updateRow($id,$latitude,$longitude){
+	global $servername, $username, $password, $dbname;
+	
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	} 
+
+
+	$insertsql = "UPDATE ESIGELEC SET node_latitude=$latitude, node_longitude=$longitude WHERE node_id=$id;";
+	$result = $conn->query($insertsql);
 
 	$conn->close();
 }
@@ -92,15 +113,16 @@ function show(){
 		while($row = $result->fetch_assoc()) {
 			$currentRow++;
 			
-			echo 	'<tr>
+			echo 	'<form class="row">
+					<tr>
 					  <td>
 						'.$row['node_id'].'
 					  </td>
 					  <td>
-						'.$row['node_latitude'].'
+						<input type="text" class="cellsEditable" value='.$row['node_latitude'].' readonly/>
 					  </td>
 					  <td>
-						'.$row['node_longitude'].'
+						<input type="text" class="cellsEditable" value='.$row['node_longitude'].' readonly/>
 					  </td>
 					  <td>
 						'.$row['node_bat'].'
@@ -111,12 +133,14 @@ function show(){
 					  <td>
 						'.$row["node_last_update"].'
 					  </td>
-					  <td class="deleteRowButton">
-						<form>
-							<input type="submit" id="delete" value="Delete" onclick="return deleteButton('.$currentRow.');"/>
-						</form>
+					  <td class="buttonCells">
+						<input type="submit" class="buttons" value="Delete" onclick="return deleteButton('.$currentRow.');"/>
 					  </td>
-					</tr>';
+					  <td class="buttonCells">
+						<input type="submit" class="buttons" value="Edit" onclick="return editButton('.$currentRow.');"/>
+					  </td>
+					</tr>
+				</form>';
 		}
 		echo '</table>';
 		} else {
