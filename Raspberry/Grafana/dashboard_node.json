@@ -1,5 +1,41 @@
 {
-  "id": 1,
+  "__inputs": [
+    {
+      "name": "DS_EASYPARKDB",
+      "label": "EasyParkDB",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "3.1.1"
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
+    }
+  ],
+  "id": null,
   "title": "Node1",
   "tags": [],
   "style": "dark",
@@ -16,7 +52,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "EasyParkDB",
+          "datasource": "${DS_EASYPARKDB}",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -63,7 +99,7 @@
                 },
                 {
                   "params": [
-                    "null"
+                    "none"
                   ],
                   "type": "fill"
                 }
@@ -133,7 +169,7 @@
                 {
                   "key": "wid",
                   "operator": "=",
-                  "value": "N01"
+                  "value": "1"
                 }
               ]
             }
@@ -173,7 +209,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "EasyParkDB",
+          "datasource": "${DS_EASYPARKDB}",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -223,7 +259,7 @@
                 },
                 {
                   "params": [
-                    "null"
+                    "previous"
                   ],
                   "type": "fill"
                 }
@@ -250,7 +286,7 @@
                 {
                   "key": "wid",
                   "operator": "=",
-                  "value": "N01"
+                  "value": "1"
                 }
               ]
             }
@@ -298,7 +334,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "EasyParkDB",
+          "datasource": "${DS_EASYPARKDB}",
           "decimals": null,
           "editable": true,
           "error": false,
@@ -348,7 +384,7 @@
                 },
                 {
                   "params": [
-                    "null"
+                    "none"
                   ],
                   "type": "fill"
                 }
@@ -375,7 +411,7 @@
                 {
                   "key": "wid",
                   "operator": "=",
-                  "value": "N01"
+                  "value": "1"
                 }
               ]
             }
@@ -416,7 +452,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "EasyParkDB",
+          "datasource": "${DS_EASYPARKDB}",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -462,7 +498,7 @@
                 },
                 {
                   "params": [
-                    "null"
+                    "none"
                   ],
                   "type": "fill"
                 }
@@ -489,7 +525,7 @@
                 {
                   "key": "wid",
                   "operator": "=",
-                  "value": "N01"
+                  "value": "1"
                 }
               ]
             }
@@ -536,12 +572,12 @@
       "panels": [
         {
           "columns": [],
-          "datasource": "EasyParkDB",
+          "datasource": "${DS_EASYPARKDB}",
           "editable": true,
           "error": false,
           "fontSize": "100%",
           "id": 2,
-          "interval": ">30s",
+          "interval": ">20s",
           "isNew": true,
           "links": [],
           "pageSize": null,
@@ -578,13 +614,13 @@
               "groupBy": [
                 {
                   "params": [
-                    "30s"
+                    "auto"
                   ],
                   "type": "time"
                 },
                 {
                   "params": [
-                    "null"
+                    "none"
                   ],
                   "type": "fill"
                 }
@@ -707,7 +743,7 @@
                 {
                   "key": "wid",
                   "operator": "=",
-                  "value": "N01"
+                  "value": "1"
                 }
               ]
             }
@@ -721,8 +757,8 @@
     }
   ],
   "time": {
-    "from": "2016-11-09T23:00:00.000Z",
-    "to": "2016-11-10T16:32:29.986Z"
+    "from": "now-3h",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -755,9 +791,9 @@
   "annotations": {
     "list": []
   },
-  "refresh": false,
+  "refresh": "1m",
   "schemaVersion": 12,
-  "version": 21,
+  "version": 33,
   "links": [],
   "gnetId": null
 }

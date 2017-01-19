@@ -81,6 +81,28 @@
         "name": "NodesLog"
     },
     {
+        "id": "508264cf.3971fc",
+        "type": "MySQLdatabase",
+        "z": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "easypark_nodes",
+        "tz": ""
+    },
+    {
+        "id": "bec7f7c7.c76748",
+        "type": "serial-port",
+        "serialport": "/dev/ttyUSB0",
+        "serialbaud": "57600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "false"
+    },
+    {
         "id": "c2404f55.b7673",
         "type": "debug",
         "z": "a8e31d6.a2045e",
@@ -125,7 +147,7 @@
         "type": "function",
         "z": "a8e31d6.a2045e",
         "name": "MsgTreat",
-        "func": "//slpit the msg\nvar FT, NB, SID, WID, FSeq, S1, S2, S3, S4, S5;\nvar MODE, PS, MF, MFX, MFY, MFZ, TEMP, BAT;\nvar outputMsgs = {};\nvar sensors = msg.payload.split(\"#\");\nvar i = 0;\n\nfor (var w in sensors) {\n    switch(i)\n    {\n        case 0:\n            FT = sensors[w];\n            break;\n        case 1:\n            SID = sensors[w];\n            break;\n        case 2:\n            WID = sensors[w];\n            break;\n        case 3:\n            FSeq = sensors[w];\n            break;\n        case 4:\n            S1 = sensors[w];\n            MODE = S1.split(\":\")[1];\n            break;\n        case 5:\n            S2 = sensors[w];\n            PS = parseInt(S2.split(\":\")[1]);\n            break;\n        case 6:\n            S3 = sensors[w];\n            MF = S3.split(\":\")[1];\n            MFX = parseInt(MF.split(\";\")[0]);\n            MFY = parseInt(MF.split(\";\")[1]);\n            MFZ = parseInt(MF.split(\";\")[2]);\n            break;\n        case 7:\n            S4 = sensors[w];\n            TEMP = parseInt(S4.split(\":\")[1]);\n            break;\n        case 8:\n            S5 = sensors[w];\n            BAT = parseInt(S5.split(\":\")[1]);\n            break;\n        default:\n    }\n    i++;\n}\n\noutputMsgs.payload = [  {\n                            ps : PS,\n                            mfx : MFX,\n                            mfy : MFY,\n                            mfz : MFZ,\n                            temp : TEMP, \n                            bat : BAT,\n                        },\n                        {\n                            wid : WID,\n                            mode : MODE\n                        }];\n\noutputMsgs.topic = \"easypark/esigelec/\" + WID;\nreturn [outputMsgs];",
+        "func": "//slpit the msg\nvar FT, NB, SID, WID, FSeq, S1, S2, S3, S4, S5;\nvar MODE, PS, MF, MFX, MFY, MFZ, TEMP, BAT;\nvar outputMsgs = {};\nvar sensors = msg.payload.split(\"#\");\nvar i = 0;\n\nfor (var w in sensors) {\n    switch(i)\n    {\n        case 0:\n            FT = sensors[w];\n            break;\n        case 1:\n            SID = sensors[w];\n            break;\n        case 2:\n            WID = parseInt(sensors[w]);\n            break;\n        case 3:\n            FSeq = sensors[w];\n            break;\n        case 4:\n            S1 = sensors[w];\n            MODE = S1.split(\":\")[1];\n            break;\n        case 5:\n            S2 = sensors[w];\n            PS = parseInt(S2.split(\":\")[1]);\n            break;\n        case 6:\n            S3 = sensors[w];\n            MF = S3.split(\":\")[1];\n            MFX = parseInt(MF.split(\";\")[0]);\n            MFY = parseInt(MF.split(\";\")[1]);\n            MFZ = parseInt(MF.split(\";\")[2]);\n            break;\n        case 7:\n            S4 = sensors[w];\n            TEMP = parseInt(S4.split(\":\")[1]);\n            break;\n        case 8:\n            S5 = sensors[w];\n            BAT = parseInt(S5.split(\":\")[1]);\n            break;\n        default:\n    }\n    i++;\n}\n\noutputMsgs.payload = [  {\n                            ps : PS,\n                            mfx : MFX,\n                            mfy : MFY,\n                            mfz : MFZ,\n                            temp : TEMP, \n                            bat : BAT,\n                        },\n                        {\n                            wid : WID,\n                            mode : MODE\n                        }];\n\noutputMsgs.topic = \"easypark/esigelec/\" + WID;\nreturn [outputMsgs];",
         "outputs": 1,
         "noerr": 0,
         "x": 385.69993591308594,
@@ -143,7 +165,7 @@
         "z": "a8e31d6.a2045e",
         "name": "",
         "topic": "",
-        "payload": "<=>�\u0004#408415792#N01#1#STR:normal#PS:0#MF:361;781;513#IN_TEMP:23#BAT:40#",
+        "payload": "<=>�\u0004#408415792#1#1#STR:normal#PS:0#MF:361;781;513#IN_TEMP:23#BAT:40#",
         "payloadType": "str",
         "repeat": "",
         "crontab": "",
@@ -213,14 +235,106 @@
         "id": "de6889bc.89cee8",
         "type": "function",
         "z": "1007006e.9af9f",
-        "name": "MongoDB_update",
-        "func": "var newMsg = {};\nnewMsg.query = { '_id' : msg.payload[1].wid };\nnewMsg.payload = { $set:\n                    {\n                        'ps' : msg.payload[0].ps,\n                        'bat': msg.payload[0].bat\n                    } \n                 };\nnewMsg.limit = 1;\nnewMsg.skip = 0;\nreturn newMsg;",
+        "name": "MySQL_update",
+        "func": "var newMsg = {};\nvar date;\ndate = new Date();\ndate = date.getUTCFullYear() + '-' +\n    ('00' + (date.getMonth()+1)).slice(-2) + '-' +\n    ('00' + date.getDate()).slice(-2) + ' ' + \n    ('00' + date.getHours()).slice(-2) + ':' + \n    ('00' + date.getMinutes()).slice(-2) + ':' + \n    ('00' + date.getSeconds()).slice(-2);\n\nnewMsg.topic = 'UPDATE ESIGELEC SET node_id='+msg.payload[1].wid+', node_ps='+msg.payload[0].ps+', node_bat='+msg.payload[0].bat+', node_last_update=\"'+date+'\" WHERE node_id= '+msg.payload[1].wid;\nreturn newMsg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 572.2000274658203,
-        "y": 354.2000274658203,
+        "x": 408.2000274658203,
+        "y": 320.2000274658203,
         "wires": [
-            []
+            [
+                "256c71a4.2e689e"
+            ]
+        ]
+    },
+    {
+        "id": "256c71a4.2e689e",
+        "type": "mysql",
+        "z": "1007006e.9af9f",
+        "mydb": "508264cf.3971fc",
+        "name": "",
+        "x": 600.5000762939453,
+        "y": 319.40003967285156,
+        "wires": [
+            [
+                "8ca657ba.3a58e8"
+            ]
+        ]
+    },
+    {
+        "id": "8ca657ba.3a58e8",
+        "type": "debug",
+        "z": "1007006e.9af9f",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 792.5000152587891,
+        "y": 320.59999084472656,
+        "wires": []
+    },
+    {
+        "id": "1151d3e6.ad8fbc",
+        "type": "mysql",
+        "z": "1007006e.9af9f",
+        "mydb": "508264cf.3971fc",
+        "name": "",
+        "x": 514.2000122070312,
+        "y": 470.20001220703125,
+        "wires": [
+            [
+                "6f34d256.9a855c"
+            ]
+        ]
+    },
+    {
+        "id": "d36437cb.b58568",
+        "type": "inject",
+        "z": "1007006e.9af9f",
+        "name": "",
+        "topic": "INSERT INTO ESIGELEC VALUES(DEFAULT, '48.8627', '2.28759', 0, 50);",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 172.50001525878906,
+        "y": 485.00004386901855,
+        "wires": [
+            [
+                "1151d3e6.ad8fbc"
+            ]
+        ]
+    },
+    {
+        "id": "6f34d256.9a855c",
+        "type": "debug",
+        "z": "1007006e.9af9f",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 762.4999847412109,
+        "y": 469.00001525878906,
+        "wires": []
+    },
+    {
+        "id": "a8958d25.26818",
+        "type": "inject",
+        "z": "1007006e.9af9f",
+        "name": "reset auto_increment",
+        "topic": "ALTER TABLE ESIGELEC AUTO_INCREMENT = 1",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 180.50001525878906,
+        "y": 554.9999847412109,
+        "wires": [
+            [
+                "1151d3e6.ad8fbc"
+            ]
         ]
     }
 ]
