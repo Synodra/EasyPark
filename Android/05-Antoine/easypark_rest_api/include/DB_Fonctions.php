@@ -189,7 +189,7 @@ class DB_Functions {
      * return the list of all the beacon
      */
     public function getBeaconByLocation($minLat, $maxLat, $minLng, $maxLng) {
-        $stmt = $this->conn->prepare("SELECT unique_id, latitude, longitude FROM ep_beacon WHERE (latitude BETWEEN ? AND ?) AND (longitude BETWEEN  ? AND ?) AND (node_ps == '0')");
+        $stmt = $this->conn->prepare("SELECT unique_id, latitude, longitude FROM ep_beacon WHERE (latitude BETWEEN ? AND ?) AND (longitude BETWEEN  ? AND ?) AND (node_ps = 0)");
         $stmt->bind_param("dddd",$minLat, $maxLat, $minLng, $maxLng);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all();
@@ -198,28 +198,26 @@ class DB_Functions {
     }
 
     /**
-     *
+     *  Update Battery
      */
     public function updateBeaconBattery($id, $node_bat){
-        $stmt = $this->conn->prepare("UPDATE ep_beacon SET node_bat = ? WHERE id = ?");
+        $stmt = $this->conn->prepare("UPDATE ep_beacon SET node_bat = ? WHERE unique_id = ?");
         $stmt->bind_param("ss", $node_bat, $id);
         $stmt->execute();
-        $result = $stmt->get_result()->fetch_all();
         $stmt->close();
-        return $result;
+        return true;
 
     }
 
     /**
-     *
+     *  Update présence
      */
     public function updateBeaconPs($id, $node_ps){
-        $stmt = $this->conn->prepare("UPDATE ep_beacon SET node_ps = ? WHERE id = ?");
+        $stmt = $this->conn->prepare("UPDATE ep_beacon SET node_ps = ? WHERE unique_id = ?");
         $stmt->bind_param("ss", $node_ps, $id);
         $stmt->execute();
-        $result = $stmt->get_result()->fetch_all();
         $stmt->close();
-        return $result;
+        return true;
     }
 }
 ?>
