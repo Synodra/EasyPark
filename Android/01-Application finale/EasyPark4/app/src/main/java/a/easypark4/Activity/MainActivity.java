@@ -1,6 +1,7 @@
 package a.easypark4.Activity;
 
 // Importation des librairies
+
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -29,7 +30,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +37,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -45,21 +44,20 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
-import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.geojson.GeoJsonLayer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,6 +90,11 @@ public class MainActivity extends AppCompatActivity
 
     private FloatingActionButton balise;
     private GeoJsonLayer beaconLayer;
+    private double longitude;
+    private double latitute;
+
+
+    ArrayList<LatLng> markerPoints;
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -99,6 +102,10 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        // Initializing
+        markerPoints = new ArrayList<LatLng>();
 
         //region DB_SESSION
 
@@ -167,6 +174,7 @@ public class MainActivity extends AppCompatActivity
 
         sMapFragment.getMapAsync(this);
 
+
         //endregion
 
         //region SERVICE_LOCALISATION
@@ -212,7 +220,21 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        if (mGoogleMap != null) {
+            mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
+
+
+                    return false;
+                }
+            });
+        }
     }
+
+
+
+
 
     //region EVENT_INTERFACE
 
@@ -325,7 +347,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-
+        Toast.makeText(MainActivity.this, "En cours de localisation ... ", Toast.LENGTH_LONG).show();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -337,10 +359,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this, "En cours de localisation ... ", Toast.LENGTH_LONG).show();
         }
 
-        // Création du marker de positionnement de l'appareil
-        maPosition = new Marker(location);
-        maPosition.afficherMarker(mGoogleMap);      // Affichage du curseur sur la carte google map
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(maPosition.getLatlng(), 15));
+
     }
 
     /**
@@ -350,7 +369,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-            onHandleMap(location);
+            onHandleMap(location,mGoogleMap);
+            longitude = location.getLongitude();
+            latitute = location.getLatitude();
+
         } else {
             Toast.makeText(MainActivity.this, "Impossible de générer les coordonnées GPS", Toast.LENGTH_LONG).show();
         }
@@ -360,9 +382,17 @@ public class MainActivity extends AppCompatActivity
     /**
      * Update des actvités de géolocalisation sur la carte
      * @param location
+     * @param googleMap
      */
-    public void onHandleMap(Location location) {
-        maPosition.updateLocation(location);
+    public void onHandleMap(Location location, GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        maPosition = new Marker(googleMap,location);
+        //maPosition.updateLocation(location);
+        maPosition.setLocation(location);
+        maPosition.afficherMarker();
+        VisibleRegion visibleregion = mGoogleMap.getProjection().getVisibleRegion();
+        getBeacon(visibleregion, mGoogleMap);
+
     }
 
     //endregion
@@ -443,7 +473,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     //endregion
+    //region Itineraire
+    /**
+     * Fonction de récupération de position de marker au click puis traçage itineraire
+     * @param : marker
+     */
 
+
+
+
+    //endregion
     //region LIST_BEACON
 
     /**
@@ -468,11 +507,25 @@ public class MainActivity extends AppCompatActivity
 
                     // Check for error node in json
                     if (!error) {
-                        beaconLayer = new GeoJsonLayer(mGoogleMap, jObj);
-                        if(!beaconLayer.isLayerOnMap()) {
-                            beaconLayer.removeLayerFromMap();
+                        JSONArray coor = jObj.getJSONArray("coordinates");
+                        for (int k=0; k<coor.length();k++){
+                            // récupération d'une coordonnée GPS dans le JSON fourni
+
+                            JSONArray objCoord = coor.getJSONArray(k);
+
+                                double latBalise= objCoord.getDouble(0);
+                                double lngBalise = objCoord.getDouble(1);
+
+                            // on place un marqueur sur l'empllacement de la balise
+
+                            LatLng pointMarker = new LatLng( lngBalise ,latBalise );
+                            MarkerOptions markerOptions = new MarkerOptions().position(pointMarker);
+                            mGoogleMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+
+
                         }
-                        beaconLayer.addLayerToMap();
+
 
                     } else {
                         // Error in login. Get the error message
@@ -520,6 +573,7 @@ public class MainActivity extends AppCompatActivity
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
 
 
     //endregion
