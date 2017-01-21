@@ -1,0 +1,31 @@
+table {
+	border-collapse:collapse;
+}
+th {
+	background-color:silver;
+}
+th, td {
+	border:1px solid black;
+}
+td {
+	font-size: 100%;
+	text-align:center;
+	font-weight:normal;
+}
+caption {
+	font-weight:bold
+}
+.buttons {
+	width:100%;
+}
+
+.buttonCells {
+	border-style:none;
+}
+.cellsEditable {
+	border: none;
+	box-sizing: border-box;
+	font-size: 100%;
+	text-align:center;
+	font-weight:normal;
+}
