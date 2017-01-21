@@ -215,7 +215,8 @@
         "wires": [
             [
                 "9a268b6e.ec2af8",
-                "de6889bc.89cee8"
+                "de6889bc.89cee8",
+                "4ccbace1.ab64e4"
             ]
         ]
     },
@@ -236,7 +237,7 @@
         "type": "function",
         "z": "1007006e.9af9f",
         "name": "MySQL_update",
-        "func": "var newMsg = {};\nvar date;\ndate = new Date();\ndate = date.getUTCFullYear() + '-' +\n    ('00' + (date.getMonth()+1)).slice(-2) + '-' +\n    ('00' + date.getDate()).slice(-2) + ' ' + \n    ('00' + date.getHours()).slice(-2) + ':' + \n    ('00' + date.getMinutes()).slice(-2) + ':' + \n    ('00' + date.getSeconds()).slice(-2);\n\nnewMsg.topic = 'UPDATE ESIGELEC SET node_id='+msg.payload[1].wid+', node_ps='+msg.payload[0].ps+', node_bat='+msg.payload[0].bat+', node_last_update=\"'+date+'\" WHERE node_id= '+msg.payload[1].wid;\nreturn newMsg;",
+        "func": "var newMsg = {};\nvar date;\ndate = new Date();\ndate = date.getUTCFullYear() + '-' +\n    ('00' + (date.getMonth()+1)).slice(-2) + '-' +\n    ('00' + date.getDate()).slice(-2) + ' ' + \n    ('00' + date.getHours()).slice(-2) + ':' + \n    ('00' + date.getMinutes()).slice(-2) + ':' + \n    ('00' + date.getSeconds()).slice(-2);\n\nnewMsg.topic = 'UPDATE ESIGELEC SET node_ps='+msg.payload[0].ps+', node_bat='+msg.payload[0].bat+', node_last_update=\"'+date+'\" WHERE node_id= '+msg.payload[1].wid;\nreturn newMsg;",
         "outputs": 1,
         "noerr": 0,
         "x": 408.2000274658203,
@@ -274,67 +275,48 @@
         "wires": []
     },
     {
-        "id": "1151d3e6.ad8fbc",
-        "type": "mysql",
+        "id": "4b856c78.c72734",
+        "type": "http request",
         "z": "1007006e.9af9f",
-        "mydb": "508264cf.3971fc",
         "name": "",
-        "x": 514.2000122070312,
-        "y": 470.20001220703125,
+        "method": "use",
+        "ret": "txt",
+        "url": "",
+        "tls": "",
+        "x": 602.2000274658203,
+        "y": 416.19996643066406,
         "wires": [
             [
-                "6f34d256.9a855c"
+                "6afd1cec.685e14"
             ]
         ]
     },
     {
-        "id": "d36437cb.b58568",
-        "type": "inject",
+        "id": "4ccbace1.ab64e4",
+        "type": "function",
         "z": "1007006e.9af9f",
-        "name": "",
-        "topic": "INSERT INTO ESIGELEC VALUES(DEFAULT, '48.8627', '2.28759', 0, 50);",
-        "payload": "",
-        "payloadType": "str",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "x": 172.50001525878906,
-        "y": 485.00004386901855,
+        "name": "update_beacon",
+        "func": "msg.method=\"POST\";\nmsg.url=\"synodra.ddns.net/easypark_rest_api/update_beacon.php\";\nmsg.headers={'content-type':\"application/x-www-form-urlencoded\"};\nmsg.payload=    {\n                    beacon_id:msg.payload[1].wid,\n                    node_ps:msg.payload[0].ps,\n                    node_bat:msg.payload[0].bat\n                }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 410.1999969482422,
+        "y": 414.1999969482422,
         "wires": [
             [
-                "1151d3e6.ad8fbc"
+                "4b856c78.c72734"
             ]
         ]
     },
     {
-        "id": "6f34d256.9a855c",
+        "id": "6afd1cec.685e14",
         "type": "debug",
         "z": "1007006e.9af9f",
         "name": "",
         "active": true,
         "console": "false",
         "complete": "false",
-        "x": 762.4999847412109,
-        "y": 469.00001525878906,
+        "x": 794.1999664306641,
+        "y": 413.79994201660156,
         "wires": []
-    },
-    {
-        "id": "a8958d25.26818",
-        "type": "inject",
-        "z": "1007006e.9af9f",
-        "name": "reset auto_increment",
-        "topic": "ALTER TABLE ESIGELEC AUTO_INCREMENT = 1",
-        "payload": "",
-        "payloadType": "str",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "x": 180.50001525878906,
-        "y": 554.9999847412109,
-        "wires": [
-            [
-                "1151d3e6.ad8fbc"
-            ]
-        ]
     }
 ]

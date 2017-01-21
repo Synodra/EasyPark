@@ -54,7 +54,7 @@
 				deleteRequest(node_id);
 			}
 
-			selectRequest();
+			history.go(0);
 		}
 				
 		function editButton(currentRow){
@@ -106,7 +106,7 @@
 			var node_longitude = document.getElementById('table').rows[currentRow].cells[2].childNodes[1].value;
 
 			updateRequest(node_id, node_latitude, node_longitude);
-			selectRequest();
+			history.go(0);
 		}
 
 		function cancelButton(){
