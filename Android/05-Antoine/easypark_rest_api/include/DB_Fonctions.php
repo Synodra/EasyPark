@@ -164,7 +164,7 @@ class DB_Functions {
      * @author Antoine MAYSLICH
      * @return flase, $beacon parameters
      */
-    public function storeBeacon($id, $longitude, $latitude) {
+    public function addBeacon($id, $longitude, $latitude) {
         $stmt = $this->conn->prepare("INSERT INTO ep_beacon(unique_id, longitude, latitude, created_at) VALUES(?, ?, ?, NOW())");
         $stmt->bind_param("sdd", $id, $longitude, $latitude);
         $result = $stmt->execute();
@@ -185,16 +185,63 @@ class DB_Functions {
     }
 
     /**
-     * Searching for all beacon in the area
-     * return the list of all the beacon
+     * Beacon removal
+     * @param $id
+     * @return bool
      */
-    public function getBeaconByLocation($minLat, $maxLat, $minLng, $maxLng) {
-        $stmt = $this->conn->prepare("SELECT unique_id, latitude, longitude FROM ep_beacon WHERE (latitude BETWEEN ? AND ?) AND (longitude BETWEEN  ? AND ?) AND (node_ps = 0)");
-        $stmt->bind_param("dddd",$minLat, $maxLat, $minLng, $maxLng);
-        $stmt->execute();
-        $result = $stmt->get_result()->fetch_all();
+    public function deleteBeacon($id){
+        $stmt = $this->conn->prepare("DELETE FROM ep_beacon WHERE unique_id = ?");
+        $stmt->bind_param("s", $id);
+        $result = $stmt->execute();
         $stmt->close();
-        return $result;
+
+        // check for successful removal
+        if ($result) {
+            $stmt = $this->conn->prepare("SELECT * FROM ep_beacon WHERE unique_id = ?");
+            $stmt->bind_param("s", $id);
+            $stmt->execute();
+            $stmt->store_result();
+
+            if ($stmt->num_rows > 0) {
+                // beacon existed
+                $stmt->close();
+                return false;
+            } else {
+                // beacon not existed
+                $stmt->close();
+                return true;
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     * Update beacon information
+     * @param $id
+     * @param $longitude
+     * @param $latitude
+     * @return array|bool
+     */
+    public function updateBeacon($id, $longitude, $latitude) {
+        $stmt = $this->conn->prepare("UPDATE ep_beacon SET longitude = ?, latitude = ?, updated_at = NOW() WHERE unique_id = ?");
+        $stmt->bind_param("dds", $longitude, $latitude, $id);
+        $result = $stmt->execute();
+        $stmt->close();
+
+        // check for successful update
+        if ($result) {
+            $stmt = $this->conn->prepare("SELECT * FROM ep_beacon WHERE unique_id = ?");
+            $stmt->bind_param("s", $id);
+            $stmt->execute();
+            $beacon = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+
+            return $beacon;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -219,5 +266,82 @@ class DB_Functions {
         $stmt->close();
         return true;
     }
+
+    /**
+     * Searching for all beacon in the area
+     * return the list of all the beacon
+     */
+    public function getBeaconByLocation($minLat, $maxLat, $minLng, $maxLng) {
+        $stmt = $this->conn->prepare("SELECT unique_id, latitude, longitude FROM ep_beacon WHERE (latitude BETWEEN ? AND ?) AND (longitude BETWEEN  ? AND ?) AND (node_ps = 0)");
+        $stmt->bind_param("dddd",$minLat, $maxLat, $minLng, $maxLng);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all();
+        $stmt->close();
+        return $result;
+    }
+
+    public function show(){
+        if(empty($_GET)){
+            $stmt = $this->conn->prepare("SELECT * FROM ep_beacon");
+        }else{
+            $id=$_GET['node_id'];
+            $stmt = $this->conn->prepare("SELECT * FROM ep_beacon WHERE unique_id= ?");
+            $stmt->bind_param("s", $id);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            echo '<table>';
+            echo '<tr>
+                  <th>'.'<strong>Node id</strong>'.'</th>
+                  <th>'.'<strong>Node latitude</strong>'.'</th>
+                  <th>'.'<strong>Node longitude</strong>'.'</th>
+                  <th>'.'<strong>Node battery</strong>'.'</th>
+                  <th>'.'<strong>Occupied?</strong>'.'</th>
+                  <th>'.'<strong>Last Upadte</strong>'.'</th>
+                </tr>';
+
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $currentRow++;
+
+                echo 	'<form class="row">
+                        <tr>
+                          <td>
+                            '.$row['unique_id'].'
+                          </td>
+                          <td>
+                            <input type="text" class="cellsEditable" value='.$row['latitude'].' readonly/>
+                          </td>
+                          <td>
+                            <input type="text" class="cellsEditable" value='.$row['longitude'].' readonly/>
+                          </td>
+                          <td>
+                            '.$row['node_bat'].'
+                          </td>
+                          <td>
+                            '.($row["node_ps"] == 1 ? 'Yes' : 'No').'
+                          </td>
+                          <td>
+                            '.$row["updated_at"].'
+                          </td>
+                          <td class="buttonCells">
+                            <input type="submit" class="buttons" value="Delete" onclick="return deleteButton('.$currentRow.');"/>
+                          </td>
+                          <td class="buttonCells">
+                            <input type="submit" class="buttons" value="Edit" onclick="return editButton('.$currentRow.');"/>
+                          </td>
+                        </tr>
+                    </form>';
+            }
+            echo '</table>';
+        } else {
+            echo "0 results";
+        }
+
+        $stmt->close();
+    }
+
 }
 ?>

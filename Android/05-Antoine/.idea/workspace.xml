@@ -17,8 +17,8 @@
       <file leaf-file-name="DB_Fonctions.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/easypark_rest_api/include/DB_Fonctions.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="457">
-              <caret line="204" column="33" lean-forward="false" selection-start-line="204" selection-start-column="33" selection-end-line="204" selection-end-column="33" />
+            <state relative-caret-position="475">
+              <caret line="205" column="8" lean-forward="false" selection-start-line="205" selection-start-column="8" selection-end-line="205" selection-end-column="8" />
               <folding>
                 <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
                 <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
@@ -27,16 +27,16 @@
                 <element signature="e#3620#3770#0#PHP" expanded="false" />
                 <element signature="n#isBeaconExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
                 <element signature="e#4324#4463#0#PHP" expanded="false" />
-                <marker date="1485027582583" expanded="true" signature="906:1031" ph="INSERT INTO ep_users... " />
-                <marker date="1485027582583" expanded="true" signature="1298:1336" ph="SELECT * FRO... ep_users" />
-                <marker date="1485027582583" expanded="true" signature="1745:1783" ph="SELECT * FRO... ep_users" />
-                <marker date="1485027582583" expanded="true" signature="2530:2572" ph="SELECT email... ep_users" />
-                <marker date="1485027582583" expanded="true" signature="3874:3953" ph="SELECT * FRO... ep_beacon" />
-                <marker date="1485027582583" expanded="true" signature="4564:4652" ph="INSERT INTO ep_beacon... " />
-                <marker date="1485027582583" expanded="true" signature="4882:4925" ph="SELECT * FRO... ep_beacon" />
-                <marker date="1485027582583" expanded="true" signature="5392:5528" ph="SELECT uniqu... ep_beacon" />
-                <marker date="1485027582583" expanded="true" signature="5869:5922" ph="UPDATE ep_be... " />
-                <marker date="1485027582583" expanded="true" signature="6183:6235" ph="UPDATE ep_be... " />
+                <marker date="1485027790812" expanded="true" signature="906:1031" ph="INSERT INTO ep_users... " />
+                <marker date="1485027790812" expanded="true" signature="1298:1336" ph="SELECT * FRO... ep_users" />
+                <marker date="1485027790812" expanded="true" signature="1745:1783" ph="SELECT * FRO... ep_users" />
+                <marker date="1485027790812" expanded="true" signature="2530:2572" ph="SELECT email... ep_users" />
+                <marker date="1485027790812" expanded="true" signature="3874:3953" ph="SELECT * FRO... ep_beacon" />
+                <marker date="1485027790812" expanded="true" signature="4564:4652" ph="INSERT INTO ep_beacon... " />
+                <marker date="1485027790812" expanded="true" signature="4882:4925" ph="SELECT * FRO... ep_beacon" />
+                <marker date="1485027790812" expanded="true" signature="5392:5528" ph="SELECT uniqu... ep_beacon" />
+                <marker date="1485027790812" expanded="true" signature="5869:5922" ph="UPDATE ep_be... " />
+                <marker date="1485027790812" expanded="true" signature="6192:6244" ph="UPDATE ep_be... " />
               </folding>
             </state>
           </provider>
@@ -203,12 +203,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1485016797088</updated>
-      <workItem from="1485016798243" duration="10340000" />
+      <workItem from="1485016798243" duration="10490000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10340000" />
+    <option name="totallyTimeSpent" value="10490000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1920" height="1050" extended-state="6" />
@@ -283,14 +283,21 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="295">
           <caret line="19" column="23" lean-forward="false" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
-          <folding />
+          <folding>
+            <element signature="e#6#88#0#PHP" expanded="false" />
+            <element signature="e#341#2133#0#PHP" expanded="false" />
+            <element signature="e#2146#3895#0#PHP" expanded="false" />
+            <element signature="e#3908#5154#0#PHP" expanded="false" />
+            <element signature="e#5167#6241#0#PHP" expanded="false" />
+            <element signature="e#6254#7200#0#PHP" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/easypark_rest_api/include/DB_Fonctions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="204" column="33" lean-forward="false" selection-start-line="204" selection-start-column="33" selection-end-line="204" selection-end-column="33" />
+        <state relative-caret-position="475">
+          <caret line="205" column="8" lean-forward="false" selection-start-line="205" selection-start-column="8" selection-end-line="205" selection-end-column="8" />
           <folding>
             <element signature="n#storeUser#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="n#getUserByEmailAndPassword#0;n#DB_Functions#0;n#!!top" expanded="false" />
@@ -299,16 +306,16 @@
             <element signature="e#3620#3770#0#PHP" expanded="false" />
             <element signature="n#isBeaconExisted#0;n#DB_Functions#0;n#!!top" expanded="false" />
             <element signature="e#4324#4463#0#PHP" expanded="false" />
-            <marker date="1485027582583" expanded="true" signature="906:1031" ph="INSERT INTO ep_users... " />
-            <marker date="1485027582583" expanded="true" signature="1298:1336" ph="SELECT * FRO... ep_users" />
-            <marker date="1485027582583" expanded="true" signature="1745:1783" ph="SELECT * FRO... ep_users" />
-            <marker date="1485027582583" expanded="true" signature="2530:2572" ph="SELECT email... ep_users" />
-            <marker date="1485027582583" expanded="true" signature="3874:3953" ph="SELECT * FRO... ep_beacon" />
-            <marker date="1485027582583" expanded="true" signature="4564:4652" ph="INSERT INTO ep_beacon... " />
-            <marker date="1485027582583" expanded="true" signature="4882:4925" ph="SELECT * FRO... ep_beacon" />
-            <marker date="1485027582583" expanded="true" signature="5392:5528" ph="SELECT uniqu... ep_beacon" />
-            <marker date="1485027582583" expanded="true" signature="5869:5922" ph="UPDATE ep_be... " />
-            <marker date="1485027582583" expanded="true" signature="6183:6235" ph="UPDATE ep_be... " />
+            <marker date="1485027790812" expanded="true" signature="906:1031" ph="INSERT INTO ep_users... " />
+            <marker date="1485027790812" expanded="true" signature="1298:1336" ph="SELECT * FRO... ep_users" />
+            <marker date="1485027790812" expanded="true" signature="1745:1783" ph="SELECT * FRO... ep_users" />
+            <marker date="1485027790812" expanded="true" signature="2530:2572" ph="SELECT email... ep_users" />
+            <marker date="1485027790812" expanded="true" signature="3874:3953" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1485027790812" expanded="true" signature="4564:4652" ph="INSERT INTO ep_beacon... " />
+            <marker date="1485027790812" expanded="true" signature="4882:4925" ph="SELECT * FRO... ep_beacon" />
+            <marker date="1485027790812" expanded="true" signature="5392:5528" ph="SELECT uniqu... ep_beacon" />
+            <marker date="1485027790812" expanded="true" signature="5869:5922" ph="UPDATE ep_be... " />
+            <marker date="1485027790812" expanded="true" signature="6192:6244" ph="UPDATE ep_be... " />
           </folding>
         </state>
       </provider>
