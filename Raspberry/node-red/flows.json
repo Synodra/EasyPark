@@ -216,7 +216,8 @@
             [
                 "9a268b6e.ec2af8",
                 "de6889bc.89cee8",
-                "4ccbace1.ab64e4"
+                "4ccbace1.ab64e4",
+                "1022f79e.0aee78"
             ]
         ]
     },
@@ -295,8 +296,8 @@
         "id": "4ccbace1.ab64e4",
         "type": "function",
         "z": "1007006e.9af9f",
-        "name": "update_beacon",
-        "func": "msg.method=\"POST\";\nmsg.url=\"synodra.ddns.net/easypark_rest_api/update_beacon.php\";\nmsg.headers={'content-type':\"application/x-www-form-urlencoded\"};\nmsg.payload=    {\n                    beacon_id:msg.payload[1].wid,\n                    node_ps:msg.payload[0].ps,\n                    node_bat:msg.payload[0].bat\n                }\nreturn msg;",
+        "name": "update_batterie",
+        "func": "msg.method=\"POST\";\nmsg.url=\"synodra.ddns.net/easypark_rest_api/admin_beacon.php\";\nmsg.headers={'content-type':\"application/x-www-form-urlencoded\"};\nmsg.payload=    {\n                    action:\"batterie\",\n                    beacon_id:msg.payload[1].wid,\n                    node_bat:msg.payload[0].bat\n                }\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 410.1999969482422,
@@ -318,5 +319,21 @@
         "x": 794.1999664306641,
         "y": 413.79994201660156,
         "wires": []
+    },
+    {
+        "id": "1022f79e.0aee78",
+        "type": "function",
+        "z": "1007006e.9af9f",
+        "name": "update_presence",
+        "func": "msg.method=\"POST\";\nmsg.url=\"synodra.ddns.net/easypark_rest_api/admin_beacon.php\";\nmsg.headers={'content-type':\"application/x-www-form-urlencoded\"};\nmsg.payload=    {\n                    action:\"presence\",\n                    beacon_id:msg.payload[1].wid,\n                    node_ps:msg.payload[0].ps,\n                }\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 416.20001220703125,
+        "y": 498.20001220703125,
+        "wires": [
+            [
+                "4b856c78.c72734"
+            ]
+        ]
     }
 ]
