@@ -13,6 +13,7 @@ import a.easypark4.R;
 
 /**
  * Created by seynabou.ba on 22/12/2016.
+ * Le marqueur class
  */
 
 
@@ -22,8 +23,6 @@ public class Marker {
     private double latitude;
     private double longitude;
     private LatLng latlng;
-    private MarkerOptions markerOptions;
-    private com.google.android.gms.maps.model.Marker marker;
 
     /**
      * Instanciation objet marker
@@ -36,16 +35,15 @@ public class Marker {
 
     /**
      * Getter Latitude du marker
-     * @return
+     * @return latitude
      */
     public double getLatitude(){
-
         return latitude;
     }
 
     /**
      * Getter Longitude du marker
-     * @return
+     * @return longitude
      */
     public double getLongitude(){
         return longitude;
@@ -54,6 +52,7 @@ public class Marker {
 
     /**
      * Getter LATLNG du marker
+     * @return LatLng
      */
     public LatLng getLatlng() {
         return latlng;
@@ -61,9 +60,9 @@ public class Marker {
 
     /**
      * Setteur location du marker
-     * @param location
+     * @param location la location
      */
-    public void setLocation(Location location){
+    private void setLocation(Location location){
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
 
@@ -72,18 +71,16 @@ public class Marker {
 
     /**
      * Update location du marker
-     * @param location
+     * @param location la nouvelle location
      */
     public void updateLocation(Location location) {
         setLocation(location);
-        marker.setPosition(latlng);
     }
 
     /**
      *  Afficher marker sur la carte
      */
     public void afficherMarker(){
-        mGoogleMap.clear();
         LatLng pointMarker = new LatLng( latitude, longitude );
         MarkerOptions markerOptions = new MarkerOptions().position(pointMarker).title("Ma Position");
         mGoogleMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.car)));
@@ -112,4 +109,5 @@ public class Marker {
 
         return markerOptions;
     }
+
 }
