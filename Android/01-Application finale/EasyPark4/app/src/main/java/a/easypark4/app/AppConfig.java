@@ -12,4 +12,7 @@ public class AppConfig {
 
     // Server user ask list beacon
     public static  String URL_LIST_BEACON = "http://synodra.ddns.net/easypark_rest_api/list_beacon.php";
+
+    // Server modify user url
+    public static String URL_MODIFY = "http://synodra.ddns.net/easypark_rest_api/admin_user.php";
 }

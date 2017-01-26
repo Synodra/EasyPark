@@ -20,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewGroupCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -29,6 +30,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +39,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.appdatasearch.GetRecentContextCall;
+//import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -60,6 +62,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,13 +76,14 @@ import a.easypark4.helper.SQLiteHandler;
 import a.easypark4.helper.SessionManager;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ProfileFragment.OnFragmentInteractionListener {
 
     private SQLiteHandler db;           // Déclaration de la base de données local
     private SessionManager session;     // Déclaration de la session utilisateur
     private TextView txtName;           // Déclaration de la zone de text name dans le header
     private TextView txtEmail;          // Déclaration de la zone de text email dans le header
     private View navHeaderView;         // Déclaration du View pour la NavBar
+    private TextView txtHome;           // Déclaration de la zone de texte de bienvenue
     private ProgressDialog pDialog;
 
     // Map variables
@@ -98,7 +103,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main);
+
 
         //region DB_SESSION
 
@@ -122,6 +129,30 @@ public class MainActivity extends AppCompatActivity
 
         //endregion
 
+        //region HOME
+        txtHome = (TextView) findViewById(R.id.homeMessage);
+        Date d = new Date();
+        SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+        String s = (f.format(d)).substring(9);
+        int time = Integer.parseInt(s);
+
+        if(time<120000)
+        {
+            txtHome.setText("Good morning "+user.get("name"));
+        }
+        else if (time >120000 && time<190000)
+        {
+            txtHome.setText("Good afternoon "+user.get("name"));
+        }
+        else if (time >190000)
+        {
+            txtHome.setText("Good evening "+user.get("name"));
+        }
+
+
+
+
+        //endregion
         //region NAVBAR
 
         // création de la toolbar
@@ -187,14 +218,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         // Check app location permission
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSION_GPS);
-        } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, MainActivity.this);
-        }
+
 
         //endregion
 
@@ -211,6 +235,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+        balise.setVisibility(View.INVISIBLE);
 
     }
 
@@ -271,20 +296,46 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        ProfileFragment profileFragment = new ProfileFragment();
+        HomeFragment homeFragment = new HomeFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
+
 
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        if(sMapFragment.isAdded())
+        {
+            fragmentManager.beginTransaction().hide(sMapFragment).commit();
+            balise.setVisibility(View.VISIBLE);
+        }
+        if(profileFragment.isAdded())
+            fragmentManager.beginTransaction().hide(profileFragment).commit();
         if (id == R.id.btnMenuHome) {
-
+            fragmentManager.beginTransaction().replace(R.id.content_frame, homeFragment).commit();
+           // txtHome.setVisibility(View.VISIBLE);
+            balise.setVisibility(View.INVISIBLE);
         } else if (id == R.id.btnMenuMap) {
             if(!sMapFragment.isAdded())
-                fragmentManager.beginTransaction().add(R.id.content_map, sMapFragment).commit();
-            else
-                fragmentManager.beginTransaction().show(sMapFragment).commit();
-        } else if (id == R.id.btnMenuAccountSetting) {
+            {
+                balise.setVisibility(View.VISIBLE);
 
+                fragmentManager.beginTransaction().replace(R.id.content_frame, sMapFragment).commit();
+            }
+            else {
+                balise.setVisibility(View.VISIBLE);
+                fragmentManager.beginTransaction().show(sMapFragment).commit();
+            }
+        } else if (id == R.id.btnMenuAccountSetting) {
+            if(!profileFragment.isAdded()) {
+                balise.setVisibility(View.INVISIBLE);
+                txtHome.setVisibility(View.INVISIBLE);
+                fragmentManager.beginTransaction().replace(R.id.content_frame, profileFragment).commit();
+            }
+            else {
+                txtHome.setVisibility(View.INVISIBLE);
+                balise.setVisibility(View.INVISIBLE);
+              fragmentManager.beginTransaction().show(profileFragment).commit();
+            }
         } else if (id == R.id.btnMenuLogout) {
             logoutUser();
         }
@@ -319,7 +370,7 @@ public class MainActivity extends AppCompatActivity
     //region EVENT_GOOGLE_MAP
 
     /**
-     * Action dès que la carte google map est crée
+     * Action dès que la carte google map est créée
      * @param googleMap
      */
     @Override
@@ -338,9 +389,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         // Création du marker de positionnement de l'appareil
-        maPosition = new Marker(location);
+    /*    maPosition = new Marker(location);
         maPosition.afficherMarker(mGoogleMap);      // Affichage du curseur sur la carte google map
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(maPosition.getLatlng(), 15));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(maPosition.getLatlng(), 15));*/
     }
 
     /**
@@ -350,7 +401,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-            onHandleMap(location);
+            onHandleMap(location, mGoogleMap);
         } else {
             Toast.makeText(MainActivity.this, "Impossible de générer les coordonnées GPS", Toast.LENGTH_LONG).show();
         }
@@ -360,9 +411,13 @@ public class MainActivity extends AppCompatActivity
     /**
      * Update des actvités de géolocalisation sur la carte
      * @param location
+     * @param googleMap
      */
-    public void onHandleMap(Location location) {
-        maPosition.updateLocation(location);
+    public void onHandleMap(Location location, GoogleMap googleMap) {
+       mGoogleMap = googleMap;
+        maPosition = new Marker(googleMap,location);
+        maPosition.setLocation(location);
+        maPosition.afficherMarker();
     }
 
     //endregion
@@ -587,4 +642,8 @@ public class MainActivity extends AppCompatActivity
 
     };
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
