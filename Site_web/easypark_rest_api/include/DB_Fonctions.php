@@ -136,7 +136,7 @@ class DB_Functions {
      * @param $firstname
      */
     public function changeUsername($email, $name, $firstname) {
-        $stmt = $this->conn->prepare("UPDATE ep_users SET firstname = ?, name = ? WHERE email = ?");
+        $stmt = $this->conn->prepare("UPDATE ep_users SET firstname = ?, name = ?, updated_at = NOW() WHERE email = ?");
         $stmt->bind_param("sss", $firstname, $name, $email);
         $stmt->execute();
         $stmt->close();
@@ -161,7 +161,7 @@ class DB_Functions {
         $encrypted_password = $hash["encrypted"]; // encrypted password
         $salt = $hash["salt"]; // salt
 
-        $stmt = $this->conn->prepare("UPDATE ep_users SET encrypted_password = ?, salt = ? WHERE email = ?");
+        $stmt = $this->conn->prepare("UPDATE ep_users SET encrypted_password = ?, salt = ?, updated_at = NOW()WHERE email = ?");
         $stmt->bind_param('sss', $encrypted_password, $salt, $email);
         //$result = $stmt->execute();
         $stmt->execute();
