@@ -40,7 +40,7 @@ class DB_Functions {
         $result = $stmt->execute();
         $stmt->close();
 
-        // check for successful store
+        // check for successful store$name
         if ($result) {
             $stmt = $this->conn->prepare("SELECT * FROM ep_users WHERE email = ?");
             $stmt->bind_param("s", $email);
@@ -130,6 +130,44 @@ class DB_Functions {
         return $hash;
     }
 
+    /**
+     * @param $email
+     * @param $name
+     * @param $firstname
+     */
+    public function changeUsername($email, $name, $firstname) {
+        $stmt = $this->conn->prepare("UPDATE ep_users SET firstname = ?, name = ? WHERE email = ?");
+        $stmt->bind_param("sss", $firstname, $name, $email);
+        $stmt->execute();
+        $stmt->close();
+
+        // check for successful store
+        //if ($result) {
+            $stmt = $this->conn->prepare("SELECT * FROM ep_users WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $user = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+
+            return $user;
+        /*} else {
+            return false;
+        }*/
+    }
+
+    public function changePassword($email, $password, $newpassword) {
+        $uuid = uniqid('', true);
+        $hash = $this->hashSSHA($newpassword);
+        $encrypted_password = $hash["encrypted"]; // encrypted password
+        $salt = $hash["salt"]; // salt
+
+        $stmt = $this->conn->prepare("UPDATE ep_users SET encrypted_password = ?, salt = ? WHERE email = ?");
+        $stmt->bind_param('sss', $encrypted_password, $salt, $email);
+        //$result = $stmt->execute();
+        $stmt->execute();
+        $stmt->close();
+
+    }
 
     // --------------- BEACON MANAGMENT ----------------
     /**
