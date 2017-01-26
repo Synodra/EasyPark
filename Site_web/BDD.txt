@@ -20,6 +20,8 @@ CREATE TABLE ep_beacon
     unique_id VARCHAR(23) NOT NULL unique,
     longitude DOUBLE NOT NULL,
     latitude DOUBLE NOT NULL,
+    node_ps BOOLEAN,
+    ndoe_bat INT,
     created_at datetime,
     updated_at datetime null
 );

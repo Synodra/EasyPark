@@ -1,16 +1,19 @@
 package a.easypark4.Activity;
 
 // Importation des librairies
+
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,8 +33,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+<<<<<<< HEAD
 import android.view.WindowManager;
 import android.widget.Button;
+=======
+>>>>>>> upstream/master
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +45,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+<<<<<<< HEAD
 //import com.google.android.gms.appdatasearch.GetRecentContextCall;
+=======
+>>>>>>> upstream/master
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -47,24 +56,34 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
-import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.geojson.GeoJsonLayer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+<<<<<<< HEAD
 import java.text.SimpleDateFormat;
 import java.util.Date;
+=======
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+>>>>>>> upstream/master
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import a.easypark4.LoginActivity;
@@ -76,6 +95,7 @@ import a.easypark4.helper.SQLiteHandler;
 import a.easypark4.helper.SessionManager;
 
 public class MainActivity extends AppCompatActivity
+<<<<<<< HEAD
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ProfileFragment.OnFragmentInteractionListener {
 
     private SQLiteHandler db;           // Déclaration de la base de données local
@@ -84,19 +104,27 @@ public class MainActivity extends AppCompatActivity
     private TextView txtEmail;          // Déclaration de la zone de text email dans le header
     private View navHeaderView;         // Déclaration du View pour la NavBar
     private TextView txtHome;           // Déclaration de la zone de texte de bienvenue
+=======
+        implements NavigationView.OnNavigationItemSelectedListener, LocationListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    private boolean NavigationEnable = false;
+
+    private SQLiteHandler db;           // Déclaration de la base de données local
+    private SessionManager session;     // Déclaration de la session utilisateur
+>>>>>>> upstream/master
     private ProgressDialog pDialog;
 
     // Map variables
     private static int PERMISSION_GPS = 100;
     private SupportMapFragment sMapFragment;
     private LocationManager locationManager;
-    private LocationRequest mLocationRequest;
     private GoogleMap mGoogleMap;
     private GoogleApiClient mGoogleApiClient;
     private Marker maPosition;
+    private LatLng destLatLng;
 
-    private FloatingActionButton balise;
-    private GeoJsonLayer beaconLayer;
+    private Polyline polyline;
+    ArrayList<LatLng> markerPoints;
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -107,6 +135,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
 
+<<<<<<< HEAD
+=======
+        // Initializing
+        markerPoints = new ArrayList<>();
+
+>>>>>>> upstream/master
         //region DB_SESSION
 
         //SqLite database handler
@@ -171,11 +205,11 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // Gestion des éléments du layout nav bar header
-        navHeaderView = navigationView.getHeaderView(0);
+        View navHeaderView = navigationView.getHeaderView(0);
 
         // section gestion de la connexion de l'utilisateur
-        txtName = (TextView) navHeaderView.findViewById(R.id.headerName);
-        txtEmail = (TextView) navHeaderView.findViewById(R.id.headerEmail);
+        TextView txtName = (TextView) navHeaderView.findViewById(R.id.headerName);
+        TextView txtEmail = (TextView) navHeaderView.findViewById(R.id.headerEmail);
 
         // Displaying the user details on the screen
         txtName.setText(user.get("firstname") + " " + user.get("name"));
@@ -198,6 +232,7 @@ public class MainActivity extends AppCompatActivity
 
         sMapFragment.getMapAsync(this);
 
+
         //endregion
 
         //region SERVICE_LOCALISATION
@@ -207,10 +242,10 @@ public class MainActivity extends AppCompatActivity
         //Register for location updates using the named provider, and a pending intent
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);
 
-        mLocationRequest = LocationRequest.create()
+        LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(20 * 1000)        // 60 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+                .setFastestInterval(1000);
 
         // Check if the given provider is enabled
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -222,7 +257,7 @@ public class MainActivity extends AppCompatActivity
 
         //endregion
 
-        balise = (FloatingActionButton) findViewById(R.id.btnfloatLocalisation);
+        FloatingActionButton balise = (FloatingActionButton) findViewById(R.id.btnfloatLocalisation);
         balise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,12 +266,40 @@ public class MainActivity extends AppCompatActivity
                         .show();
 
                 VisibleRegion visibleregion = mGoogleMap.getProjection().getVisibleRegion();
-                getBeacon(visibleregion, mGoogleMap);
+                getBeacon(visibleregion);
 
             }
         });
         balise.setVisibility(View.INVISIBLE);
 
+    }
+
+    @Override
+    protected void onResume() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_GPS);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, MainActivity.this);
+        }
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_GPS);
+        } else {
+            locationManager.removeUpdates(MainActivity.this);
+        }
+
+        super.onPause();
     }
 
     //region EVENT_INTERFACE
@@ -256,8 +319,8 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Création du menu paramètre si le bouton sur la bar d'action est activé
-     * @param menu
-     * @return
+     * @param menu le menu
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -268,8 +331,8 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Action quand un bouton du menu paramètre est activé
-     * @param item
-     * @return
+     * @param item l'item du menu
+     * @return true
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -290,14 +353,18 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Action quand un bouton de la NavBar est activé
-     * @param item
-     * @return
+     * @param item l'item du menu
+     * @return true
      */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
+<<<<<<< HEAD
     public boolean onNavigationItemSelected(MenuItem item) {
         ProfileFragment profileFragment = new ProfileFragment();
         HomeFragment homeFragment = new HomeFragment();
+=======
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+>>>>>>> upstream/master
         FragmentManager fragmentManager = getSupportFragmentManager();
 
 
@@ -370,13 +437,18 @@ public class MainActivity extends AppCompatActivity
     //region EVENT_GOOGLE_MAP
 
     /**
+<<<<<<< HEAD
      * Action dès que la carte google map est créée
      * @param googleMap
+=======
+     * Action dès que la carte google map est crée
+     * @param googleMap le GoogleMap Fragment
+>>>>>>> upstream/master
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-
+        Toast.makeText(MainActivity.this, "En cours de localisation ... ", Toast.LENGTH_LONG).show();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -386,30 +458,82 @@ public class MainActivity extends AppCompatActivity
         if (location == null) {
 
             Toast.makeText(MainActivity.this, "En cours de localisation ... ", Toast.LENGTH_LONG).show();
+        }else {
+            maPosition = new Marker(mGoogleMap, location);
+            if(mGoogleMap != null)
+            {
+                maPosition.afficherMarker();
+            }
         }
 
+<<<<<<< HEAD
         // Création du marker de positionnement de l'appareil
     /*    maPosition = new Marker(location);
         maPosition.afficherMarker(mGoogleMap);      // Affichage du curseur sur la carte google map
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(maPosition.getLatlng(), 15));*/
     }
+=======
+        assert mGoogleMap != null;
+        mGoogleMap.setOnMarkerClickListener(this);
+        try{
+            VisibleRegion visibleregion = mGoogleMap.getProjection().getVisibleRegion();
+            getBeacon(visibleregion);
+        } catch (NullPointerException e) {
+            Log.e(TAG, e.toString());
+        }
+>>>>>>> upstream/master
 
+        NavigationEnable = false;
+    }
+    
     /**
      * Action dès que la position du périphérique change
-     * @param location
+     * @param location la nouvelle location
      */
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
+<<<<<<< HEAD
             onHandleMap(location, mGoogleMap);
+=======
+            onHandleMap(location,mGoogleMap);
+
+            if(NavigationEnable)
+            {
+                // Générer URL pour le Google Directions API
+                String url = getDirectionUrl(maPosition.getLatlng(), destLatLng);
+
+                DownloadTask downloadTask = new DownloadTask();
+
+                // Démarrer téléchargement de JSON data depuis Google Directions API
+                downloadTask.execute(url);
+            }
+
+>>>>>>> upstream/master
         } else {
             Toast.makeText(MainActivity.this, "Impossible de générer les coordonnées GPS", Toast.LENGTH_LONG).show();
         }
 
     }
 
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
     /**
      * Update des actvités de géolocalisation sur la carte
+<<<<<<< HEAD
      * @param location
      * @param googleMap
      */
@@ -418,6 +542,25 @@ public class MainActivity extends AppCompatActivity
         maPosition = new Marker(googleMap,location);
         maPosition.setLocation(location);
         maPosition.afficherMarker();
+=======
+     * @param location la nouvelle location
+     * @param googleMap le fragment GoogleMap
+     */
+    public void onHandleMap(Location location, GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+
+        if(maPosition == null) {
+            maPosition = new Marker(mGoogleMap, location);
+        } else {
+            maPosition.updateLocation(location);
+        }
+        try{
+            VisibleRegion visibleregion = mGoogleMap.getProjection().getVisibleRegion();
+            getBeacon(visibleregion);
+        } catch (NullPointerException e) {
+            Log.e(TAG, e.toString());
+        }
+>>>>>>> upstream/master
     }
 
     //endregion
@@ -498,15 +641,201 @@ public class MainActivity extends AppCompatActivity
     }
 
     //endregion
+    //region Itineraire
+    @Override
+    public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
+        if(marker.getPosition() != maPosition.getLatlng())
+        {
+            NavigationEnable = true;
 
+            destLatLng = marker.getPosition();
+
+            // Générer URL pour le Google Directions API
+            String url = getDirectionUrl(maPosition.getLatlng(), destLatLng);
+
+            DownloadTask downloadTask = new DownloadTask();
+
+            // Démarrer téléchargement de JSON data depuis Google Directions API
+            downloadTask.execute(url);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Fonction de récupération de position de marker puis générer url pour le web serveur
+     * @param origin : les coordonnées de l'origine
+     * @param dest : les coordonnées de la destination
+     */
+    private String getDirectionUrl(LatLng origin, LatLng dest) {
+        // Origin of route
+        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        // Building the parameters to the web service
+        String parameters = str_origin+"&"+str_dest+"&"+sensor;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+
+        return "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+    }
+
+    /**
+     * Fonction de téléchargement json data depuis url
+     * @param strUrl: url pour télécharger le data
+     * @return json data
+     * @throws IOException
+     */
+    private String downloadUrl(String strUrl) throws IOException {
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try{
+            URL url = new URL(strUrl);
+
+            // Creating an http connection to communicate with url
+            urlConnection = (HttpURLConnection) url.openConnection();
+
+            // Connecting to url
+            urlConnection.connect();
+
+            // Reading data from url
+            iStream = urlConnection.getInputStream();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+
+            StringBuilder sb = new StringBuilder();
+
+            String line;
+            while( ( line = br.readLine()) != null){
+                sb.append(line);
+                }
+
+            data = sb.toString();
+
+            br.close();
+
+        } catch(Exception e) {
+            Log.d("Exception while downloading url", e.toString());
+        } finally {
+            assert iStream != null;
+            iStream.close();
+            urlConnection.disconnect();
+        }
+        return data;
+    }
+
+    /**
+     * Récupérer les données depuis URL passé
+     */
+    private class DownloadTask extends AsyncTask<String, Void, String> {
+        // Downloading data in non-ui thread
+        @Override
+        protected String doInBackground(String... url) {
+
+            // For storing data from web service
+            String data = "";
+
+            try{
+                // Fetching the data from web service
+                data = downloadUrl(url[0]);
+            }catch(Exception e){
+                Log.d("Background Task",e.toString());
+                }
+            return data;
+            }
+
+        // Executes in UI thread, after the execution of
+        // doInBackground()
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            ParserTask parserTask = new ParserTask();
+
+            // Invokes the thread for parsing the JSON data
+            parserTask.execute(result);
+            }
+    }
+
+    /**
+     * Parser le Google Places sous JSON format
+     */
+    private  class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> > {
+        // Parsing the data in non-ui thread
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                DirectionsJSONParser parser = new DirectionsJSONParser();
+
+                // Starts parsing data
+                routes = parser.parse(jObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        // Executes in UI thread, after the parsing process
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList<LatLng> points;
+            PolylineOptions lineOptions = new PolylineOptions();
+
+            // Traversing through all the routes
+            for (int i = 0; i < result.size(); i++) {
+                points = new ArrayList<>();
+                lineOptions = new PolylineOptions();
+
+                // Fetching i-th route
+                List<HashMap<String, String>> path = result.get(i);
+
+                // Fetching all the points in i-th route
+                for (int j = 2; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+                    points.add(position);
+                }
+
+                // Adding all the points in the route to LineOptions
+                lineOptions.addAll(points);
+                lineOptions.width(2);
+                lineOptions.color(Color.RED);
+            }
+
+            // Drawing polyline in the Google Map for the i-th route
+            if(polyline != null) {
+                polyline.remove();
+            }
+            polyline = mGoogleMap.addPolyline(lineOptions);
+        }
+    }
+
+    //endregion
     //region LIST_BEACON
 
     /**
      * Retourne un JSON contenant la position des balise en fonction de la position de la caméra
-     * @param visibleregion
-     * @return json
+     * @param visibleregion la région visuelle
      */
-    public void getBeacon(final VisibleRegion visibleregion, final GoogleMap gMap) {
+    public void getBeacon(final VisibleRegion visibleregion) {
         String tag_string_req = "req_list_beacon";
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
@@ -523,11 +852,22 @@ public class MainActivity extends AppCompatActivity
 
                     // Check for error node in json
                     if (!error) {
-                        beaconLayer = new GeoJsonLayer(mGoogleMap, jObj);
-                        if(!beaconLayer.isLayerOnMap()) {
-                            beaconLayer.removeLayerFromMap();
+                        JSONArray coor = jObj.getJSONArray("coordinates");
+                        for (int k=0; k<coor.length();k++){
+                            // récupération d'une coordonnée GPS dans le JSON fourni
+
+                            JSONArray objCoord = coor.getJSONArray(k);
+
+                                double latBalise= objCoord.getDouble(0);
+                                double lngBalise = objCoord.getDouble(1);
+
+                            // on place un marqueur sur l'empllacement de la balise
+
+                            LatLng pointMarker = new LatLng( lngBalise ,latBalise );
+                            MarkerOptions markerOptions = new MarkerOptions().position(pointMarker);
+                            mGoogleMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                         }
-                        beaconLayer.addLayerToMap();
+
 
                     } else {
                         // Error in login. Get the error message
@@ -577,35 +917,8 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
     //endregion
-
-    @Override
-    public void onRequestPermissionsResult(int requestcode, @NonNull String [] permissions, @NonNull int[] grantResults){
-        if(requestcode == PERMISSION_GPS){
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,MainActivity.this);
-            }
-            else {
-                Toast.makeText(MainActivity.this,"Permission refusée !",Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -626,8 +939,6 @@ public class MainActivity extends AppCompatActivity
     LocationListener locListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location loc) {
-            double latitude = loc.getLatitude();
-            double longitude = loc.getLongitude();
         }
 
         @Override

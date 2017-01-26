@@ -1,0 +1,57 @@
+version: '2'
+
+services:
+  nginx:
+    image: lroguet/rpi-nginx
+    volumes:
+      - ./www:/var/www/html
+      - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    links:
+      - php
+      - grafana
+      - influx
+      - nodered
+
+  php:
+   build: php
+   volumes:
+     - ./www:/var/www/html
+   links:
+     - db
+     - influx
+
+  grafana:
+    build: rpi-grafana
+    links:
+     - influx
+    volumes:
+      - ./rpi-grafana/etc_grafana:/etc/grafana
+      - ./rpi-grafana/grafana_data:/data
+    
+  db:
+    image: hypriot/rpi-mysql
+    ports:
+     - "3306:3306"
+    volumes:
+     - db_data2:/var/lib/mysql
+    environment:
+     - MYSQL_ROOT_PASSWORD=password
+     - MYSQL_DATABASE=database
+     - MYSQL_USER=user
+
+  influx:
+    image: fgabriel/rpi-influxdb
+    ports:
+     - "8086:8086"
+     - "8083:8083"
+    volumes:
+      - ./influxdb:/var/lib/influxdb
+      - /etc/localtime:/etc/localtime:ro
+
+  nodered:
+    image: nodered/node-red-docker:rpi
+
+volumes:
+    db_data2:

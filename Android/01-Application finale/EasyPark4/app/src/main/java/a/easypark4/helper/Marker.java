@@ -13,6 +13,7 @@ import a.easypark4.R;
 
 /**
  * Created by seynabou.ba on 22/12/2016.
+ * Le marqueur class
  */
 
 
@@ -22,8 +23,6 @@ public class Marker {
     private double latitude;
     private double longitude;
     private LatLng latlng;
-    private MarkerOptions markerOptions;
-    private com.google.android.gms.maps.model.Marker marker;
 
     /**
      * Instanciation objet marker
@@ -36,16 +35,15 @@ public class Marker {
 
     /**
      * Getter Latitude du marker
-     * @return
+     * @return latitude
      */
     public double getLatitude(){
-
         return latitude;
     }
 
     /**
      * Getter Longitude du marker
-     * @return
+     * @return longitude
      */
     public double getLongitude(){
         return longitude;
@@ -54,6 +52,7 @@ public class Marker {
 
     /**
      * Getter LATLNG du marker
+     * @return LatLng
      */
     public LatLng getLatlng() {
         return latlng;
@@ -61,9 +60,9 @@ public class Marker {
 
     /**
      * Setteur location du marker
-     * @param location
+     * @param location la location
      */
-    public void setLocation(Location location){
+    private void setLocation(Location location){
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
 
@@ -72,16 +71,16 @@ public class Marker {
 
     /**
      * Update location du marker
-     * @param location
+     * @param location la nouvelle location
      */
     public void updateLocation(Location location) {
         setLocation(location);
-        marker.setPosition(latlng);
     }
 
     /**
      *  Afficher marker sur la carte
      */
+<<<<<<<
     public void afficherMarker(){
         mGoogleMap.clear();
         LatLng pointMarker = new LatLng( latitude, longitude );
@@ -89,12 +88,21 @@ public class Marker {
         mGoogleMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.car)));
         CameraUpdate updateFactory = CameraUpdateFactory.newLatLngZoom(pointMarker, 17);
         mGoogleMap.moveCamera(updateFactory);
+=======
+    public void afficherMarker(){
+        LatLng pointMarker = new LatLng( latitude, longitude );
+        MarkerOptions markerOptions = new MarkerOptions().position(pointMarker).title("Ma Position");
+        mGoogleMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.car)));
+        CameraUpdate updateFactory = CameraUpdateFactory.newLatLngZoom(pointMarker, 17);
+        mGoogleMap.moveCamera(updateFactory);
+>>>>>>>
     }
     /**
      * Personnaliser la couleur du markeur
      * @param couleur : pour indiquer l'état d'une place ( vert => libre , rouge => prise)
      */
 
+<<<<<<<
     public MarkerOptions etatMarkeur(MarkerOptions markerOptions, String couleur){
 
         switch (couleur){
@@ -112,4 +120,24 @@ public class Marker {
 
         return markerOptions;
     }
+=======
+    public MarkerOptions etatMarkeur(MarkerOptions markerOptions, String couleur){
+
+        switch (couleur){
+            case "vert" :
+               markerOptions=markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                break;
+            case "rouge" :
+                markerOptions=markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                break;
+
+
+        }
+
+
+
+        return markerOptions;
+    }
+
+>>>>>>>
 }

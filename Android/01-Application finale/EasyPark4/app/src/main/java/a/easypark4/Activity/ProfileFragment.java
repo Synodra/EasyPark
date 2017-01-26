@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment {
 
         //SqLite database handler
         HashMap<String, String> user = db.getUserDetails();
-        
+
         txtName.setText(user.get("name"));
         txtLastName.setText(user.get("firstname"));
         txtEmail.setText(user.get("email"));
