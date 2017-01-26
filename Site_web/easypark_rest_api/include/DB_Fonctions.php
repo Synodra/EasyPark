@@ -286,7 +286,7 @@ class DB_Functions {
      *  Update Battery
      */
     public function updateBeaconBattery($id, $node_bat){
-        $stmt = $this->conn->prepare("UPDATE ep_beacon SET node_bat = ? WHERE unique_id = ?");
+        $stmt = $this->conn->prepare("UPDATE ep_beacon SET node_bat = ?, updated_at = NOW() WHERE unique_id = ?");
         $stmt->bind_param("ss", $node_bat, $id);
         $stmt->execute();
         $stmt->close();
@@ -298,7 +298,7 @@ class DB_Functions {
      *  Update présence
      */
     public function updateBeaconPs($id, $node_ps){
-        $stmt = $this->conn->prepare("UPDATE ep_beacon SET node_ps = ? WHERE unique_id = ?");
+        $stmt = $this->conn->prepare("UPDATE ep_beacon SET node_ps = ?, updated_at = NOW() WHERE unique_id = ?");
         $stmt->bind_param("ss", $node_ps, $id);
         $stmt->execute();
         $stmt->close();
