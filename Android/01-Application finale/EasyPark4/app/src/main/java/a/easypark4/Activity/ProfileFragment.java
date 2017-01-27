@@ -1,6 +1,7 @@
 package a.easypark4.Activity;
 
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +15,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import a.easypark4.R;
+import a.easypark4.app.AppConfig;
 import a.easypark4.app.AppController;
 import a.easypark4.helper.SQLiteHandler;
 
@@ -54,6 +59,7 @@ public class ProfileFragment extends Fragment {
     private TextView txtLastName;          // Déclaration de la zone de texte nom dans account settings
     private TextView txtEmail;          // Déclaration de la zone de text email dans account settings
     private Button buttonModify, buttonSave; // Déclaration des boutons dans account settings
+    private ProgressDialog pDialog;
 
     private OnFragmentInteractionListener mListener;
 
@@ -87,6 +93,8 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        pDialog = new ProgressDialog(this.getActivity());
+        pDialog.setCancelable(false);
         //SqLite database handler
           db = new SQLiteHandler(getActivity().getApplicationContext());
 
@@ -124,6 +132,13 @@ public class ProfileFragment extends Fragment {
                 txtName.setFocusableInTouchMode(true);
                 txtLastName.setFocusableInTouchMode(true);
                 txtEmail.setFocusableInTouchMode(true);
+                buttonSave.setOnClickListener(new View.OnClickListener(){
+
+                    @Override
+                    public void onClick(View view) {
+                        modifyUser("changeusername", txtEmail.getText().toString(), txtName.getText().toString(), txtLastName.getText().toString());
+                    }
+                });
 
             }
         });
@@ -168,5 +183,98 @@ public class ProfileFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    /**
+     * Function to modify user in MySQL database will post params(action, name,
+     * email) to admin_user url
+     * */
+    private void modifyUser(final String action, final String email, final String name, final String firstname ) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_modify_user";
+
+      //  pDialog.setMessage("Modifying user ...");
+        showDialog();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_ADMIN_USER, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Register Response: " + response);
+                hideDialog();
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    if (!error) {
+                        // User successfully stored in MySQL
+                        // Now store the user in sqlite
+                        String uid = jObj.getString("uid");
+
+                        JSONObject user = jObj.getJSONObject("user");
+                        String name = user.getString("name");
+                        String firstname = user.getString("firstname");
+                        String email = user.getString("email");
+                        String updated_at = user.getString("updated_at");
+
+                        // Inserting row in users table
+                        db.addUser(name, firstname, email, uid, updated_at);
+
+                        Toast.makeText(getActivity().getApplicationContext(), "User successfully modified !", Toast.LENGTH_LONG).show();
+
+
+                    } else {
+
+                        // Error occurred in registration. Get the error
+                        // message
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Modification Error: " + error.getMessage());
+                Toast.makeText(getActivity().getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<>();
+                params.put("action", action);
+                params.put("name", name);
+                params.put("firstname", firstname);
+                params.put("email", email);
+
+
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 }

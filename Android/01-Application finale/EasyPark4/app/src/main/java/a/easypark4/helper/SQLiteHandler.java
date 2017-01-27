@@ -61,7 +61,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     public void updateDB() {
         SQLiteDatabase db = this.getWritableDatabase();
-        onUpgrade(db, 1, 1);
+
     }
     /**
      * Storing user details in database
@@ -82,6 +82,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         Log.d(TAG, "New user inserted into sqlite: " + id);
     }
+
+
 
     /**
      * Getting user data from database

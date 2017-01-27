@@ -33,11 +33,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-<<<<<<< HEAD
+
 import android.view.WindowManager;
 import android.widget.Button;
-=======
->>>>>>> upstream/master
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,10 +44,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-<<<<<<< HEAD
+
 //import com.google.android.gms.appdatasearch.GetRecentContextCall;
-=======
->>>>>>> upstream/master
+
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -70,10 +68,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-<<<<<<< HEAD
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
-=======
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -81,7 +79,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
->>>>>>> upstream/master
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,9 +92,10 @@ import a.easypark4.helper.Marker;
 import a.easypark4.helper.SQLiteHandler;
 import a.easypark4.helper.SessionManager;
 
+import static android.content.ContentValues.TAG;
+
 public class MainActivity extends AppCompatActivity
-<<<<<<< HEAD
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ProfileFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ProfileFragment.OnFragmentInteractionListener, GoogleMap.OnMarkerClickListener {
 
     private SQLiteHandler db;           // Déclaration de la base de données local
     private SessionManager session;     // Déclaration de la session utilisateur
@@ -104,14 +103,8 @@ public class MainActivity extends AppCompatActivity
     private TextView txtEmail;          // Déclaration de la zone de text email dans le header
     private View navHeaderView;         // Déclaration du View pour la NavBar
     private TextView txtHome;           // Déclaration de la zone de texte de bienvenue
-=======
-        implements NavigationView.OnNavigationItemSelectedListener, LocationListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-
     private boolean NavigationEnable = false;
 
-    private SQLiteHandler db;           // Déclaration de la base de données local
-    private SessionManager session;     // Déclaration de la session utilisateur
->>>>>>> upstream/master
     private ProgressDialog pDialog;
 
     // Map variables
@@ -125,6 +118,7 @@ public class MainActivity extends AppCompatActivity
 
     private Polyline polyline;
     ArrayList<LatLng> markerPoints;
+    private FloatingActionButton balise;
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -135,12 +129,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
 
-<<<<<<< HEAD
-=======
         // Initializing
         markerPoints = new ArrayList<>();
 
->>>>>>> upstream/master
         //region DB_SESSION
 
         //SqLite database handler
@@ -170,20 +161,13 @@ public class MainActivity extends AppCompatActivity
         String s = (f.format(d)).substring(9);
         int time = Integer.parseInt(s);
 
-        if(time<120000)
-        {
-            txtHome.setText("Good morning "+user.get("name"));
+        if (time < 120000) {
+            txtHome.setText("Good morning " + user.get("name"));
+        } else if (time > 120000 && time < 190000) {
+            txtHome.setText("Good afternoon " + user.get("name"));
+        } else if (time > 190000) {
+            txtHome.setText("Good evening " + user.get("name"));
         }
-        else if (time >120000 && time<190000)
-        {
-            txtHome.setText("Good afternoon "+user.get("name"));
-        }
-        else if (time >190000)
-        {
-            txtHome.setText("Good evening "+user.get("name"));
-        }
-
-
 
 
         //endregion
@@ -240,6 +224,16 @@ public class MainActivity extends AppCompatActivity
         // Provide access to the system location services
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         //Register for location updates using the named provider, and a pending intent
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);
 
         LocationRequest.create()
@@ -257,7 +251,7 @@ public class MainActivity extends AppCompatActivity
 
         //endregion
 
-        FloatingActionButton balise = (FloatingActionButton) findViewById(R.id.btnfloatLocalisation);
+        balise = (FloatingActionButton) findViewById(R.id.btnfloatLocalisation);
         balise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -358,13 +352,10 @@ public class MainActivity extends AppCompatActivity
      */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-<<<<<<< HEAD
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         ProfileFragment profileFragment = new ProfileFragment();
         HomeFragment homeFragment = new HomeFragment();
-=======
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
->>>>>>> upstream/master
+
         FragmentManager fragmentManager = getSupportFragmentManager();
 
 
@@ -379,7 +370,6 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().hide(profileFragment).commit();
         if (id == R.id.btnMenuHome) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, homeFragment).commit();
-           // txtHome.setVisibility(View.VISIBLE);
             balise.setVisibility(View.INVISIBLE);
         } else if (id == R.id.btnMenuMap) {
             if(!sMapFragment.isAdded())
@@ -437,13 +427,10 @@ public class MainActivity extends AppCompatActivity
     //region EVENT_GOOGLE_MAP
 
     /**
-<<<<<<< HEAD
+
      * Action dès que la carte google map est créée
      * @param googleMap
-=======
-     * Action dès que la carte google map est crée
-     * @param googleMap le GoogleMap Fragment
->>>>>>> upstream/master
+
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -466,13 +453,12 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-<<<<<<< HEAD
+
         // Création du marker de positionnement de l'appareil
     /*    maPosition = new Marker(location);
         maPosition.afficherMarker(mGoogleMap);      // Affichage du curseur sur la carte google map
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(maPosition.getLatlng(), 15));*/
-    }
-=======
+
         assert mGoogleMap != null;
         mGoogleMap.setOnMarkerClickListener(this);
         try{
@@ -481,7 +467,7 @@ public class MainActivity extends AppCompatActivity
         } catch (NullPointerException e) {
             Log.e(TAG, e.toString());
         }
->>>>>>> upstream/master
+
 
         NavigationEnable = false;
     }
@@ -493,9 +479,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-<<<<<<< HEAD
+
             onHandleMap(location, mGoogleMap);
-=======
+
             onHandleMap(location,mGoogleMap);
 
             if(NavigationEnable)
@@ -509,7 +495,7 @@ public class MainActivity extends AppCompatActivity
                 downloadTask.execute(url);
             }
 
->>>>>>> upstream/master
+
         } else {
             Toast.makeText(MainActivity.this, "Impossible de générer les coordonnées GPS", Toast.LENGTH_LONG).show();
         }
@@ -531,18 +517,8 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    /**
-     * Update des actvités de géolocalisation sur la carte
-<<<<<<< HEAD
-     * @param location
-     * @param googleMap
-     */
-    public void onHandleMap(Location location, GoogleMap googleMap) {
-       mGoogleMap = googleMap;
-        maPosition = new Marker(googleMap,location);
-        maPosition.setLocation(location);
-        maPosition.afficherMarker();
-=======
+
+        /**
      * @param location la nouvelle location
      * @param googleMap le fragment GoogleMap
      */
@@ -560,7 +536,7 @@ public class MainActivity extends AppCompatActivity
         } catch (NullPointerException e) {
             Log.e(TAG, e.toString());
         }
->>>>>>> upstream/master
+
     }
 
     //endregion
