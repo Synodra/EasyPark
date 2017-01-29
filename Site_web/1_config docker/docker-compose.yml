@@ -11,8 +11,8 @@ services:
     links:
       - php
       - grafana
-      - influx
       - nodered
+      - rabbitmq
 
   php:
    build: php
@@ -20,16 +20,19 @@ services:
      - ./www:/var/www/html
    links:
      - db
-     - influx
 
-  grafana:
-    build: rpi-grafana
+  rabbitmq:
+    image: sysrun/rpi-rabbitmq
+    ports:
+      - "1883:1883"
+
+  nodered:
+    build: nodered
     links:
-     - influx
-    volumes:
-      - ./rpi-grafana/etc_grafana:/etc/grafana
-      - ./rpi-grafana/grafana_data:/data
-    
+      - rabbitmq
+      - influx
+      - php
+
   db:
     image: hypriot/rpi-mysql
     ports:
@@ -50,8 +53,13 @@ services:
       - ./influxdb:/var/lib/influxdb
       - /etc/localtime:/etc/localtime:ro
 
-  nodered:
-    image: nodered/node-red-docker:rpi
+  grafana:
+    build: rpi-grafana
+    links:
+     - influx
+    volumes:
+      - ./rpi-grafana/etc_grafana:/etc/grafana
+      - ./rpi-grafana/grafana_data:/data
 
 volumes:
     db_data2:
