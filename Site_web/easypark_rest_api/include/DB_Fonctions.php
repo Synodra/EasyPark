@@ -330,7 +330,8 @@ class DB_Functions {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            echo '<table>';
+            echo '<table>
+                    <thead>';
             echo '<tr>
                   <th>'.'<strong>Node id</strong>'.'</th>
                   <th>'.'<strong>Node latitude</strong>'.'</th>
@@ -338,13 +339,15 @@ class DB_Functions {
                   <th>'.'<strong>Node battery</strong>'.'</th>
                   <th>'.'<strong>Occupied?</strong>'.'</th>
                   <th>'.'<strong>Last Upadte</strong>'.'</th>
-                </tr>';
+                </tr>
+                </thead>';
 
             // output data of each row
             while($row = $result->fetch_assoc()) {
                 $currentRow++;
 
-                echo 	'<form class="row">
+                echo 	'<tbody>
+                        <form class="row">
                         <tr>
                           <td>
                             '.$row['unique_id'].'
@@ -373,7 +376,8 @@ class DB_Functions {
                         </tr>
                     </form>';
             }
-            echo '</table>';
+            echo '</tbody>
+                    </table>';
         } else {
             echo "0 results";
         }
