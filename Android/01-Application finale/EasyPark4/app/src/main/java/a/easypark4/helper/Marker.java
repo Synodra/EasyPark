@@ -80,34 +80,16 @@ public class Marker {
     /**
      *  Afficher marker sur la carte
      */
-    public void afficherMarker(){
-        LatLng pointMarker = new LatLng( latitude, longitude );
+
+    public void afficherMarker() {
+        mGoogleMap.clear();
+        LatLng pointMarker = new LatLng(latitude, longitude);
         MarkerOptions markerOptions = new MarkerOptions().position(pointMarker).title("Ma Position");
         mGoogleMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.car)));
         CameraUpdate updateFactory = CameraUpdateFactory.newLatLngZoom(pointMarker, 17);
         mGoogleMap.moveCamera(updateFactory);
-    }
-    /**
-     * Personnaliser la couleur du markeur
-     * @param couleur : pour indiquer l'état d'une place ( vert => libre , rouge => prise)
-     */
-
-    public MarkerOptions etatMarkeur(MarkerOptions markerOptions, String couleur){
-
-        switch (couleur){
-            case "vert" :
-               markerOptions=markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                break;
-            case "rouge" :
-                markerOptions=markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                break;
 
 
-        }
-
-
-
-        return markerOptions;
     }
 
 }

@@ -1,7 +1,12 @@
 package a.easypark4;
 
+import android.*;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     public SQLiteHandler db;
     private Button btnLogin;
     private Button btnSwitchRegister;
+    private static int PERMISSION_GPS = 100;
 
     /**
      * Main pour la création de l'activity login
@@ -47,6 +53,15 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_GPS);
+        }
+        /*else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LoginActivity.this);
+        }*/
 
         // initialisation des éléments pour effectuer le login de l'utilisateur
         inputEmail = (EditText) findViewById(R.id.txtLoginEmail);

@@ -1,0 +1,126 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="a.easypark4.Activity.ProfileFragment"
+    android:background="@color/common_google_signin_btn_text_dark_default">
+
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="350dp"
+        android:background="@drawable/linearborder"
+        android:layout_weight="1"
+
+
+        android:id="@+id/layout_penom"
+        android:layout_height="250dp"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/relativeLayout"
+        android:layout_alignStart="@+id/relativeLayout"
+        android:layout_marginLeft="10dp">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/nom"
+            android:layout_weight="1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/email"
+            android:layout_weight="1.61"
+            android:layout_below="@+id/prenom"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="11dp" />
+
+        <Button
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/enregistrer"
+            android:layout_marginRight="37dp"
+            android:layout_marginEnd="37dp"
+            android:layout_below="@+id/email"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="21dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/prenom"
+            android:layout_marginTop="14dp"
+            android:layout_below="@+id/nom"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:text="Modify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/modifier"
+            android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp"
+            android:layout_alignBaseline="@+id/enregistrer"
+            android:layout_alignBottom="@+id/enregistrer"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@drawable/linearborder"
+        android:layout_width="350dp"
+        android:gravity="center"
+        android:layout_height="196dp"
+        android:layout_below="@+id/layout_penom"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/oldPassword" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/newPassword1"
+            android:layout_below="@+id/oldPassword"
+            android:layout_alignLeft="@+id/oldPassword"
+            android:layout_alignStart="@+id/oldPassword"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberPassword"
+            android:ems="10"
+            android:id="@+id/newPassword2"
+            android:layout_below="@+id/newPassword1"
+            android:layout_alignLeft="@+id/newPassword1"
+            android:layout_alignStart="@+id/newPassword1"
+            android:layout_marginTop="15dp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
