@@ -1,14 +1,12 @@
 package a.easypark4;
 
-import android.*;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +42,9 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private Button btnSwitchRegister;
     private static int PERMISSION_GPS = 100;
+    public String email;
+    public String password;
+
 
     /**
      * Main pour la création de l'activity login
@@ -93,8 +94,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
+                email = inputEmail.getText().toString().trim();
+                password = inputPassword.getText().toString().trim();
 
                 // Check for empty data in the form
                 if (!email.isEmpty() && !password.isEmpty()) {

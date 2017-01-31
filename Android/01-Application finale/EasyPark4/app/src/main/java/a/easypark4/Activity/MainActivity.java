@@ -23,7 +23,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewGroupCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -33,10 +32,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.view.WindowManager;
-import android.widget.Button;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,9 +40,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-//import com.google.android.gms.appdatasearch.GetRecentContextCall;
-
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -68,18 +61,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,10 +82,9 @@ import a.easypark4.helper.Marker;
 import a.easypark4.helper.SQLiteHandler;
 import a.easypark4.helper.SessionManager;
 
-import static android.content.ContentValues.TAG;
-
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ProfileFragment.OnFragmentInteractionListener, GoogleMap.OnMarkerClickListener {
+
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ProfileFragment.OnFragmentInteractionListener, GoogleMap.OnMarkerClickListener{
 
     private SQLiteHandler db;           // Déclaration de la base de données local
     private SessionManager session;     // Déclaration de la session utilisateur
@@ -103,7 +92,11 @@ public class MainActivity extends AppCompatActivity
     private TextView txtEmail;          // Déclaration de la zone de text email dans le header
     private View navHeaderView;         // Déclaration du View pour la NavBar
     private TextView txtHome;           // Déclaration de la zone de texte de bienvenue
+
+
+
     private boolean NavigationEnable = false;
+
 
     private ProgressDialog pDialog;
 
@@ -116,9 +109,17 @@ public class MainActivity extends AppCompatActivity
     private Marker maPosition;
     private LatLng destLatLng;
 
+
+    private FloatingActionButton balise;
+
+    private double longitude;
+    private double latitute;
+    private int id;
+
+    private boolean verrouillageGPS = false;
+
     private Polyline polyline;
     ArrayList<LatLng> markerPoints;
-    private FloatingActionButton balise;
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -161,13 +162,20 @@ public class MainActivity extends AppCompatActivity
         String s = (f.format(d)).substring(9);
         int time = Integer.parseInt(s);
 
-        if (time < 120000) {
-            txtHome.setText("Good morning " + user.get("name"));
-        } else if (time > 120000 && time < 190000) {
-            txtHome.setText("Good afternoon " + user.get("name"));
-        } else if (time > 190000) {
-            txtHome.setText("Good evening " + user.get("name"));
+        if(time<120000)
+        {
+            txtHome.setText("Good morning "+user.get("name"));
         }
+        else if (time >120000 && time<190000)
+        {
+            txtHome.setText("Good afternoon "+user.get("name"));
+        }
+        else if (time >190000)
+        {
+            txtHome.setText("Good evening "+user.get("name"));
+        }
+
+
 
 
         //endregion
@@ -224,16 +232,6 @@ public class MainActivity extends AppCompatActivity
         // Provide access to the system location services
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         //Register for location updates using the named provider, and a pending intent
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);
 
         LocationRequest.create()
@@ -247,7 +245,14 @@ public class MainActivity extends AppCompatActivity
         }
 
         // Check app location permission
-
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_GPS);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, MainActivity.this);
+        }
 
         //endregion
 
@@ -255,13 +260,25 @@ public class MainActivity extends AppCompatActivity
         balise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),
-                        "Activation des balises", Toast.LENGTH_LONG)
-                        .show();
 
-                VisibleRegion visibleregion = mGoogleMap.getProjection().getVisibleRegion();
-                getBeacon(visibleregion);
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    createGpsDisabledAlert();
+                }
+                else{
+                    if (!verrouillageGPS){
+                        Toast.makeText(getApplicationContext(),
+                                "Navigation déverrouillée ! Vous pouvez chercher une place sur la carte ", Toast.LENGTH_LONG)
+                                .show();
+                        verrouillageGPS = true;
 
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),
+                                "Navigation verrouillée", Toast.LENGTH_LONG)
+                                .show();
+                        verrouillageGPS = false;
+                    }
+                }
             }
         });
         balise.setVisibility(View.INVISIBLE);
@@ -352,15 +369,17 @@ public class MainActivity extends AppCompatActivity
      */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+    public boolean onNavigationItemSelected(MenuItem item) {
         ProfileFragment profileFragment = new ProfileFragment();
         HomeFragment homeFragment = new HomeFragment();
-
         FragmentManager fragmentManager = getSupportFragmentManager();
 
 
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+         id = item.getItemId();
+
+
         if(sMapFragment.isAdded())
         {
             fragmentManager.beginTransaction().hide(sMapFragment).commit();
@@ -370,8 +389,18 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().hide(profileFragment).commit();
         if (id == R.id.btnMenuHome) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, homeFragment).commit();
+           // txtHome.setVisibility(View.VISIBLE);
             balise.setVisibility(View.INVISIBLE);
         } else if (id == R.id.btnMenuMap) {
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                createGpsDisabledAlert();
+            }else {
+                if(!sMapFragment.isAdded())
+                    fragmentManager.beginTransaction().add(R.id.content_frame, sMapFragment).commit();
+                else
+                    fragmentManager.beginTransaction().show(sMapFragment).commit();
+            }
+
             if(!sMapFragment.isAdded())
             {
                 balise.setVisibility(View.VISIBLE);
@@ -427,37 +456,40 @@ public class MainActivity extends AppCompatActivity
     //region EVENT_GOOGLE_MAP
 
     /**
-
-     * Action dès que la carte google map est créée
-     * @param googleMap
-
+     * Action dès que la carte google map est crée
+     * @param googleMap le GoogleMap Fragment
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        Toast.makeText(MainActivity.this, "En cours de localisation ... ", Toast.LENGTH_LONG).show();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            createGpsDisabledAlert();
         }
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location == null) {
+        else{
 
-            Toast.makeText(MainActivity.this, "En cours de localisation ... ", Toast.LENGTH_LONG).show();
-        }else {
-            maPosition = new Marker(mGoogleMap, location);
-            if(mGoogleMap != null)
-            {
-                maPosition.afficherMarker();
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return;
             }
-        }
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (location == null) {
+
+                Toast.makeText(MainActivity.this, "En cours de localisation ... ", Toast.LENGTH_LONG).show();
+            }else {
+                maPosition = new Marker(mGoogleMap, location);
+                if(mGoogleMap != null)
+                {
+                    maPosition.afficherMarker();
+                    Toast.makeText(getApplicationContext(),
+                            "Navigation verrouillée, cliquer sur le bouton pour vous déplacer manuellement sur la carte", Toast.LENGTH_LONG)
+                            .show();
+                }
+            }
 
 
-        // Création du marker de positionnement de l'appareil
-    /*    maPosition = new Marker(location);
-        maPosition.afficherMarker(mGoogleMap);      // Affichage du curseur sur la carte google map
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(maPosition.getLatlng(), 15));*/
+
+    }
 
         assert mGoogleMap != null;
         mGoogleMap.setOnMarkerClickListener(this);
@@ -469,8 +501,10 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        NavigationEnable = false;
-    }
+            NavigationEnable = false;
+        }
+
+
     
     /**
      * Action dès que la position du périphérique change
@@ -478,26 +512,43 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onLocationChanged(Location location) {
-        if (location != null) {
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            createGpsDisabledAlert();
+        }
+        else{
+            if (id == R.id.btnMenuMap) {
+                if (verrouillageGPS) {
+                    VisibleRegion visibleregion = mGoogleMap.getProjection().getVisibleRegion();
+                    getBeacon(visibleregion);
+                } else {
+                    if (location != null) {
+                        onHandleMap(location, mGoogleMap);
+                        longitude = location.getLongitude();
+                        latitute = location.getLatitude();
+                    }
 
-            onHandleMap(location, mGoogleMap);
+                }
 
-            onHandleMap(location,mGoogleMap);
+                if (location != null) {
 
-            if(NavigationEnable)
-            {
-                // Générer URL pour le Google Directions API
-                String url = getDirectionUrl(maPosition.getLatlng(), destLatLng);
 
-                DownloadTask downloadTask = new DownloadTask();
+                    if (NavigationEnable) {
 
-                // Démarrer téléchargement de JSON data depuis Google Directions API
-                downloadTask.execute(url);
+                        onHandleMap(location, mGoogleMap);
+                        // Générer URL pour le Google Directions API
+                        String url = getDirectionUrl(maPosition.getLatlng(), destLatLng);
+
+                        DownloadTask downloadTask = new DownloadTask();
+
+                        // Démarrer téléchargement de JSON data depuis Google Directions API
+                        downloadTask.execute(url);
+                    }
+
+                } else {
+                    Toast.makeText(MainActivity.this, "Impossible de générer les coordonnées GPS", Toast.LENGTH_LONG).show();
+
+                }
             }
-
-
-        } else {
-            Toast.makeText(MainActivity.this, "Impossible de générer les coordonnées GPS", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -517,24 +568,32 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
-        /**
+    /**
+     * Update des actvités de géolocalisation sur la carte
      * @param location la nouvelle location
      * @param googleMap le fragment GoogleMap
      */
     public void onHandleMap(Location location, GoogleMap googleMap) {
         mGoogleMap = googleMap;
 
-        if(maPosition == null) {
-            maPosition = new Marker(mGoogleMap, location);
-        } else {
-            maPosition.updateLocation(location);
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            createGpsDisabledAlert();
         }
-        try{
-            VisibleRegion visibleregion = mGoogleMap.getProjection().getVisibleRegion();
-            getBeacon(visibleregion);
-        } catch (NullPointerException e) {
-            Log.e(TAG, e.toString());
+        else{
+            if(maPosition == null) {
+                maPosition = new Marker(mGoogleMap, location);
+
+                maPosition.afficherMarker();
+            } else {
+                maPosition.updateLocation(location);
+                maPosition.afficherMarker();
+            }
+            try{
+                VisibleRegion visibleregion = mGoogleMap.getProjection().getVisibleRegion();
+                getBeacon(visibleregion);
+            } catch (NullPointerException e) {
+                Log.e(TAG, e.toString());
+            }
         }
 
     }
@@ -589,23 +648,23 @@ public class MainActivity extends AppCompatActivity
     private void createGpsDisabledAlert() {
         AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
         localBuilder
-                .setMessage("Le GPS est inactif, voulez-vous l'activer ?")
+                .setMessage("Le GPS est inactif, veuillez l'activer ")
                 .setCancelable(false)
-                .setPositiveButton("Activer GPS ",
+                .setPositiveButton(" OK  ",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                                MainActivity.this.showGpsOptions();
+                                //MainActivity.this.showGpsOptions();
                             }
                         }
                 );
-        localBuilder.setNegativeButton("Ne pas l'activer ",
+        /*localBuilder.setNegativeButton("Ne pas l'activer ",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                         paramDialogInterface.cancel();
                         MainActivity.this.finish();
                     }
                 }
-        );
+        );*/
         localBuilder.create().show();
     }
 
@@ -792,7 +851,7 @@ public class MainActivity extends AppCompatActivity
 
                 // Adding all the points in the route to LineOptions
                 lineOptions.addAll(points);
-                lineOptions.width(2);
+                lineOptions.width(15);
                 lineOptions.color(Color.RED);
             }
 
@@ -848,13 +907,13 @@ public class MainActivity extends AppCompatActivity
                     } else {
                         // Error in login. Get the error message
                         String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                        /*Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();*/
                     }
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -895,6 +954,8 @@ public class MainActivity extends AppCompatActivity
 
 
     //endregion
+
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {

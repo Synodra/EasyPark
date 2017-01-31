@@ -52,11 +52,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db,int oldVersion, int newVersion) {
-        // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-
-        // Create tables again
-        onCreate(db);
+        //ne pas utiliser :) !!!!
     }
 
     public void updateDB() {
@@ -82,8 +78,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         Log.d(TAG, "New user inserted into sqlite: " + id);
     }
-
-
 
     /**
      * Getting user data from database
