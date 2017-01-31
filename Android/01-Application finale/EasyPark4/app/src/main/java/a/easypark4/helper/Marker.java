@@ -80,16 +80,14 @@ public class Marker {
     /**
      *  Afficher marker sur la carte
      */
-
-    public void afficherMarker() {
+    public void afficherMarker(){
         mGoogleMap.clear();
-        LatLng pointMarker = new LatLng(latitude, longitude);
+        LatLng pointMarker = new LatLng( latitude, longitude );
         MarkerOptions markerOptions = new MarkerOptions().position(pointMarker).title("Ma Position");
         mGoogleMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.car)));
         CameraUpdate updateFactory = CameraUpdateFactory.newLatLngZoom(pointMarker, 17);
         mGoogleMap.moveCamera(updateFactory);
-
-
     }
+
 
 }

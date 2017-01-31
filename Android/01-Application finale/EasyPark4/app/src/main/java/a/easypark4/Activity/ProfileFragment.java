@@ -1,7 +1,6 @@
 package a.easypark4.Activity;
 
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,10 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import a.easypark4.R;
-import a.easypark4.app.AppConfig;
 import a.easypark4.app.AppController;
 import a.easypark4.helper.SQLiteHandler;
 
@@ -60,12 +55,15 @@ public class ProfileFragment extends Fragment {
     private TextView txtName;           // Déclaration de la zone de texte prénom dans account settings
     private TextView txtLastName;          // Déclaration de la zone de texte nom dans account settings
     private TextView txtEmail;          // Déclaration de la zone de text email dans account settings
+
     private TextView txtPassword;
     private TextView txtNewPassword;
     private TextView txtNewPassword2;
     private Button buttonModify, buttonSave, buttonModifyPassword, buttonSavePassword; // Déclaration des boutons dans account settings
     private ProgressDialog pDialog;
     private RelativeLayout layout_user_password;
+    private Button buttonModify, buttonSave; // Déclaration des boutons dans account settings
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -99,8 +97,6 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        pDialog = new ProgressDialog(this.getActivity());
-        pDialog.setCancelable(false);
         //SqLite database handler
           db = new SQLiteHandler(getActivity().getApplicationContext());
 
@@ -146,13 +142,6 @@ public class ProfileFragment extends Fragment {
                 txtName.setFocusableInTouchMode(true);
                 txtLastName.setFocusableInTouchMode(true);
                 txtEmail.setFocusableInTouchMode(true);
-                buttonSave.setOnClickListener(new View.OnClickListener(){
-
-                    @Override
-                    public void onClick(View view) {
-                        modifyUser("changeusername", txtEmail.getText().toString(), txtName.getText().toString(), txtLastName.getText().toString());
-                    }
-                });
 
             }
         });
@@ -231,6 +220,7 @@ public class ProfileFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 
 
     /**
@@ -396,4 +386,5 @@ public class ProfileFragment extends Fragment {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
 }

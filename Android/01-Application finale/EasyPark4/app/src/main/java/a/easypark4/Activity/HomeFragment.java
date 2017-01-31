@@ -63,6 +63,8 @@ public class HomeFragment extends Fragment {
         }
 
         db = new SQLiteHandler(getActivity().getApplicationContext());
+
+
     }
 
     @Override
