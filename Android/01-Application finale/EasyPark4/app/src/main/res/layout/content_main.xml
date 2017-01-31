@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="a.easypark4.Activity.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/app_bar_main"
+    android:background="@drawable/fond">
 
     <FrameLayout
         android:id= "@+id/content_frame"
@@ -18,33 +19,30 @@
         android:layout_alignParentStart="true">
 
 
-
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="57dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="150dp"
-        android:gravity="center">
-
-        <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/homeMessage"
-            android:textAlignment="center"
-            android:textColor="@color/cast_intro_overlay_button_background_color"
-            android:textColorHighlight="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
-            android:textSize="36sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="57dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="150dp"
+            android:gravity="center">
 
-    </LinearLayout>
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/homeMessage"
+                android:textAlignment="center"
+                android:textColor="@color/cast_intro_overlay_button_background_color"
+                android:textColorHighlight="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_marginTop="80dp" />
 
-
+        </LinearLayout>
     </FrameLayout>
 
 </RelativeLayout>

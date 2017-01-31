@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import a.easypark4.helper.SQLiteHandler;
 
 import static a.easypark4.R.layout.fragment_profile;
 import static a.easypark4.app.AppController.TAG;
+import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
@@ -58,8 +60,12 @@ public class ProfileFragment extends Fragment {
     private TextView txtName;           // Déclaration de la zone de texte prénom dans account settings
     private TextView txtLastName;          // Déclaration de la zone de texte nom dans account settings
     private TextView txtEmail;          // Déclaration de la zone de text email dans account settings
-    private Button buttonModify, buttonSave; // Déclaration des boutons dans account settings
+    private TextView txtPassword;
+    private TextView txtNewPassword;
+    private TextView txtNewPassword2;
+    private Button buttonModify, buttonSave, buttonModifyPassword, buttonSavePassword; // Déclaration des boutons dans account settings
     private ProgressDialog pDialog;
+    private RelativeLayout layout_user_password;
 
     private OnFragmentInteractionListener mListener;
 
@@ -112,6 +118,10 @@ public class ProfileFragment extends Fragment {
         txtLastName.setFocusable(false);
         txtEmail = (TextView) myInflatedView.findViewById(R.id.email);
         txtEmail.setFocusable(false);
+        txtPassword = (TextView) myInflatedView.findViewById(R.id.oldPassword);
+        txtNewPassword = (TextView) myInflatedView.findViewById(R.id.newPassword1);
+        txtNewPassword2 = (TextView) myInflatedView.findViewById(R.id.newPassword2);
+        layout_user_password = (RelativeLayout) myInflatedView.findViewById(R.id.layout_user_password);
 
         //SqLite database handler
         HashMap<String, String> user = db.getUserDetails();
@@ -121,8 +131,12 @@ public class ProfileFragment extends Fragment {
         txtEmail.setText(user.get("email"));
 
         Button buttonModify = (Button) myInflatedView.findViewById(R.id.modifier);
+        Button buttonModifyPassword = (Button) myInflatedView.findViewById(R.id.modifierPassword);
         final Button buttonSave = (Button) myInflatedView.findViewById(R.id.enregistrer);
+        final Button buttonSavePassword = (Button) myInflatedView.findViewById(R.id.savePassword);
         buttonSave.setVisibility(INVISIBLE);
+
+        layout_user_password.setVisibility(GONE);
 
         buttonModify.setOnClickListener(new View.OnClickListener() {
 
@@ -137,6 +151,39 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         modifyUser("changeusername", txtEmail.getText().toString(), txtName.getText().toString(), txtLastName.getText().toString());
+                    }
+                });
+
+            }
+        });
+
+        buttonModifyPassword.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                //buttonSavePassword.setVisibility(VISIBLE);
+                layout_user_password.setVisibility(VISIBLE);
+
+                buttonSavePassword.setOnClickListener(new View.OnClickListener(){
+
+                    @Override
+                    public void onClick(View view) {
+                        if(txtNewPassword.getText().toString().equals(txtNewPassword2.getText().toString())) {
+                            modifyUserPassword("changepassword", txtEmail.getText().toString(), txtPassword.getText().toString(), txtNewPassword.getText().toString());
+                            txtPassword.setText("");
+                            txtNewPassword.setText("");
+                            txtNewPassword2.setText("");
+                            layout_user_password.setVisibility(GONE);
+
+                        }
+                        else {
+                            Toast.makeText(getActivity().getApplicationContext(), "Password not corresponding !", Toast.LENGTH_LONG).show();
+                            txtPassword.setText("");
+                            txtNewPassword.setText("");
+                            txtNewPassword2.setText("");
+
+                        }
+
                     }
                 });
 
@@ -194,7 +241,7 @@ public class ProfileFragment extends Fragment {
         // Tag used to cancel the request
         String tag_string_req = "req_modify_user";
 
-      //  pDialog.setMessage("Modifying user ...");
+        pDialog.setMessage("Modifying user ...");
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
@@ -220,7 +267,7 @@ public class ProfileFragment extends Fragment {
                         String updated_at = user.getString("updated_at");
 
                         // Inserting row in users table
-                        db.addUser(name, firstname, email, uid, updated_at);
+                        db.modifyUser(name, firstname,email, uid, updated_at);
 
                         Toast.makeText(getActivity().getApplicationContext(), "User successfully modified !", Toast.LENGTH_LONG).show();
 
@@ -267,6 +314,78 @@ public class ProfileFragment extends Fragment {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
+
+
+    /**
+     * Function to modify user's password in MySQL database will post params(action, email,
+     * password, newPassword) to admin_user url
+     * */
+    private void modifyUserPassword(final String action, final String email, final String password, final String newPassword ) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_modify_user_password";
+
+          pDialog.setMessage("Modifying user's password ...");
+        showDialog();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_ADMIN_USER, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Modification Response: " + response);
+                hideDialog();
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    if (!error) {
+
+                        Toast.makeText(getActivity().getApplicationContext(), "Password successfully modified !", Toast.LENGTH_LONG).show();
+
+
+                    } else {
+
+                        // Error occurred in registration. Get the error
+                        // message
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Modification Error: " + error.getMessage());
+                Toast.makeText(getActivity().getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<>();
+                params.put("action", action);
+                params.put("email", email);
+                params.put("password", password);
+                params.put("newpassword", newPassword);
+
+
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
 
     private void showDialog() {
         if (!pDialog.isShowing())

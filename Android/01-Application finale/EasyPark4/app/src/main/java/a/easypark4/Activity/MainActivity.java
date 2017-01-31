@@ -23,7 +23,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewGroupCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -33,10 +32,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.view.WindowManager;
-import android.widget.Button;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,9 +40,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-//import com.google.android.gms.appdatasearch.GetRecentContextCall;
-
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -68,21 +61,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import a.easypark4.LoginActivity;
 import a.easypark4.R;
@@ -92,15 +84,15 @@ import a.easypark4.helper.Marker;
 import a.easypark4.helper.SQLiteHandler;
 import a.easypark4.helper.SessionManager;
 
-import static android.content.ContentValues.TAG;
+//import com.google.android.gms.appdatasearch.GetRecentContextCall;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ProfileFragment.OnFragmentInteractionListener, GoogleMap.OnMarkerClickListener {
 
     private SQLiteHandler db;           // Déclaration de la base de données local
     private SessionManager session;     // Déclaration de la session utilisateur
-    private TextView txtName;           // Déclaration de la zone de text name dans le header
-    private TextView txtEmail;          // Déclaration de la zone de text email dans le header
+    public TextView txtName;           // Déclaration de la zone de text name dans le header
+    public TextView txtEmail;          // Déclaration de la zone de text email dans le header
     private View navHeaderView;         // Déclaration du View pour la NavBar
     private TextView txtHome;           // Déclaration de la zone de texte de bienvenue
     private boolean NavigationEnable = false;
@@ -121,6 +113,8 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton balise;
 
     public static final String TAG = MainActivity.class.getSimpleName();
+    private FragmentManager fragmentManager = getSupportFragmentManager();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +162,16 @@ public class MainActivity extends AppCompatActivity
         } else if (time > 190000) {
             txtHome.setText("Good evening " + user.get("name"));
         }
+
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                fragmentManager.beginTransaction().replace(R.id.content_frame, sMapFragment).commit();
+
+
+            }
+        }, 4000);
 
 
         //endregion
@@ -336,9 +340,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
             // Launching the login activity
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(intent);
         }
 
@@ -355,8 +359,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         ProfileFragment profileFragment = new ProfileFragment();
         HomeFragment homeFragment = new HomeFragment();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
+       // fragmentManager.beginTransaction().replace(R.id.content_frame, sMapFragment).commit();
 
 
         // Handle navigation view item clicks here.
@@ -379,7 +382,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentManager.beginTransaction().replace(R.id.content_frame, sMapFragment).commit();
             }
             else {
-                balise.setVisibility(View.VISIBLE);
+               // balise.setVisibility(View.VISIBLE);
                 fragmentManager.beginTransaction().show(sMapFragment).commit();
             }
         } else if (id == R.id.btnMenuAccountSetting) {
@@ -390,7 +393,7 @@ public class MainActivity extends AppCompatActivity
             }
             else {
                 txtHome.setVisibility(View.INVISIBLE);
-                balise.setVisibility(View.INVISIBLE);
+                //balise.setVisibility(View.INVISIBLE);
               fragmentManager.beginTransaction().show(profileFragment).commit();
             }
         } else if (id == R.id.btnMenuLogout) {
