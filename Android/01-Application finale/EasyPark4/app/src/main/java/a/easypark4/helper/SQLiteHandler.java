@@ -79,6 +79,31 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         Log.d(TAG, "New user inserted into sqlite: " + id);
     }
 
+
+
+    /**
+     * Modifying user details in database
+     */
+
+    public void modifyUser(String name, String firstname, String email, String uid, String created_at) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, name); // Name
+        values.put(KEY_FIRSTNAME, firstname); // Firstname
+        values.put(KEY_EMAIL, email); // Email
+        values.put(KEY_UID, uid); // User ID
+        values.put(KEY_CREATED_AT, created_at); // Created At
+
+        // Updating Row
+        long id = db.update(TABLE_USER,values,null, null );
+        db.close(); // Closing database connection
+
+        Log.d(TAG, "User updated into sqlite: " + id);
+    }
+
+
+
     /**
      * Getting user data from database
      * */

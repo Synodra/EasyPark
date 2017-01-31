@@ -23,7 +23,6 @@
 
     <uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
 
-
     <application
         android:name=".app.AppController"
         android:allowBackup="true"
@@ -42,6 +41,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <!-- Register Activity -->
@@ -65,7 +65,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBM5LdXnqFqW2sDR8S0GJTRrF2tpggxsTc" />
 
-        <activity android:name=".Activity.SettingsActivity"></activity>
+        <activity android:name=".Activity.AboutActivity"></activity>
     </application>
 
 </manifest>

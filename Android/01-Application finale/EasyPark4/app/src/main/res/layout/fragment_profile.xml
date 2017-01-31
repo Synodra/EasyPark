@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="a.easypark4.Activity.ProfileFragment"
-    android:background="@color/common_google_signin_btn_text_dark_default">
+    tools:context="a.easypark4.Activity.ProfileFragment">
 
 
     <RelativeLayout
@@ -14,13 +13,14 @@
         android:layout_weight="1"
 
 
-        android:id="@+id/layout_penom"
+        android:id="@+id/layout_user_info"
         android:layout_height="250dp"
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/relativeLayout"
         android:layout_alignStart="@+id/relativeLayout"
-        android:layout_marginLeft="10dp">
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
 
         <EditText
             android:layout_width="wrap_content"
@@ -30,7 +30,8 @@
             android:id="@+id/nom"
             android:layout_weight="1"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/white" />
 
 
         <EditText
@@ -43,7 +44,8 @@
             android:layout_below="@+id/prenom"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="11dp" />
+            android:layout_marginTop="11dp"
+            android:textColor="@android:color/white" />
 
         <Button
             android:text="Save"
@@ -66,7 +68,8 @@
             android:layout_marginTop="14dp"
             android:layout_below="@+id/nom"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/white" />
 
         <Button
             android:text="Modify"
@@ -83,44 +86,105 @@
 
     </RelativeLayout>
 
+    <Button
+        android:text="Change Password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/modifierPassword"
+        android:layout_below="@+id/layout_user_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp" />
+
     <RelativeLayout
         android:background="@drawable/linearborder"
         android:layout_width="350dp"
         android:gravity="center"
+        android:layout_marginTop="56dp"
         android:layout_height="196dp"
-        android:layout_below="@+id/layout_penom"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp">
+        android:id="@+id/layout_user_password"
+        android:layout_below="@+id/layout_user_info"
+        android:layout_alignLeft="@+id/layout_user_info"
+        android:layout_alignStart="@+id/layout_user_info"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="50dp">
+
+        <Button
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/savePassword"
+            android:gravity="center_vertical|center_horizontal|center"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/textView3"
+            android:layout_toEndOf="@+id/textView3" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/oldPassword" />
+            android:id="@+id/oldPassword"
+            android:gravity="center_vertical|center"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/newPassword1"
+            android:layout_alignStart="@+id/newPassword1" />
+
+        <TextView
+            android:text="Confirmation:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:layout_alignBottom="@+id/newPassword2"
+            android:layout_alignRight="@+id/oldPasswordText"
+            android:layout_alignEnd="@+id/oldPasswordText" />
 
         <EditText
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/newPassword2"
+            android:gravity="center_vertical|center"
+            android:layout_width="120dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_below="@+id/newPassword1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:text="New password:"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_above="@+id/newPassword2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/newPassword1"
+            android:gravity="center"
             android:layout_below="@+id/oldPassword"
-            android:layout_alignLeft="@+id/oldPassword"
-            android:layout_alignStart="@+id/oldPassword"
-            android:layout_marginTop="16dp" />
+            android:layout_alignLeft="@+id/newPassword2"
+            android:layout_alignStart="@+id/newPassword2" />
 
-        <EditText
+        <TextView
+            android:text="Old Password:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberPassword"
-            android:ems="10"
-            android:id="@+id/newPassword2"
-            android:layout_below="@+id/newPassword1"
-            android:layout_alignLeft="@+id/newPassword1"
-            android:layout_alignStart="@+id/newPassword1"
-            android:layout_marginTop="15dp" />
-    </RelativeLayout>
+            android:id="@+id/oldPasswordText"
+            android:layout_above="@+id/newPassword1"
+            android:layout_alignLeft="@+id/textView3"
+            android:layout_alignStart="@+id/textView3" />
 
+
+    </RelativeLayout>
 
 </RelativeLayout>

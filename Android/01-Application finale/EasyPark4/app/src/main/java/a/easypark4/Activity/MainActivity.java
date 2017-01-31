@@ -73,6 +73,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import a.easypark4.LoginActivity;
 import a.easypark4.R;
@@ -88,8 +90,8 @@ public class MainActivity extends AppCompatActivity
 
     private SQLiteHandler db;           // Déclaration de la base de données local
     private SessionManager session;     // Déclaration de la session utilisateur
-    private TextView txtName;           // Déclaration de la zone de text name dans le header
-    private TextView txtEmail;          // Déclaration de la zone de text email dans le header
+    public TextView txtName;           // Déclaration de la zone de text name dans le header
+    public TextView txtEmail;          // Déclaration de la zone de text email dans le header
     private View navHeaderView;         // Déclaration du View pour la NavBar
     private TextView txtHome;           // Déclaration de la zone de texte de bienvenue
 
@@ -122,6 +124,8 @@ public class MainActivity extends AppCompatActivity
     ArrayList<LatLng> markerPoints;
 
     public static final String TAG = MainActivity.class.getSimpleName();
+    private FragmentManager fragmentManager = getSupportFragmentManager();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +178,16 @@ public class MainActivity extends AppCompatActivity
         {
             txtHome.setText("Good evening "+user.get("name"));
         }
+
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                fragmentManager.beginTransaction().replace(R.id.content_frame, sMapFragment).commit();
+
+
+            }
+        }, 4000);
 
 
 
@@ -353,9 +367,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
             // Launching the login activity
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(intent);
         }
 
@@ -373,7 +387,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         ProfileFragment profileFragment = new ProfileFragment();
         HomeFragment homeFragment = new HomeFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
 
 
         // Handle navigation view item clicks here.
@@ -408,7 +421,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentManager.beginTransaction().replace(R.id.content_frame, sMapFragment).commit();
             }
             else {
-                balise.setVisibility(View.VISIBLE);
+               // balise.setVisibility(View.VISIBLE);
                 fragmentManager.beginTransaction().show(sMapFragment).commit();
             }
         } else if (id == R.id.btnMenuAccountSetting) {
@@ -419,7 +432,7 @@ public class MainActivity extends AppCompatActivity
             }
             else {
                 txtHome.setVisibility(View.INVISIBLE);
-                balise.setVisibility(View.INVISIBLE);
+                //balise.setVisibility(View.INVISIBLE);
               fragmentManager.beginTransaction().show(profileFragment).commit();
             }
         } else if (id == R.id.btnMenuLogout) {
