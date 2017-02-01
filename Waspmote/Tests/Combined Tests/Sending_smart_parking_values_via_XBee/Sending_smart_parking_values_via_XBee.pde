@@ -29,13 +29,11 @@
 #include <WaspSensorParking.h>
 
 // Different sleeping time for different modes
-#define EMPT_SLEEPTIME		"00:00:01:00"
-#define OCCU_SLEEPTIME		"00:00:00:30"
+#define EMPT_SLEEPTIME		"00:00:00:10"
+#define OCCU_SLEEPTIME		"00:00:00:05"
 
 #define DEMIMINUTE_NUMBER (120)
 
-#define VALUEX_THRESHOLD  (430)
-#define VALUEY_THRESHOLD  (750)
 #define VALUEZ_THRESHOLD  (480)
 
 // Different mode of the message
@@ -135,7 +133,7 @@ void loop()
   SensorParking.calculateReference(temperature);
   
   // 4.5 Estimate parking lot status
-  if(SensorParking.valueX > VALUEX_THRESHOLD && SensorParking.valueY > VALUEY_THRESHOLD && SensorParking.valueZ > VALUEZ_THRESHOLD)
+  if(SensorParking.valueZ < VALUEZ_THRESHOLD)
   {
     status = 1;
   }
@@ -168,8 +166,8 @@ void loop()
   // 5.3 Print frame
   frame.showFrame();
 
-  if((status^pre_status) == 1 || counter >= DEMIMINUTE_NUMBER || first_time == 1)
-  {
+  //if((status^pre_status) == 1 || counter >= DEMIMINUTE_NUMBER || first_time == 1)
+  //{
     ////////////////////////////////////////////////
     // 6. Send message
     ////////////////////////////////////////////////
@@ -195,7 +193,7 @@ void loop()
     first_time = 0;
     counter = 0;
     delay(100);
-  }
+  //}
 
   ////////////////////////////////////////////////
   // 7. Entering Deep Sleep mode
