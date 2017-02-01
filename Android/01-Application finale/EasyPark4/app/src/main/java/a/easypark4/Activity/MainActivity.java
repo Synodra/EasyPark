@@ -179,17 +179,6 @@ public class MainActivity extends AppCompatActivity
             txtHome.setText("Good evening "+user.get("name"));
         }
 
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                fragmentManager.beginTransaction().replace(R.id.content_frame, sMapFragment).commit();
-
-
-            }
-        }, 4000);
-
-
 
 
         //endregion
