@@ -29,11 +29,12 @@
 #include <WaspSensorParking.h>
 
 // Different sleeping time for different modes
-#define EMPT_SLEEPTIME		"00:00:01:00"
-#define OCCU_SLEEPTIME		"00:00:00:30"
+#define EMPT_SLEEPTIME		"00:00:00:10"
+#define OCCU_SLEEPTIME		"00:00:00:05"
 
 #define DEMIMINUTE_NUMBER (120)
 
+#define VALUEY_THRESHOLD  (560)
 #define VALUEZ_THRESHOLD  (480)
 
 // Different mode of the message
@@ -133,7 +134,7 @@ void loop()
   SensorParking.calculateReference(temperature);
   
   // 4.5 Estimate parking lot status
-  if(SensorParking.valueZ < VALUEZ_THRESHOLD)
+  if(SensorParking.valueY < VALUEY_THRESHOLD)
   {
     status = 1;
   }
