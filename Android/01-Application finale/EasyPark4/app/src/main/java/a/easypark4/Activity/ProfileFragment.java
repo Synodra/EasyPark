@@ -150,11 +150,19 @@ public class ProfileFragment extends Fragment {
 
                     @Override
                     public void onClick(View view) {
-                        modifyUser("changeusername", txtEmail.getText().toString(), txtName.getText().toString(), txtLastName.getText().toString());
-                        buttonSave.setVisibility(INVISIBLE);
-                        txtName.setFocusableInTouchMode(false);
-                        txtLastName.setFocusableInTouchMode(false);
-                        txtEmail.setFocusableInTouchMode(false);
+                        if (!txtEmail.getText().toString().isEmpty() && !txtName.getText().toString().isEmpty() && !txtLastName.getText().toString().isEmpty()) {
+                            modifyUser("changeusername", txtEmail.getText().toString(), txtName.getText().toString(), txtLastName.getText().toString());
+                            buttonSave.setVisibility(INVISIBLE);
+                            txtName.setFocusable(false);
+                            txtLastName.setFocusable(false);
+                            txtEmail.setFocusable(false);
+                        }
+                        else {
+                            Toast.makeText(getActivity().getApplicationContext(),
+
+                                    "Please enter missing parameter!", Toast.LENGTH_LONG)
+                                    .show();
+                        }
                     }
                 });
 
@@ -172,6 +180,8 @@ public class ProfileFragment extends Fragment {
 
                     @Override
                     public void onClick(View view) {
+
+                        if (!txtPassword.getText().toString().isEmpty() && !txtNewPassword.getText().toString().isEmpty() && !txtNewPassword2.getText().toString().isEmpty()) {
                         if(txtNewPassword.getText().toString().equals(txtNewPassword2.getText().toString())) {
                             modifyUserPassword("changepassword", txtEmail.getText().toString(), txtPassword.getText().toString(), txtNewPassword.getText().toString());
                             txtPassword.setText("");
@@ -189,6 +199,11 @@ public class ProfileFragment extends Fragment {
                         }
 
                     }
+                    else {
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Please enter missing parameter!", Toast.LENGTH_LONG)
+                                .show();
+                    }}
                 });
 
             }
